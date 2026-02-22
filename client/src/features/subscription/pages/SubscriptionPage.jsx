@@ -1,0 +1,97 @@
+import React, { useState } from 'react';
+import { useSubscription } from '../hooks/useSubscription';
+import PlanCard from '../components/PlanCard';
+import Loader from '../../../shared/components/Loader';
+import { LEVELS } from '../../../shared/utils/constants';
+
+const SubscriptionPage = () => {
+  const [selectedLevel, setSelectedLevel] = useState(null);
+  const { plans, loading } = useSubscription(selectedLevel);
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* Header */}
+      <div className="text-center mb-12">
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          Simple, Transparent Pricing
+        </h1>
+        <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+          Choose the plan that fits your preparation needs. Get unlimited access
+          to chapter-wise questions with detailed explanations.
+        </p>
+      </div>
+
+      {/* Level Filter */}
+      <div className="flex justify-center gap-3 mb-10">
+        <button
+          onClick={() => setSelectedLevel(null)}
+          className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${
+            !selectedLevel
+              ? 'bg-primary-600 text-white shadow-md'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+        >
+          All Levels
+        </button>
+        {Object.values(LEVELS).map((level) => (
+          <button
+            key={level.id}
+            onClick={() => setSelectedLevel(level.id)}
+            className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${
+              selectedLevel === level.id
+                ? 'bg-primary-600 text-white shadow-md'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            {level.icon} {level.name}
+          </button>
+        ))}
+      </div>
+
+      {/* Plans Grid */}
+      {loading ? (
+        <Loader size="lg" text="Loading plans..." />
+      ) : plans.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          {plans.map((plan) => (
+            <PlanCard key={plan._id} plan={plan} />
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-12 text-gray-500">
+          No subscription plans available at the moment.
+        </div>
+      )}
+
+      {/* FAQ Section */}
+      <div className="mt-20 max-w-3xl mx-auto">
+        <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">
+          Frequently Asked Questions
+        </h2>
+        <div className="space-y-4">
+          {[
+            {
+              q: 'How does payment verification work?',
+              a: 'After you make a payment and submit the transaction details, our admin team will verify it within 24 hours. Once verified, your subscription will be activated immediately.',
+            },
+            {
+              q: 'Can I upgrade my plan later?',
+              a: 'Yes! You can upgrade to a different plan at any time. Your existing subscription duration will be extended accordingly.',
+            },
+            {
+              q: 'What payment methods are accepted?',
+              a: 'We accept UPI, bank transfers, credit/debit cards, and digital wallets.',
+            },
+          ].map((faq, index) => (
+            <div key={index} className="card">
+              <h3 className="font-semibold text-gray-900 mb-2">{faq.q}</h3>
+              <p className="text-sm text-gray-500">{faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SubscriptionPage;

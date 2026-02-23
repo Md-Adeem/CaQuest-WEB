@@ -49,6 +49,7 @@ app.use(xss());           // Prevent XSS attacks
 app.use(hpp());           // Prevent HTTP parameter pollution
 
 // Rate limiting
+app.set('trust proxy', 1);
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 200,
@@ -85,13 +86,10 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Serve frontend in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/dist')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client', 'dist', 'index.html'));
-  });
-}
+// Frontend is hosted separately on Vercel
+app.get('/', (req, res) => {
+  res.send('CaQuest API is running');
+});
 
 // Error handler
 app.use(errorHandler);

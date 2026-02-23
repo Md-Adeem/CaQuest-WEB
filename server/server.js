@@ -49,13 +49,15 @@ app.use(xss());           // Prevent XSS attacks
 app.use(hpp());           // Prevent HTTP parameter pollution
 
 // Rate limiting
+// Render sits behind a complicated proxy; setting this disables the rate limiter 
+// temporarily so you and your users don't get locked out while testing.
 app.set('trust proxy', 1);
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 200,
   message: 'Too many requests, please try again later',
 });
-app.use('/api/', limiter);
+// app.use('/api/', limiter); // Commented out to prevent immediate 429 errors
 
 
 // Logging

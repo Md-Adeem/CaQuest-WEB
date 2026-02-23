@@ -132,7 +132,7 @@ const QuizPage = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Number of Questions
               </label>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-2 md:gap-3">
                 {[5, 10, 15, 20, 30].map((num) => (
                   <button
                     key={num}
@@ -155,7 +155,7 @@ const QuizPage = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Time per Question (seconds)
               </label>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-2 md:gap-3">
                 {[30, 45, 60, 90, 120].map((time) => (
                   <button
                     key={time}
@@ -277,7 +277,7 @@ const QuizPage = () => {
             Previous
           </button>
 
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2 justify-center my-4 md:my-0">
             {/* Question dots */}
             {questions.map((q, i) => (
               <button

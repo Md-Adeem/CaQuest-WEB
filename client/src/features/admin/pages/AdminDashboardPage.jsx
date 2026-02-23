@@ -11,9 +11,9 @@ const AdminDashboardPage = () => {
   const { stats, loading } = useAdminStats();
 
   return (
-    <div className="flex">
+    <div className="flex flex-col lg:flex-row min-h-[calc(100vh-4rem)] relative">
       <AdminSidebar />
-      <div className="flex-1 p-8">
+      <div className="flex-1 p-4 md:p-8 w-full max-w-[100vw] overflow-x-hidden">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
           <p className="text-gray-500 mt-1">
@@ -35,8 +35,8 @@ const AdminDashboardPage = () => {
                 Recent Payments
               </h2>
               {stats?.recentPayments?.length > 0 ? (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
+                <div className="overflow-x-auto w-full -mx-4 px-4 md:mx-0 md:px-0">
+                  <table className="w-full text-sm min-w-[600px]">
                     <thead>
                       <tr className="border-b border-gray-100">
                         <th className="text-left py-3 px-4 font-medium text-gray-500">

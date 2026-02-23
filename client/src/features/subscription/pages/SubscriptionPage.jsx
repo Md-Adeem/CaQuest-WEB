@@ -22,7 +22,7 @@ const SubscriptionPage = () => {
       </div>
 
       {/* Level Filter */}
-      <div className="flex justify-center gap-3 mb-10">
+      <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-10">
         <button
           onClick={() => setSelectedLevel(null)}
           className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${

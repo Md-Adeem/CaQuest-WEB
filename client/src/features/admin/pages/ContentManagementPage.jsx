@@ -231,9 +231,9 @@ const ContentManagementPage = () => {
   const iconOptions = ['📚', '📊', '⚖️', '🔢', '💹', '📈', '🏛️', '💰', '🧾', '📝', '🎯', '🏆', '💡', '🔬', '📐', '🌐', '💼', '📋'];
 
   return (
-    <div className="flex">
+    <div className="flex flex-col lg:flex-row min-h-[calc(100vh-4rem)] relative">
       <AdminSidebar />
-      <div className="flex-1 p-8">
+      <div className="flex-1 p-4 md:p-8 w-full max-w-[100vw] overflow-x-hidden">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>

@@ -39,7 +39,7 @@ const SubscriptionStatus = ({ subscriptions }) => {
           return (
             <div
               key={index}
-              className={`flex items-center justify-between p-4 rounded-lg border ${
+              className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-lg border ${
                 isExpired ? 'bg-red-50 border-red-200' : `${level?.bgColor} ${level?.borderColor}`
               }`}
             >

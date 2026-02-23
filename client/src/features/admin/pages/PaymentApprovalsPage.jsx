@@ -21,9 +21,9 @@ const PaymentApprovalsPage = () => {
   ];
 
   return (
-    <div className="flex">
+    <div className="flex flex-col lg:flex-row min-h-[calc(100vh-4rem)] relative">
       <AdminSidebar />
-      <div className="flex-1 p-8">
+      <div className="flex-1 p-4 md:p-8 w-full max-w-[100vw] overflow-x-hidden">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">
             Payment Approvals

@@ -50,8 +50,7 @@ const setupIndexes = async () => {
 
     // Progress indexes
     await Progress.collection.createIndex(
-      { user: 1, question: 1 },
-      { unique: true }
+      { user: 1, question: 1 }
     );
     await Progress.collection.createIndex({ user: 1, chapter: 1 });
     await Progress.collection.createIndex({ user: 1, subject: 1 });

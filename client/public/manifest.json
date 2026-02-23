@@ -1,6 +1,6 @@
 {
-  "name": "CAPrep - CA Exam Preparation",
-  "short_name": "CAPrep",
+  "name": "CaQuest - CA Exam Preparation",
+  "short_name": "CaQuest",
   "description": "Practice questions for CA exams",
   "start_url": "/",
   "display": "standalone",

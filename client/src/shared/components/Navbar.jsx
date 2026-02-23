@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../features/auth/hooks/useAuth';
-import SearchBar from './SearchBar';
+import React, { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../features/auth/hooks/useAuth";
+import SearchBar from "./SearchBar";
 import {
-  HiMenu, HiX, HiLogout, HiHome,
-  HiAcademicCap, HiCog, HiCreditCard,
-  HiUser, HiChartBar, HiBookmark,
-} from 'react-icons/hi';
-import { getInitials } from '../utils/helpers';
+  HiMenu,
+  HiX,
+  HiLogout,
+  HiHome,
+  HiAcademicCap,
+  HiCog,
+  HiCreditCard,
+  HiUser,
+  HiChartBar,
+  HiBookmark,
+} from "react-icons/hi";
+import { getInitials } from "../utils/helpers";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -18,13 +25,13 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate("/login");
     setIsProfileOpen(false);
     setIsMenuOpen(false);
   };
 
   // Don't show navbar on admin pages (admin has sidebar)
-  const isAdminPage = location.pathname.startsWith('/admin');
+  const isAdminPage = location.pathname.startsWith("/admin");
 
   return (
     <nav className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
@@ -32,12 +39,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
-            <div className="w-9 h-9 gradient-bg rounded-lg flex items-center justify-center">
-              <HiAcademicCap className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-xl font-bold text-gray-900">
-              CA<span className="text-primary-600">Prep</span>
-            </span>
+            <img src="/logo.png" alt="CaQuest" className="h-16 w-auto object-contain" />
           </Link>
 
           {/* Search Bar (Desktop) */}
@@ -56,9 +58,9 @@ const Navbar = () => {
                     <Link
                       to="/dashboard"
                       className={`text-sm font-medium transition-colors flex items-center gap-1.5 px-3 py-2 rounded-lg ${
-                        location.pathname === '/dashboard'
-                          ? 'text-primary-600 bg-primary-50'
-                          : 'text-gray-600 hover:text-primary-600 hover:bg-gray-50'
+                        location.pathname === "/dashboard"
+                          ? "text-primary-600 bg-primary-50"
+                          : "text-gray-600 hover:text-primary-600 hover:bg-gray-50"
                       }`}
                     >
                       <HiHome className="w-4 h-4" />
@@ -67,9 +69,9 @@ const Navbar = () => {
                     <Link
                       to="/progress"
                       className={`text-sm font-medium transition-colors flex items-center gap-1.5 px-3 py-2 rounded-lg ${
-                        location.pathname === '/progress'
-                          ? 'text-primary-600 bg-primary-50'
-                          : 'text-gray-600 hover:text-primary-600 hover:bg-gray-50'
+                        location.pathname === "/progress"
+                          ? "text-primary-600 bg-primary-50"
+                          : "text-gray-600 hover:text-primary-600 hover:bg-gray-50"
                       }`}
                     >
                       <HiChartBar className="w-4 h-4" />
@@ -78,9 +80,9 @@ const Navbar = () => {
                     <Link
                       to="/bookmarks"
                       className={`text-sm font-medium transition-colors flex items-center gap-1.5 px-3 py-2 rounded-lg ${
-                        location.pathname === '/bookmarks'
-                          ? 'text-primary-600 bg-primary-50'
-                          : 'text-gray-600 hover:text-primary-600 hover:bg-gray-50'
+                        location.pathname === "/bookmarks"
+                          ? "text-primary-600 bg-primary-50"
+                          : "text-gray-600 hover:text-primary-600 hover:bg-gray-50"
                       }`}
                     >
                       <HiBookmark className="w-4 h-4" />
@@ -89,7 +91,7 @@ const Navbar = () => {
                   </>
                 )}
 
-                {user.role === 'admin' && !isAdminPage && (
+                {user.role === "admin" && !isAdminPage && (
                   <Link
                     to="/admin"
                     className="text-sm font-medium text-gray-600 hover:text-primary-600 hover:bg-gray-50 flex items-center gap-1.5 px-3 py-2 rounded-lg"
@@ -211,13 +213,43 @@ const Navbar = () => {
                     <p className="text-xs text-gray-500">{user.email}</p>
                   </div>
                 </div>
-                <MobileLink to="/dashboard" icon={HiHome} label="Dashboard" onClick={() => setIsMenuOpen(false)} />
-                <MobileLink to="/progress" icon={HiChartBar} label="Progress" onClick={() => setIsMenuOpen(false)} />
-                <MobileLink to="/bookmarks" icon={HiBookmark} label="Bookmarks" onClick={() => setIsMenuOpen(false)} />
-                <MobileLink to="/profile" icon={HiUser} label="Profile" onClick={() => setIsMenuOpen(false)} />
-                <MobileLink to="/subscriptions" icon={HiCreditCard} label="Plans" onClick={() => setIsMenuOpen(false)} />
-                {user.role === 'admin' && (
-                  <MobileLink to="/admin" icon={HiCog} label="Admin Panel" onClick={() => setIsMenuOpen(false)} />
+                <MobileLink
+                  to="/dashboard"
+                  icon={HiHome}
+                  label="Dashboard"
+                  onClick={() => setIsMenuOpen(false)}
+                />
+                <MobileLink
+                  to="/progress"
+                  icon={HiChartBar}
+                  label="Progress"
+                  onClick={() => setIsMenuOpen(false)}
+                />
+                <MobileLink
+                  to="/bookmarks"
+                  icon={HiBookmark}
+                  label="Bookmarks"
+                  onClick={() => setIsMenuOpen(false)}
+                />
+                <MobileLink
+                  to="/profile"
+                  icon={HiUser}
+                  label="Profile"
+                  onClick={() => setIsMenuOpen(false)}
+                />
+                <MobileLink
+                  to="/subscriptions"
+                  icon={HiCreditCard}
+                  label="Plans"
+                  onClick={() => setIsMenuOpen(false)}
+                />
+                {user.role === "admin" && (
+                  <MobileLink
+                    to="/admin"
+                    icon={HiCog}
+                    label="Admin Panel"
+                    onClick={() => setIsMenuOpen(false)}
+                  />
                 )}
                 <button
                   onClick={handleLogout}
@@ -269,8 +301,8 @@ const MobileLink = ({ to, icon: Icon, label, onClick }) => {
       onClick={onClick}
       className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm ${
         isActive
-          ? 'bg-primary-50 text-primary-700 font-semibold'
-          : 'text-gray-700 hover:bg-gray-50'
+          ? "bg-primary-50 text-primary-700 font-semibold"
+          : "text-gray-700 hover:bg-gray-50"
       }`}
     >
       <Icon className="w-5 h-5" />

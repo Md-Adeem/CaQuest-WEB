@@ -1,7 +1,7 @@
 // import React, { useState, useEffect } from 'react';
 // import adminService from '../services/adminService';
 // import subjectService from '../../subjects/services/subjectService';
-// import { LEVELS, DIFFICULTY_LEVELS } from '../../../shared/utils/constants';
+
 // import toast from 'react-hot-toast';
 // import { HiPlus, HiTrash } from 'react-icons/hi';
 
@@ -214,44 +214,6 @@
 //         </div>
 //       </div>
 
-//       {/* Difficulty & Marks */}
-//       <div className="grid grid-cols-2 gap-4">
-//         <div>
-//           <label className="block text-sm font-medium text-gray-700 mb-1">
-//             Difficulty
-//           </label>
-//           <select
-//             value={question.difficulty}
-//             onChange={(e) =>
-//               setQuestion({ ...question, difficulty: e.target.value })
-//             }
-//             className="input-field"
-//           >
-//             {DIFFICULTY_LEVELS.map((diff) => (
-//               <option key={diff.id} value={diff.id}>
-//                 {diff.name}
-//               </option>
-//             ))}
-//           </select>
-//         </div>
-
-//         <div>
-//           <label className="block text-sm font-medium text-gray-700 mb-1">
-//             Marks
-//           </label>
-//           <input
-//             type="number"
-//             value={question.marks}
-//             onChange={(e) =>
-//               setQuestion({ ...question, marks: parseInt(e.target.value) || 1 })
-//             }
-//             className="input-field"
-//             min="1"
-//             max="10"
-//           />
-//         </div>
-//       </div>
-
 //       {/* Explanation */}
 //       <div>
 //         <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -288,41 +250,40 @@
 
 // export default QuestionUploadForm;
 
-import React, { useState, useEffect } from 'react';
-import adminService from '../services/adminService';
-import subjectService from '../../subjects/services/subjectService';
-import { LEVELS, DIFFICULTY_LEVELS } from '../../../shared/utils/constants';
-import toast from 'react-hot-toast';
-import { HiPlus } from 'react-icons/hi';
+import React, { useState, useEffect } from "react";
+import adminService from "../services/adminService";
+import subjectService from "../../subjects/services/subjectService";
+import { LEVELS, QUESTION_TYPES } from "../../../shared/utils/constants";
+import toast from "react-hot-toast";
+import { HiPlus } from "react-icons/hi";
 
 const QuestionUploadForm = ({ onSuccess }) => {
   const [subjects, setSubjects] = useState([]);
   const [chapters, setChapters] = useState([]);
-  const [selectedLevel, setSelectedLevel] = useState('');
-  const [selectedSubject, setSelectedSubject] = useState('');
-  const [selectedChapter, setSelectedChapter] = useState('');
+  const [selectedLevel, setSelectedLevel] = useState("");
+  const [selectedSubject, setSelectedSubject] = useState("");
+  const [selectedChapter, setSelectedChapter] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // ✅ 1️⃣ ADDED QUESTION TYPE STATE
-  const [questionType, setQuestionType] = useState('MCQ');
+  // Question type state
+  const [questionType, setQuestionType] = useState("MCQ");
 
   const [question, setQuestion] = useState({
-    questionText: '',
-    options: ['', '', '', ''],
+    questionText: "",
+    options: ["", "", "", ""],
     correctAnswer: 0,
-    explanation: '',
-    difficulty: 'medium',
-    marks: 1,
-    modelAnswer: '',
+    explanation: "",
+    modelAnswer: "",
+    paperType: "Practice",
   });
 
   useEffect(() => {
     if (selectedLevel) {
       subjectService.getSubjectsByLevel(selectedLevel).then((res) => {
         setSubjects(res.data.data);
-        setSelectedSubject('');
+        setSelectedSubject("");
         setChapters([]);
-        setSelectedChapter('');
+        setSelectedChapter("");
       });
     }
   }, [selectedLevel]);
@@ -331,7 +292,7 @@ const QuestionUploadForm = ({ onSuccess }) => {
     if (selectedSubject) {
       subjectService.getChaptersBySubject(selectedSubject).then((res) => {
         setChapters(res.data.data);
-        setSelectedChapter('');
+        setSelectedChapter("");
       });
     }
   }, [selectedSubject]);
@@ -346,51 +307,50 @@ const QuestionUploadForm = ({ onSuccess }) => {
     e.preventDefault();
 
     if (!selectedChapter) {
-      toast.error('Please select a chapter');
+      toast.error("Please select a chapter");
       return;
     }
 
-    // ✅ Validate only for MCQ
-    if (questionType === 'MCQ') {
+    // Validate only for MCQ
+    if (questionType === "MCQ") {
       if (question.options.some((opt) => !opt.trim())) {
-        toast.error('All options are required');
+        toast.error("All options are required");
         return;
       }
     }
 
-    // ✅ Validate Subjective
-    if (questionType === 'SUBJECTIVE' && !question.modelAnswer?.trim()) {
-      toast.error('Model answer is required');
+    // Validate Subjective
+    if (questionType === "SUBJECTIVE" && !question.modelAnswer?.trim()) {
+      toast.error("Model answer is required");
       return;
     }
 
     try {
       setLoading(true);
 
-      // ✅ 5️⃣ UPDATED SUBMIT PAYLOAD
       await adminService.createQuestion({
         ...question,
         type: questionType,
+        paperType: question.paperType,
         chapter: selectedChapter,
       });
 
-      toast.success('Question created successfully!');
+      toast.success("Question created successfully!");
 
       setQuestion({
-        questionText: '',
-        options: ['', '', '', ''],
+        questionText: "",
+        options: ["", "", "", ""],
         correctAnswer: 0,
-        explanation: '',
-        difficulty: 'medium',
-        marks: 1,
-        modelAnswer: '',
+        explanation: "",
+        modelAnswer: "",
+        paperType: "Practice",
       });
 
-      setQuestionType('MCQ');
+      setQuestionType("MCQ");
 
       if (onSuccess) onSuccess();
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to create question');
+      toast.error(err.response?.data?.message || "Failed to create question");
     } finally {
       setLoading(false);
     }
@@ -398,7 +358,6 @@ const QuestionUploadForm = ({ onSuccess }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      
       {/* Level, Subject, Chapter Selection */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
@@ -461,7 +420,7 @@ const QuestionUploadForm = ({ onSuccess }) => {
         </div>
       </div>
 
-      {/* ✅ 2️⃣ QUESTION TYPE DROPDOWN */}
+      {/* Question Type */}
       <div>
         <label className="block text-sm font-medium mb-1">
           Question Type *
@@ -471,8 +430,11 @@ const QuestionUploadForm = ({ onSuccess }) => {
           onChange={(e) => setQuestionType(e.target.value)}
           className="input-field"
         >
-          <option value="MCQ">Objective (MCQ)</option>
-          <option value="SUBJECTIVE">Subjective</option>
+          {QUESTION_TYPES.map((type) => (
+            <option key={type.id} value={type.id}>
+              {type.icon} {type.name}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -481,18 +443,105 @@ const QuestionUploadForm = ({ onSuccess }) => {
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Question Text *
         </label>
-        <textarea
-          value={question.questionText}
-          onChange={(e) =>
-            setQuestion({ ...question, questionText: e.target.value })
-          }
-          className="input-field h-28 resize-none"
-          required
-        />
+        <div className="border border-gray-300 rounded-lg overflow-hidden">
+          <div className="flex border-b border-gray-200 bg-gray-50">
+            <button
+              type="button"
+              onClick={() => {
+                const tableTemplate = `
+| Account | Debit (₹) | Credit (₹) |
+|---------|------------|-------------|
+|         |            |             |
+|         |            |             |
+|         |            |             |`;
+                setQuestion({
+                  ...question,
+                  questionText: question.questionText + tableTemplate,
+                });
+              }}
+              className="px-3 py-2 text-xs font-medium text-gray-600 hover:bg-gray-100 border-r border-gray-200"
+            >
+              Add Table
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                const journalTemplate = `
+Date: ____
+Particulars: ____
+L.F.: ____
+Debit (₹): ____
+Credit (₹): ____`;
+                setQuestion({
+                  ...question,
+                  questionText: question.questionText + journalTemplate,
+                });
+              }}
+              className="px-3 py-2 text-xs font-medium text-gray-600 hover:bg-gray-100 border-r border-gray-200"
+            >
+              Add Journal Entry
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                const formatTemplate = `
+**Format Instructions:**
+- Use | to create table columns
+- Use --- for table headers
+- Example: | Account | Amount |
+          |---------|--------|
+          | Cash    | 1000   |`;
+                setQuestion({
+                  ...question,
+                  questionText: question.questionText + formatTemplate,
+                });
+              }}
+              className="px-3 py-2 text-xs font-medium text-gray-600 hover:bg-gray-100"
+            >
+              Format Help
+            </button>
+          </div>
+          <textarea
+            value={question.questionText}
+            onChange={(e) =>
+              setQuestion({ ...question, questionText: e.target.value })
+            }
+            className="input-field h-32 resize-none border-0 rounded-none"
+            placeholder="Enter question text. Use | for table columns, --- for headers. Click buttons above for templates."
+            required
+          />
+        </div>
+        <p className="text-xs text-gray-500 mt-1">
+          Tip: Use Markdown table format for accounting tables (| column |
+          headers |)
+        </p>
       </div>
 
-      {/* ✅ 3️⃣ WRAPPED OPTIONS SECTION */}
-      {questionType === 'MCQ' && (
+      {/* Paper Type */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Paper Type *
+        </label>
+        <select
+          value={question.paperType}
+          onChange={(e) =>
+            setQuestion({
+              ...question,
+              paperType: e.target.value,
+            })
+          }
+          className="input-field"
+          required
+        >
+          <option value="Practice">Practice</option>
+          <option value="RTP">RTP (Revision Test Papers)</option>
+          <option value="MTP">MTP (Mock Test Papers)</option>
+          <option value="PYQS">PYQS (Past Year Question Papers)</option>
+        </select>
+      </div>
+
+      {/* Options - Only for MCQ */}
+      {questionType === "MCQ" && (
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Options *
@@ -503,8 +552,8 @@ const QuestionUploadForm = ({ onSuccess }) => {
                 <label
                   className={`flex items-center justify-center w-10 h-10 rounded-lg text-sm font-bold cursor-pointer transition-all ${
                     question.correctAnswer === index
-                      ? 'bg-green-500 text-white'
-                      : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                      ? "bg-green-500 text-white"
+                      : "bg-gray-100 text-gray-500 hover:bg-gray-200"
                   }`}
                 >
                   <input
@@ -531,43 +580,23 @@ const QuestionUploadForm = ({ onSuccess }) => {
         </div>
       )}
 
-      {/* Difficulty & Marks */}
-      <div className="grid grid-cols-2 gap-4">
+      {/* Model Answer - Only for SUBJECTIVE */}
+      {questionType === "SUBJECTIVE" && (
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Difficulty
+            Model Answer *
           </label>
-          <select
-            value={question.difficulty}
+          <textarea
+            value={question.modelAnswer || ""}
             onChange={(e) =>
-              setQuestion({ ...question, difficulty: e.target.value })
+              setQuestion({ ...question, modelAnswer: e.target.value })
             }
-            className="input-field"
-          >
-            {DIFFICULTY_LEVELS.map((diff) => (
-              <option key={diff.id} value={diff.id}>
-                {diff.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Marks
-          </label>
-          <input
-            type="number"
-            value={question.marks}
-            onChange={(e) =>
-              setQuestion({ ...question, marks: parseInt(e.target.value) || 1 })
-            }
-            className="input-field"
-            min="1"
-            max="10"
+            className="input-field h-28 resize-none"
+            placeholder="Enter the expected answer for this subjective question..."
+            required
           />
         </div>
-      </div>
+      )}
 
       {/* Explanation */}
       <div>
@@ -580,25 +609,9 @@ const QuestionUploadForm = ({ onSuccess }) => {
             setQuestion({ ...question, explanation: e.target.value })
           }
           className="input-field h-24 resize-none"
+          placeholder="Add explanation for the correct answer or solution approach..."
         />
       </div>
-
-      {/* ✅ 4️⃣ SUBJECTIVE MODEL ANSWER */}
-      {questionType === 'SUBJECTIVE' && (
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Model Answer *
-          </label>
-          <textarea
-            value={question.modelAnswer || ''}
-            onChange={(e) =>
-              setQuestion({ ...question, modelAnswer: e.target.value })
-            }
-            className="input-field h-28"
-            required
-          />
-        </div>
-      )}
 
       {/* Submit */}
       <button

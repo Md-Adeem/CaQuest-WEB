@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-import LoginForm from '../components/LoginForm';
-import { HiAcademicCap } from 'react-icons/hi';
-import toast from 'react-hot-toast';
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import LoginForm from "../components/LoginForm";
+import { HiAcademicCap } from "react-icons/hi";
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
   const { login } = useAuth();
@@ -11,17 +11,17 @@ const LoginPage = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(false);
 
-  const from = location.state?.from?.pathname || '/dashboard';
+  const from = location.state?.from?.pathname || "/dashboard";
 
   const handleLogin = async (formData) => {
     try {
       setLoading(true);
       const user = await login(formData.email, formData.password);
       toast.success(`Welcome back, ${user.name}!`);
-      navigate(user.role === 'admin' ? '/admin' : from, { replace: true });
+      navigate(user.role === "admin" ? "/admin" : from, { replace: true });
     } catch (error) {
       toast.error(
-        error.response?.data?.message || 'Login failed. Please try again.'
+        error.response?.data?.message || "Login failed. Please try again."
       );
     } finally {
       setLoading(false);
@@ -37,7 +37,7 @@ const LoginPage = () => {
             <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
               <HiAcademicCap className="w-8 h-8" />
             </div>
-            <span className="text-3xl font-bold">CAPrep</span>
+            <span className="text-3xl font-bold">CaQuest</span>
           </div>
           <h1 className="text-4xl font-bold mb-4">
             Ace Your CA Exams with Confidence

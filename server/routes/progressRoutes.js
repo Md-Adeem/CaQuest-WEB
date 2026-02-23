@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const {
   saveAttempt,
@@ -8,20 +8,22 @@ const {
   toggleBookmark,
   getBookmarks,
   checkBookmarks,
-} = require('../controllers/progressController');
-const { protect } = require('../middleware/auth');
+  checkSingleBookmark,
+} = require("../controllers/progressController");
+const { protect } = require("../middleware/auth");
 
 router.use(protect);
 
 // Progress
-router.post('/attempt', saveAttempt);
-router.post('/quiz', saveQuizResults);
-router.get('/stats', getMyStats);
-router.get('/chapter/:chapterId', getChapterProgress);
+router.post("/attempt", saveAttempt);
+router.post("/quiz", saveQuizResults);
+router.get("/stats", getMyStats);
+router.get("/chapter/:chapterId", getChapterProgress);
 
 // Bookmarks
-router.post('/bookmark', toggleBookmark);
-router.get('/bookmarks', getBookmarks);
-router.get('/bookmarks/check/:chapterId', checkBookmarks);
+router.post("/bookmark", toggleBookmark);
+router.get("/bookmarks", getBookmarks);
+router.get("/bookmarks/check/:chapterId", checkBookmarks);
+router.get("/bookmarks/check-question/:questionId", checkSingleBookmark);
 
 module.exports = router;

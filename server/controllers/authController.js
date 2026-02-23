@@ -1,7 +1,7 @@
-const User = require('../models/User');
-const generateToken = require('../utils/generateToken');
-const { validationResult } = require('express-validator');
-const { sendEmail, emailTemplates } = require('../utils/email');
+const User = require("../models/User");
+const generateToken = require("../utils/generateToken");
+const { validationResult } = require("express-validator");
+const { sendEmail, emailTemplates } = require("../utils/email");
 
 // @desc    Register new user
 // @route   POST /api/auth/register
@@ -22,7 +22,7 @@ const register = async (req, res, next) => {
     if (userExists) {
       return res.status(400).json({
         success: false,
-        message: 'User already exists with this email',
+        message: "User already exists with this email",
       });
     }
 
@@ -33,12 +33,19 @@ const register = async (req, res, next) => {
       phone,
     });
 
-    const welcomeEmail = emailTemplates.welcome(user.name);
-
-    await sendEmail({
-      to: user.email,
-      subject: welcomeEmail.subject,
-      html: welcomeEmail.html,
+    // Send welcome email (non-blocking)
+    setImmediate(async () => {
+      try {
+        const welcomeEmail = emailTemplates.welcome(user.name);
+        await sendEmail({
+          to: user.email,
+          subject: welcomeEmail.subject,
+          html: welcomeEmail.html,
+        });
+      } catch (emailError) {
+        console.error("Failed to send welcome email:", emailError.message);
+        // Don't fail registration if email fails
+      }
     });
 
     res.status(201).json({
@@ -57,7 +64,6 @@ const register = async (req, res, next) => {
   }
 };
 
-
 // @desc    Login user
 // @route   POST /api/auth/login
 // @access  Public
@@ -73,19 +79,19 @@ const login = async (req, res, next) => {
 
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email }).select('+password');
+    const user = await User.findOne({ email }).select("+password");
 
     if (!user || !(await user.matchPassword(password))) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid email or password',
+        message: "Invalid email or password",
       });
     }
 
     if (!user.isActive) {
       return res.status(403).json({
         success: false,
-        message: 'Account has been deactivated. Contact admin.',
+        message: "Account has been deactivated. Contact admin.",
       });
     }
 
@@ -111,8 +117,9 @@ const login = async (req, res, next) => {
 // @access  Private
 const getMe = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user._id)
-      .populate('activeSubscriptions.plan');
+    const user = await User.findById(req.user._id).populate(
+      "activeSubscriptions.plan"
+    );
 
     res.json({
       success: true,
@@ -130,10 +137,10 @@ const selectLevel = async (req, res, next) => {
   try {
     const { level } = req.body;
 
-    if (!['foundation', 'intermediate', 'final'].includes(level)) {
+    if (!["foundation", "intermediate", "final"].includes(level)) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid level. Choose foundation, intermediate, or final.',
+        message: "Invalid level. Choose foundation, intermediate, or final.",
       });
     }
 
@@ -174,17 +181,16 @@ const updateProfile = async (req, res, next) => {
   }
 };
 
-
 const changePassword = async (req, res, next) => {
   try {
     const { currentPassword, newPassword } = req.body;
 
-    const user = await User.findById(req.user._id).select('+password');
+    const user = await User.findById(req.user._id).select("+password");
 
     if (!(await user.matchPassword(currentPassword))) {
       return res.status(400).json({
         success: false,
-        message: 'Current password is incorrect',
+        message: "Current password is incorrect",
       });
     }
 
@@ -193,12 +199,18 @@ const changePassword = async (req, res, next) => {
 
     res.json({
       success: true,
-      message: 'Password changed successfully',
+      message: "Password changed successfully",
     });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = { register, login, getMe, selectLevel, updateProfile, changePassword };
-
+module.exports = {
+  register,
+  login,
+  getMe,
+  selectLevel,
+  updateProfile,
+  changePassword,
+};

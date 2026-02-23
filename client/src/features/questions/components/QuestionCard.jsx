@@ -1,14 +1,139 @@
-import React, { useState } from 'react';
-import Badge from '../../../shared/components/Badge';
+import React, { useState, useEffect } from "react";
+import Badge from "../../../shared/components/Badge";
+import { HiBookmark } from "react-icons/hi";
+import progressService from "../../progress/services/progressService";
+import toast from "react-hot-toast";
 
 const QuestionCard = ({ question, index }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [bookmarkLoading, setBookmarkLoading] = useState(false);
+
+  // Check if question is bookmarked
+  useEffect(() => {
+    const checkBookmarkStatus = async () => {
+      try {
+        const response = await progressService.checkSingleBookmark(
+          question._id
+        );
+        setIsBookmarked(response.data.data.isBookmarked);
+      } catch (error) {
+        console.error("Error checking bookmark status:", error);
+      }
+    };
+
+    if (question._id) {
+      checkBookmarkStatus();
+    }
+  }, [question._id]);
+
+  const handleBookmarkToggle = async () => {
+    setBookmarkLoading(true);
+    try {
+      const response = await progressService.toggleBookmark(question._id);
+      setIsBookmarked(response.data.bookmarked);
+      toast.success(response.data.message);
+    } catch (error) {
+      console.error("Error toggling bookmark:", error);
+      toast.error("Failed to update bookmark");
+      // Revert the UI state on error
+      setIsBookmarked(!isBookmarked);
+    } finally {
+      setBookmarkLoading(false);
+    }
+  };
+
+  // Function to render question text with table support
+  const renderQuestionText = (text) => {
+    if (!text) return null;
+
+    // Convert markdown tables to HTML tables
+    const lines = text.split("\n");
+    let inTable = false;
+    let tableHtml = [];
+    let htmlLines = [];
+
+    lines.forEach((line) => {
+      const trimmedLine = line.trim();
+
+      // Check if this is a table separator
+      if (trimmedLine.startsWith("|") && trimmedLine.includes("---")) {
+        inTable = true;
+        return;
+      }
+
+      // Check if this is a table row
+      if (trimmedLine.startsWith("|") && inTable) {
+        const cells = trimmedLine
+          .split("|")
+          .filter((cell) => cell.trim() !== "");
+        if (cells.length > 0) {
+          tableHtml.push(
+            `<tr>${cells
+              .map((cell) => `<td>${cell.trim()}</td>`)
+              .join("")}</tr>`
+          );
+        }
+        return;
+      }
+
+      // End of table
+      if (inTable && (!trimmedLine.startsWith("|") || trimmedLine === "")) {
+        if (tableHtml.length > 0) {
+          htmlLines.push(
+            `<table class="question-table"><tbody>${tableHtml.join(
+              ""
+            )}</tbody></table>`
+          );
+          tableHtml = [];
+        }
+        inTable = false;
+      }
+
+      // Regular text line
+      if (!inTable && trimmedLine !== "") {
+        htmlLines.push(`<p class="mb-2">${trimmedLine}</p>`);
+      }
+    });
+
+    // Handle any remaining table
+    if (tableHtml.length > 0) {
+      htmlLines.push(
+        `<table class="question-table"><tbody>${tableHtml.join(
+          ""
+        )}</tbody></table>`
+      );
+    }
+
+    return (
+      <div
+        className="prose max-w-none"
+        dangerouslySetInnerHTML={{ __html: htmlLines.join("") }}
+      />
+    );
+  };
 
   /* =====================================================
-     ✅ SUBJECTIVE QUESTION SUPPORT (NEWLY ADDED)
+     SUBJECTIVE QUESTION SUPPORT
   ====================================================== */
-  if (question.type === 'SUBJECTIVE') {
+  // Function to get paper type badge color
+  const getPaperTypeColor = (paperType) => {
+    switch (paperType) {
+      case "RTP":
+        return "bg-blue-100 text-blue-800";
+      case "MTP":
+        return "bg-green-100 text-green-800";
+      case "PYQS":
+        return "bg-purple-100 text-purple-800";
+      case "Practice":
+        return "bg-orange-100 text-orange-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  if (question.type === "SUBJECTIVE") {
     return (
       <div className="card animate-fade-in">
         {/* Header */}
@@ -20,32 +145,93 @@ const QuestionCard = ({ question, index }) => {
             <Badge variant="secondary" size="sm">
               Subjective
             </Badge>
+            {question.paperType && (
+              <span
+                className={`text-xs px-2 py-1 rounded-full ${getPaperTypeColor(
+                  question.paperType
+                )}`}
+              >
+                {question.paperType}
+              </span>
+            )}
           </div>
-          <span className="text-xs text-gray-400">
-            {question.marks} mark(s)
-          </span>
+          <button
+            onClick={handleBookmarkToggle}
+            disabled={bookmarkLoading}
+            className={`p-2 rounded-lg transition-colors ${
+              bookmarkLoading
+                ? "text-gray-300 cursor-not-allowed"
+                : isBookmarked
+                ? "text-yellow-500 bg-yellow-50 hover:bg-yellow-100"
+                : "text-gray-400 hover:text-yellow-500 hover:bg-yellow-50"
+            }`}
+            title={isBookmarked ? "Remove Bookmark" : "Bookmark Question"}
+          >
+            <HiBookmark
+              className={`w-5 h-5 ${bookmarkLoading ? "animate-spin" : ""}`}
+            />
+          </button>
         </div>
 
         {/* Question Text */}
-        <p className="text-gray-900 font-medium mb-5 leading-relaxed">
-          {question.questionText}
-        </p>
+        <div className="text-gray-900 font-medium mb-5 leading-relaxed">
+          {renderQuestionText(question.questionText)}
+        </div>
 
-        {/* Student Answer Box */}
-        <textarea
-          className="w-full border border-gray-300 p-3 rounded-lg mb-4"
-          placeholder="Write your answer..."
-        />
-
-        {/* Model Answer */}
+        {/* Model Answer with Toggle */}
         {question.modelAnswer && (
-          <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-xl">
-            <p className="text-sm font-semibold text-blue-700 mb-1">
-              Model Answer:
-            </p>
-            <p className="text-sm text-blue-600">
-              {question.modelAnswer}
-            </p>
+          <div className="mt-4">
+            <button
+              onClick={async () => {
+                const newShowAnswer = !showAnswer;
+                setShowAnswer(newShowAnswer);
+
+                // Save progress when user views the answer
+                if (newShowAnswer) {
+                  try {
+                    await progressService.saveAttempt({
+                      questionId: question._id,
+                      isCorrect: true, // Consider viewing answer as "completed"
+                      chapter: question.chapter,
+                      subject: question.subject,
+                      level: question.level,
+                      mode: "practice",
+                    });
+                  } catch (error) {
+                    console.error("Error saving progress:", error);
+                  }
+                }
+              }}
+              className="text-sm font-semibold text-primary-600 hover:text-primary-700 flex items-center gap-1 mb-2"
+            >
+              {showAnswer ? "Hide" : "Show"} Answer
+              <svg
+                className={`w-4 h-4 transition-transform ${
+                  showAnswer ? "rotate-180" : ""
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+
+            {showAnswer && (
+              <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                <p className="text-sm font-semibold text-blue-700 mb-1">
+                  Answer:
+                </p>
+                <p className="text-sm text-blue-600 whitespace-pre-wrap">
+                  {question.modelAnswer}
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -53,38 +239,48 @@ const QuestionCard = ({ question, index }) => {
   }
 
   /* =====================================================
-     ✅ EXISTING MCQ LOGIC (UNCHANGED)
+     MCQ QUESTION LOGIC
   ====================================================== */
 
-  const handleOptionSelect = (optionIndex) => {
+  const handleOptionSelect = async (optionIndex) => {
     if (showAnswer) return;
     setSelectedOption(optionIndex);
     setShowAnswer(true);
+
+    // Save progress
+    const isCorrect = optionIndex === question.correctAnswer;
+    try {
+      await progressService.saveAttempt({
+        questionId: question._id,
+        selectedAnswer: optionIndex,
+        isCorrect,
+        chapter: question.chapter,
+        subject: question.subject,
+        level: question.level,
+        mode: "practice",
+      });
+    } catch (error) {
+      console.error("Error saving progress:", error);
+    }
   };
 
   const getOptionClass = (optionIndex) => {
     if (!showAnswer) {
       return selectedOption === optionIndex
-        ? 'border-primary-500 bg-primary-50'
-        : 'border-gray-200 hover:border-primary-300 hover:bg-primary-50/50';
+        ? "border-primary-500 bg-primary-50"
+        : "border-gray-200 hover:border-primary-300 hover:bg-primary-50/50";
     }
 
     if (optionIndex === question.correctAnswer) {
-      return 'border-green-500 bg-green-50';
+      return "border-green-500 bg-green-50";
     }
     if (
       optionIndex === selectedOption &&
       optionIndex !== question.correctAnswer
     ) {
-      return 'border-red-500 bg-red-50';
+      return "border-red-500 bg-red-50";
     }
-    return 'border-gray-200 opacity-60';
-  };
-
-  const difficultyVariant = {
-    easy: 'success',
-    medium: 'warning',
-    hard: 'danger',
+    return "border-gray-200 opacity-60";
   };
 
   return (
@@ -92,25 +288,42 @@ const QuestionCard = ({ question, index }) => {
       {/* Question Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
-          <span className="text-sm font-bold text-gray-400">
-            Q{index + 1}
-          </span>
-          <Badge
-            variant={difficultyVariant[question.difficulty]}
-            size="sm"
-          >
-            {question.difficulty}
+          <span className="text-sm font-bold text-gray-400">Q{index + 1}</span>
+          <Badge variant="primary" size="sm">
+            MCQ
           </Badge>
+          {question.paperType && (
+            <span
+              className={`text-xs px-2 py-1 rounded-full ${getPaperTypeColor(
+                question.paperType
+              )}`}
+            >
+              {question.paperType}
+            </span>
+          )}
         </div>
-        <span className="text-xs text-gray-400">
-          {question.marks} mark(s)
-        </span>
+        <button
+          onClick={handleBookmarkToggle}
+          disabled={bookmarkLoading}
+          className={`p-2 rounded-lg transition-colors ${
+            bookmarkLoading
+              ? "text-gray-300 cursor-not-allowed"
+              : isBookmarked
+              ? "text-yellow-500 bg-yellow-50 hover:bg-yellow-100"
+              : "text-gray-400 hover:text-yellow-500 hover:bg-yellow-50"
+          }`}
+          title={isBookmarked ? "Remove Bookmark" : "Bookmark Question"}
+        >
+          <HiBookmark
+            className={`w-5 h-5 ${bookmarkLoading ? "animate-spin" : ""}`}
+          />
+        </button>
       </div>
 
       {/* Question Text */}
-      <p className="text-gray-900 font-medium mb-5 leading-relaxed">
-        {question.questionText}
-      </p>
+      <div className="text-gray-900 font-medium mb-5 leading-relaxed">
+        {renderQuestionText(question.questionText)}
+      </div>
 
       {/* Options */}
       <div className="space-y-3">
@@ -126,14 +339,13 @@ const QuestionCard = ({ question, index }) => {
             <div className="flex items-center gap-3">
               <div
                 className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${
-                  showAnswer &&
-                  optionIndex === question.correctAnswer
-                    ? 'bg-green-500 text-white'
+                  showAnswer && optionIndex === question.correctAnswer
+                    ? "bg-green-500 text-white"
                     : showAnswer &&
                       optionIndex === selectedOption &&
                       optionIndex !== question.correctAnswer
-                    ? 'bg-red-500 text-white'
-                    : 'bg-gray-100 text-gray-600'
+                    ? "bg-red-500 text-white"
+                    : "bg-gray-100 text-gray-600"
                 }`}
               >
                 {String.fromCharCode(65 + optionIndex)}
@@ -150,9 +362,7 @@ const QuestionCard = ({ question, index }) => {
           <p className="text-sm font-semibold text-blue-700 mb-1">
             Explanation:
           </p>
-          <p className="text-sm text-blue-600">
-            {question.explanation}
-          </p>
+          <p className="text-sm text-blue-600">{question.explanation}</p>
         </div>
       )}
 

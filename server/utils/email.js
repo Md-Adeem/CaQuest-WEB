@@ -1,12 +1,12 @@
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
 const createTransporter = () => {
   // Use different configs based on environment
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: parseInt(process.env.EMAIL_PORT) || 587,
-      secure: process.env.EMAIL_SECURE === 'true',
+      secure: process.env.EMAIL_SECURE === "true",
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -16,11 +16,11 @@ const createTransporter = () => {
 
   // Development - use Ethereal (fake SMTP)
   return nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
+    host: "smtp.ethereal.email",
     port: 587,
     auth: {
-      user: process.env.EMAIL_USER || 'test@ethereal.email',
-      pass: process.env.EMAIL_PASS || 'testpass',
+      user: process.env.EMAIL_USER || "test@ethereal.email",
+      pass: process.env.EMAIL_PASS || "testpass",
     },
   });
 };
@@ -31,7 +31,7 @@ const baseTemplate = (content) => `
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CAPrep</title>
+  <title>CaQuest</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #f3f4f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
   <table role="presentation" style="width: 100%; border-collapse: collapse;">
@@ -43,7 +43,7 @@ const baseTemplate = (content) => `
           <tr>
             <td style="padding: 30px; text-align: center;">
               <p style="margin: 0; color: #9ca3af; font-size: 12px;">
-                © ${new Date().getFullYear()} CAPrep. All rights reserved.
+                © ${new Date().getFullYear()} CaQuest. All rights reserved.
               </p>
               <p style="margin: 5px 0 0; color: #9ca3af; font-size: 12px;">
                 Your trusted CA exam preparation platform
@@ -60,11 +60,11 @@ const baseTemplate = (content) => `
 
 const emailTemplates = {
   welcome: (userName) => ({
-    subject: 'Welcome to CAPrep! 🎓',
+    subject: "Welcome to CaQuest! 🎓",
     html: baseTemplate(`
       <tr>
         <td style="background: linear-gradient(135deg, #2563eb, #1d4ed8); padding: 40px 30px; border-radius: 16px 16px 0 0; text-align: center;">
-          <h1 style="color: white; margin: 0; font-size: 28px;">Welcome to CAPrep!</h1>
+          <h1 style="color: white; margin: 0; font-size: 28px;">Welcome to CaQuest!</h1>
           <p style="color: #bfdbfe; margin: 10px 0 0; font-size: 16px;">Your CA journey starts here</p>
         </td>
       </tr>
@@ -73,7 +73,7 @@ const emailTemplates = {
           <h2 style="color: #1f2937; margin: 0 0 15px;">Hi ${userName}! 👋</h2>
           <p style="color: #6b7280; line-height: 1.6; margin: 0 0 20px;">
             Welcome aboard! We're thrilled to have you join thousands of CA aspirants
-            who trust CAPrep for their exam preparation.
+            who trust CaQuest for their exam preparation.
           </p>
           <p style="color: #6b7280; line-height: 1.6; margin: 0 0 10px;">
             Here's how to get started:
@@ -113,7 +113,7 @@ const emailTemplates = {
   }),
 
   paymentSubmitted: (userName, planName, amount, transactionId) => ({
-    subject: 'Payment Received - Awaiting Verification 🕐',
+    subject: "Payment Received - Awaiting Verification 🕐",
     html: baseTemplate(`
       <tr>
         <td style="background: linear-gradient(135deg, #f59e0b, #d97706); padding: 40px 30px; border-radius: 16px 16px 0 0; text-align: center;">
@@ -158,7 +158,7 @@ const emailTemplates = {
   }),
 
   paymentApproved: (userName, planName, levelName, expiryDate) => ({
-    subject: 'Subscription Activated! ✅ Start Practicing Now',
+    subject: "Subscription Activated! ✅ Start Practicing Now",
     html: baseTemplate(`
       <tr>
         <td style="background: linear-gradient(135deg, #22c55e, #16a34a); padding: 40px 30px; border-radius: 16px 16px 0 0; text-align: center;">
@@ -194,7 +194,9 @@ const emailTemplates = {
             </tr>
           </table>
           <div style="text-align: center; margin-top: 30px;">
-            <a href="${process.env.CLIENT_URL}/subjects/${levelName.toLowerCase().replace('ca ', '')}"
+            <a href="${process.env.CLIENT_URL}/subjects/${levelName
+      .toLowerCase()
+      .replace("ca ", "")}"
                style="display: inline-block; background: #22c55e; color: white; padding: 14px 32px;
                       border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 16px;">
               Start Practicing Now 🚀
@@ -206,7 +208,7 @@ const emailTemplates = {
   }),
 
   paymentRejected: (userName, planName, reason) => ({
-    subject: 'Payment Could Not Be Verified ❌',
+    subject: "Payment Could Not Be Verified ❌",
     html: baseTemplate(`
       <tr>
         <td style="background: linear-gradient(135deg, #ef4444, #dc2626); padding: 40px 30px; border-radius: 16px 16px 0 0; text-align: center;">
@@ -221,7 +223,10 @@ const emailTemplates = {
           </p>
           <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 20px; margin: 20px 0;">
             <p style="color: #991b1b; margin: 0; font-size: 14px;">
-              <strong>Reason:</strong> ${reason || 'Payment details could not be verified. Please ensure you provided the correct transaction ID.'}
+              <strong>Reason:</strong> ${
+                reason ||
+                "Payment details could not be verified. Please ensure you provided the correct transaction ID."
+              }
             </p>
           </div>
           <p style="color: #6b7280; line-height: 1.6; margin: 0 0 20px;">
@@ -273,7 +278,11 @@ const sendEmail = async ({ to, subject, html }) => {
     const transporter = createTransporter();
 
     const mailOptions = {
-      from: `"CAPrep" <${process.env.EMAIL_FROM || process.env.EMAIL_USER || 'noreply@caprep.com'}>`,
+      from: `"CaQuest" <${
+        process.env.EMAIL_FROM ||
+        process.env.EMAIL_USER ||
+        "noreply@caquest.com"
+      }>`,
       to,
       subject,
       html,
@@ -283,7 +292,7 @@ const sendEmail = async ({ to, subject, html }) => {
     console.log(`✉️  Email sent to ${to}: ${info.messageId}`);
 
     // In development, log the preview URL (Ethereal)
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== "production") {
       console.log(`   Preview: ${nodemailer.getTestMessageUrl(info)}`);
     }
 

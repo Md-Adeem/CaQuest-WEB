@@ -1,21 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../auth/hooks/useAuth';
-import progressService from '../services/progressService';
-import Loader from '../../../shared/components/Loader';
-import Badge from '../../../shared/components/Badge';
-import { LEVELS } from '../../../shared/utils/constants';
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../../auth/hooks/useAuth";
+import progressService from "../services/progressService";
+import Loader from "../../../shared/components/Loader";
+import Badge from "../../../shared/components/Badge";
+import { LEVELS } from "../../../shared/utils/constants";
 import {
-  HiCheckCircle, HiXCircle, HiClock,
-  HiTrendingUp, HiChartBar, HiBookmark,
-  HiLightningBolt, HiAcademicCap,
-} from 'react-icons/hi';
+  HiCheckCircle,
+  HiXCircle,
+  HiClock,
+  HiTrendingUp,
+  HiChartBar,
+  HiBookmark,
+  HiLightningBolt,
+  HiAcademicCap,
+} from "react-icons/hi";
 
 const ProgressPage = () => {
-  const { user } = useAuth();
+  useAuth();
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [selectedLevel, setSelectedLevel] = useState('');
-  const [activeTab, setActiveTab] = useState('overview');
+  const [selectedLevel, setSelectedLevel] = useState("");
+  const [activeTab, setActiveTab] = useState("overview");
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -23,8 +28,8 @@ const ProgressPage = () => {
         setLoading(true);
         const response = await progressService.getMyStats(selectedLevel);
         setStats(response.data.data);
-      } catch (err) {
-        console.error('Failed to load stats');
+      } catch (error) {
+        console.error("Failed to load stats:", error.message);
       } finally {
         setLoading(false);
       }
@@ -59,11 +64,11 @@ const ProgressPage = () => {
       {/* Level Filter */}
       <div className="flex gap-2 mb-8">
         <button
-          onClick={() => setSelectedLevel('')}
+          onClick={() => setSelectedLevel("")}
           className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
             !selectedLevel
-              ? 'bg-primary-600 text-white'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              ? "bg-primary-600 text-white"
+              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
           }`}
         >
           All Levels
@@ -74,8 +79,8 @@ const ProgressPage = () => {
             onClick={() => setSelectedLevel(level.id)}
             className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
               selectedLevel === level.id
-                ? 'bg-primary-600 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                ? "bg-primary-600 text-white"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >
             {level.icon} {level.name}
@@ -122,10 +127,10 @@ const ProgressPage = () => {
           <p
             className={`text-3xl font-bold ${
               accuracy >= 70
-                ? 'text-green-600'
+                ? "text-green-600"
                 : accuracy >= 50
-                ? 'text-yellow-600'
-                : 'text-red-600'
+                ? "text-yellow-600"
+                : "text-red-600"
             }`}
           >
             {accuracy}%
@@ -142,7 +147,10 @@ const ProgressPage = () => {
         <div className="flex items-center gap-8">
           {/* Circular Progress */}
           <div className="relative w-32 h-32 flex-shrink-0">
-            <svg className="w-32 h-32 transform -rotate-90" viewBox="0 0 120 120">
+            <svg
+              className="w-32 h-32 transform -rotate-90"
+              viewBox="0 0 120 120"
+            >
               <circle
                 cx="60"
                 cy="60"
@@ -157,10 +165,10 @@ const ProgressPage = () => {
                 r="50"
                 stroke={
                   accuracy >= 70
-                    ? '#22c55e'
+                    ? "#22c55e"
                     : accuracy >= 50
-                    ? '#eab308'
-                    : '#ef4444'
+                    ? "#eab308"
+                    : "#ef4444"
                 }
                 strokeWidth="10"
                 fill="none"
@@ -175,73 +183,23 @@ const ProgressPage = () => {
               </span>
             </div>
           </div>
-
-          {/* Difficulty Breakdown */}
-          <div className="flex-1">
-            <h3 className="text-sm font-semibold text-gray-700 mb-3">
-              By Difficulty
-            </h3>
-            <div className="space-y-3">
-              {stats?.difficultyStats?.map((d) => (
-                <div key={d._id} className="flex items-center gap-3">
-                  <Badge
-                    variant={
-                      d._id === 'easy'
-                        ? 'success'
-                        : d._id === 'medium'
-                        ? 'warning'
-                        : 'danger'
-                    }
-                    size="sm"
-                  >
-                    {d._id}
-                  </Badge>
-                  <div className="flex-1">
-                    <div className="flex justify-between text-sm mb-1">
-                      <span className="text-gray-600">
-                        {d.correct}/{d.attempted}
-                      </span>
-                      <span className="font-semibold">{d.accuracy}%</span>
-                    </div>
-                    <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full rounded-full transition-all duration-500 ${
-                          d.accuracy >= 70
-                            ? 'bg-green-500'
-                            : d.accuracy >= 50
-                            ? 'bg-yellow-500'
-                            : 'bg-red-500'
-                        }`}
-                        style={{ width: `${d.accuracy}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-              {(!stats?.difficultyStats || stats.difficultyStats.length === 0) && (
-                <p className="text-sm text-gray-500">
-                  Start practicing to see difficulty breakdown
-                </p>
-              )}
-            </div>
-          </div>
         </div>
       </div>
 
       {/* Tabs */}
       <div className="flex gap-2 mb-6">
         {[
-          { id: 'subjects', label: 'Subject-wise', icon: HiBookmark },
-          { id: 'chapters', label: 'Chapter-wise', icon: HiLightningBolt },
-          { id: 'activity', label: 'Daily Activity', icon: HiClock },
+          { id: "subjects", label: "Subject-wise", icon: HiBookmark },
+          { id: "chapters", label: "Chapter-wise", icon: HiLightningBolt },
+          { id: "activity", label: "Daily Activity", icon: HiClock },
         ].map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
               activeTab === tab.id
-                ? 'bg-primary-600 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                ? "bg-primary-600 text-white"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >
             <tab.icon className="w-4 h-4" />
@@ -251,7 +209,7 @@ const ProgressPage = () => {
       </div>
 
       {/* Subject-wise Stats */}
-      {activeTab === 'subjects' && (
+      {activeTab === "subjects" && (
         <div className="space-y-3">
           {stats?.subjectWise?.length > 0 ? (
             stats.subjectWise.map((s) => (
@@ -260,13 +218,13 @@ const ProgressPage = () => {
                 className="card flex items-center justify-between"
               >
                 <div className="flex items-center gap-4">
-                  <span className="text-2xl">{s.subjectIcon || '📚'}</span>
+                  <span className="text-2xl">{s.subjectIcon || "📚"}</span>
                   <div>
                     <p className="font-semibold text-gray-900">
                       {s.subjectName}
                     </p>
                     <p className="text-xs text-gray-500">
-                      {s.attempted} of {s.totalQuestions || '?'} questions
+                      {s.attempted} of {s.totalQuestions || "?"} questions
                       attempted
                     </p>
                   </div>
@@ -282,10 +240,10 @@ const ProgressPage = () => {
                       <span
                         className={`font-bold ${
                           s.accuracy >= 70
-                            ? 'text-green-600'
+                            ? "text-green-600"
                             : s.accuracy >= 50
-                            ? 'text-yellow-600'
-                            : 'text-red-600'
+                            ? "text-yellow-600"
+                            : "text-red-600"
                         }`}
                       >
                         {s.accuracy}%
@@ -295,10 +253,10 @@ const ProgressPage = () => {
                       <div
                         className={`h-full rounded-full ${
                           s.accuracy >= 70
-                            ? 'bg-green-500'
+                            ? "bg-green-500"
                             : s.accuracy >= 50
-                            ? 'bg-yellow-500'
-                            : 'bg-red-500'
+                            ? "bg-yellow-500"
+                            : "bg-red-500"
                         }`}
                         style={{ width: `${s.accuracy}%` }}
                       ></div>
@@ -317,7 +275,7 @@ const ProgressPage = () => {
       )}
 
       {/* Chapter-wise Stats */}
-      {activeTab === 'chapters' && (
+      {activeTab === "chapters" && (
         <div className="space-y-2">
           {stats?.chapterWise?.length > 0 ? (
             stats.chapterWise.map((c) => (
@@ -343,10 +301,10 @@ const ProgressPage = () => {
                     <div
                       className={`h-full rounded-full ${
                         c.accuracy >= 70
-                          ? 'bg-green-500'
+                          ? "bg-green-500"
                           : c.accuracy >= 50
-                          ? 'bg-yellow-500'
-                          : 'bg-red-500'
+                          ? "bg-yellow-500"
+                          : "bg-red-500"
                       }`}
                       style={{ width: `${c.accuracy}%` }}
                     ></div>
@@ -354,10 +312,10 @@ const ProgressPage = () => {
                   <span
                     className={`text-sm font-bold w-12 text-right ${
                       c.accuracy >= 70
-                        ? 'text-green-600'
+                        ? "text-green-600"
                         : c.accuracy >= 50
-                        ? 'text-yellow-600'
-                        : 'text-red-600'
+                        ? "text-yellow-600"
+                        : "text-red-600"
                     }`}
                   >
                     {c.accuracy}%
@@ -375,7 +333,7 @@ const ProgressPage = () => {
       )}
 
       {/* Daily Activity */}
-      {activeTab === 'activity' && (
+      {activeTab === "activity" && (
         <div className="card">
           <h3 className="text-lg font-bold text-gray-900 mb-4">
             Last 30 Days Activity
@@ -388,9 +346,9 @@ const ProgressPage = () => {
                   className="flex items-center gap-4 py-2 border-b border-gray-50"
                 >
                   <span className="text-sm text-gray-500 w-24 font-mono">
-                    {new Date(day._id).toLocaleDateString('en-IN', {
-                      month: 'short',
-                      day: 'numeric',
+                    {new Date(day._id).toLocaleDateString("en-IN", {
+                      month: "short",
+                      day: "numeric",
                     })}
                   </span>
                   <div className="flex-1">
@@ -406,7 +364,7 @@ const ProgressPage = () => {
                               100,
                             100
                           )}%`,
-                          minWidth: '20px',
+                          minWidth: "20px",
                         }}
                       ></div>
                       <span className="text-sm text-gray-600">

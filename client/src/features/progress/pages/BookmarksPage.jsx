@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import progressService from '../services/progressService';
-import Loader from '../../../shared/components/Loader';
-import Badge from '../../../shared/components/Badge';
-import EmptyState from '../../../shared/components/EmptyState';
-import { LEVELS } from '../../../shared/utils/constants';
-import { formatDate } from '../../../shared/utils/helpers';
-import { HiBookmark, HiTrash, HiArrowRight } from 'react-icons/hi';
-import toast from 'react-hot-toast';
+import React, { useState, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
+import progressService from "../services/progressService";
+import Loader from "../../../shared/components/Loader";
+import Badge from "../../../shared/components/Badge";
+import EmptyState from "../../../shared/components/EmptyState";
+import { LEVELS } from "../../../shared/utils/constants";
+import { formatDate } from "../../../shared/utils/helpers";
+import { HiBookmark, HiTrash, HiArrowRight } from "react-icons/hi";
+import toast from "react-hot-toast";
 
 const BookmarksPage = () => {
   const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedLevel, setSelectedLevel] = useState('');
+  const [selectedLevel, setSelectedLevel] = useState("");
   const [showAnswers, setShowAnswers] = useState({});
 
-  const fetchBookmarks = async () => {
+  const fetchBookmarks = useCallback(async () => {
     try {
       setLoading(true);
       const params = {};
@@ -24,37 +24,31 @@ const BookmarksPage = () => {
 
       const response = await progressService.getBookmarks(params);
       setBookmarks(response.data.data);
-    } catch (err) {
-      toast.error('Failed to load bookmarks');
+    } catch (error) {
+      console.error("Failed to load bookmarks:", error);
+      toast.error("Failed to load bookmarks");
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedLevel]);
 
   useEffect(() => {
     fetchBookmarks();
-  }, [selectedLevel]);
+  }, [fetchBookmarks]);
 
   const handleRemoveBookmark = async (questionId) => {
     try {
       await progressService.toggleBookmark(questionId);
-      setBookmarks((prev) =>
-        prev.filter((b) => b.question._id !== questionId)
-      );
-      toast.success('Bookmark removed');
-    } catch (err) {
-      toast.error('Failed to remove bookmark');
+      setBookmarks((prev) => prev.filter((b) => b.question._id !== questionId));
+      toast.success("Bookmark removed");
+    } catch (error) {
+      console.error("Failed to remove bookmark:", error);
+      toast.error("Failed to remove bookmark");
     }
   };
 
   const toggleAnswer = (id) => {
     setShowAnswers((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
-
-  const difficultyVariant = {
-    easy: 'success',
-    medium: 'warning',
-    hard: 'danger',
   };
 
   return (
@@ -78,11 +72,11 @@ const BookmarksPage = () => {
       {/* Level Filter */}
       <div className="flex gap-2 mb-6">
         <button
-          onClick={() => setSelectedLevel('')}
+          onClick={() => setSelectedLevel("")}
           className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
             !selectedLevel
-              ? 'bg-primary-600 text-white'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              ? "bg-primary-600 text-white"
+              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
           }`}
         >
           All
@@ -93,8 +87,8 @@ const BookmarksPage = () => {
             onClick={() => setSelectedLevel(level.id)}
             className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
               selectedLevel === level.id
-                ? 'bg-primary-600 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                ? "bg-primary-600 text-white"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >
             {level.icon} {level.name}
@@ -130,15 +124,12 @@ const BookmarksPage = () => {
                     <span>{bookmark.subject?.icon}</span>
                     <span>{bookmark.subject?.name}</span>
                     <span>•</span>
-                    <span>Ch {bookmark.chapter?.chapterNumber}: {bookmark.chapter?.name}</span>
+                    <span>
+                      Ch {bookmark.chapter?.chapterNumber}:{" "}
+                      {bookmark.chapter?.name}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Badge
-                      variant={difficultyVariant[q.difficulty]}
-                      size="sm"
-                    >
-                      {q.difficulty}
-                    </Badge>
                     <button
                       onClick={() => handleRemoveBookmark(q._id)}
                       className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
@@ -154,21 +145,80 @@ const BookmarksPage = () => {
                   {q.questionText}
                 </p>
 
-                {/* Options */}
-                <div className="space-y-2 mb-3">
-                  {q.options?.map((opt, i) => (
-                    <div
-                      key={i}
-                      className={`px-3 py-2 rounded-lg text-sm ${
-                        showAnswers[bookmark._id] && i === q.correctAnswer
-                          ? 'bg-green-100 text-green-700 font-medium'
-                          : 'bg-gray-50 text-gray-600'
-                      }`}
+                {/* Question Type Badge and Content */}
+                <div className="mb-3">
+                  <div className="inline-flex items-center gap-2 mb-3">
+                    <Badge
+                      variant={
+                        q.type === "SUBJECTIVE" ? "secondary" : "primary"
+                      }
+                      size="sm"
                     >
-                      {String.fromCharCode(65 + i)}: {opt}
-                      {showAnswers[bookmark._id] && i === q.correctAnswer && ' ✓'}
+                      {q.type === "SUBJECTIVE" ? "Subjective" : "MCQ"}
+                    </Badge>
+                    {q.paperType && (
+                      <span
+                        className={`text-xs px-2 py-1 rounded-full ${
+                          q.paperType === "RTP"
+                            ? "bg-blue-100 text-blue-800"
+                            : q.paperType === "MTP"
+                            ? "bg-green-100 text-green-800"
+                            : q.paperType === "PYQS"
+                            ? "bg-purple-100 text-purple-800"
+                            : "bg-orange-100 text-orange-800"
+                        }`}
+                      >
+                        {q.paperType}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Options for MCQ */}
+                  {q.type === "MCQ" && q.options?.length > 0 && (
+                    <div className="space-y-2">
+                      {q.options.map((opt, i) => (
+                        <div
+                          key={i}
+                          className={`px-3 py-2 rounded-lg text-sm ${
+                            showAnswers[bookmark._id] && i === q.correctAnswer
+                              ? "bg-green-100 text-green-700 font-medium"
+                              : "bg-gray-50 text-gray-600"
+                          }`}
+                        >
+                          {String.fromCharCode(65 + i)}: {opt}
+                          {showAnswers[bookmark._id] &&
+                            i === q.correctAnswer &&
+                            " ✓"}
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  )}
+
+                  {/* Model Answer for Subjective */}
+                  {q.type === "SUBJECTIVE" && q.modelAnswer && (
+                    <div className="mt-2">
+                      {showAnswers[bookmark._id] ? (
+                        <div className="p-3 bg-gray-50 rounded-lg">
+                          <p className="text-sm font-medium text-gray-700 mb-2">
+                            Model Answer:
+                          </p>
+                          <div className="prose prose-sm max-w-none">
+                            {q.modelAnswer.split("\n").map((line, index) => (
+                              <p key={index} className="mb-1 text-gray-600">
+                                {line}
+                              </p>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="p-3 bg-gray-50 rounded-lg text-center">
+                          <p className="text-sm text-gray-500 italic">
+                            Model answer available - click "Show Answer" to view
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {/* Actions */}
@@ -177,7 +227,7 @@ const BookmarksPage = () => {
                     onClick={() => toggleAnswer(bookmark._id)}
                     className="text-sm text-primary-600 hover:text-primary-700 font-medium"
                   >
-                    {showAnswers[bookmark._id] ? 'Hide Answer' : 'Show Answer'}
+                    {showAnswers[bookmark._id] ? "Hide Answer" : "Show Answer"}
                   </button>
                   <div className="flex items-center gap-3">
                     <span className="text-xs text-gray-400">
@@ -196,7 +246,9 @@ const BookmarksPage = () => {
                 {showAnswers[bookmark._id] && q.explanation && (
                   <div className="mt-3 p-3 bg-blue-50 rounded-lg">
                     <p className="text-xs font-semibold text-blue-700 mb-1">
-                      Explanation:
+                      {q.type === "SUBJECTIVE"
+                        ? "Additional Notes:"
+                        : "Explanation:"}
                     </p>
                     <p className="text-xs text-blue-600">{q.explanation}</p>
                   </div>

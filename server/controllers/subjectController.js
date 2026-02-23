@@ -1,6 +1,6 @@
-const Subject = require('../models/Subject');
-const Chapter = require('../models/Chapter');
-const Question = require('../models/Question');
+const Subject = require("../models/Subject");
+const Chapter = require("../models/Chapter");
+const Question = require("../models/Question");
 
 // @desc    Get subjects by level
 // @route   GET /api/subjects?level=foundation
@@ -13,27 +13,50 @@ const getSubjects = async (req, res, next) => {
     if (level) filter.level = level;
     if (search) {
       filter.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { code: { $regex: search, $options: 'i' } },
+        { name: { $regex: search, $options: "i" } },
+        { code: { $regex: search, $options: "i" } },
       ];
     }
 
     const skip = (page - 1) * limit;
 
+    // Get subjects first
     const subjects = await Subject.find(filter)
       .sort({ order: 1 })
       .skip(skip)
       .limit(parseInt(limit));
 
+    // Dynamically calculate chapter counts for each subject
+    const subjectsWithCounts = await Promise.all(
+      subjects.map(async (subject) => {
+        const chapterCount = await Chapter.countDocuments({
+          subject: subject._id,
+          isActive: true,
+        });
+
+        // Update the subject's totalChapters field
+        if (subject.totalChapters !== chapterCount) {
+          await Subject.findByIdAndUpdate(subject._id, {
+            totalChapters: chapterCount,
+          });
+        }
+
+        return {
+          ...subject.toObject(),
+          totalChapters: chapterCount,
+        };
+      })
+    );
+
     const total = await Subject.countDocuments(filter);
 
     res.json({
       success: true,
-      count: subjects.length,
+      count: subjectsWithCounts.length,
       total,
       totalPages: Math.ceil(total / limit),
       currentPage: parseInt(page),
-      data: subjects,
+      data: subjectsWithCounts,
     });
   } catch (error) {
     next(error);
@@ -51,10 +74,32 @@ const getAllSubjects = async (req, res, next) => {
 
     const subjects = await Subject.find(filter).sort({ level: 1, order: 1 });
 
+    // Dynamically calculate chapter counts for each subject
+    const subjectsWithCounts = await Promise.all(
+      subjects.map(async (subject) => {
+        const chapterCount = await Chapter.countDocuments({
+          subject: subject._id,
+          isActive: true,
+        });
+
+        // Update the subject's totalChapters field
+        if (subject.totalChapters !== chapterCount) {
+          await Subject.findByIdAndUpdate(subject._id, {
+            totalChapters: chapterCount,
+          });
+        }
+
+        return {
+          ...subject.toObject(),
+          totalChapters: chapterCount,
+        };
+      })
+    );
+
     res.json({
       success: true,
-      count: subjects.length,
-      data: subjects,
+      count: subjectsWithCounts.length,
+      data: subjectsWithCounts,
     });
   } catch (error) {
     next(error);
@@ -71,7 +116,7 @@ const getSubject = async (req, res, next) => {
     if (!subject) {
       return res.status(404).json({
         success: false,
-        message: 'Subject not found',
+        message: "Subject not found",
       });
     }
 
@@ -101,15 +146,14 @@ const createSubject = async (req, res, next) => {
     if (existing) {
       return res.status(400).json({
         success: false,
-        message: 'A subject with this code already exists',
+        message: "A subject with this code already exists",
       });
     }
 
     // Auto-calculate order if not provided
     let subjectOrder = order;
     if (!subjectOrder) {
-      const lastSubject = await Subject.findOne({ level })
-        .sort({ order: -1 });
+      const lastSubject = await Subject.findOne({ level }).sort({ order: -1 });
       subjectOrder = lastSubject ? lastSubject.order + 1 : 1;
     }
 
@@ -119,7 +163,7 @@ const createSubject = async (req, res, next) => {
       level,
       description,
       order: subjectOrder,
-      icon: icon || '📚',
+      icon: icon || "📚",
     });
 
     res.status(201).json({
@@ -136,16 +180,15 @@ const createSubject = async (req, res, next) => {
 // @access  Admin
 const updateSubject = async (req, res, next) => {
   try {
-    const subject = await Subject.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true, runValidators: true }
-    );
+    const subject = await Subject.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!subject) {
       return res.status(404).json({
         success: false,
-        message: 'Subject not found',
+        message: "Subject not found",
       });
     }
 
@@ -168,7 +211,7 @@ const deleteSubject = async (req, res, next) => {
     if (!subject) {
       return res.status(404).json({
         success: false,
-        message: 'Subject not found',
+        message: "Subject not found",
       });
     }
 
@@ -179,7 +222,7 @@ const deleteSubject = async (req, res, next) => {
 
     res.json({
       success: true,
-      message: 'Subject and related chapters/questions deactivated',
+      message: "Subject and related chapters/questions deactivated",
     });
   } catch (error) {
     next(error);
@@ -204,7 +247,7 @@ const reorderSubjects = async (req, res, next) => {
 
     res.json({
       success: true,
-      message: 'Subjects reordered successfully',
+      message: "Subjects reordered successfully",
     });
   } catch (error) {
     next(error);

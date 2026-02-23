@@ -1,6 +1,6 @@
-const Progress = require('../models/Progress');
-const Bookmark = require('../models/Bookmark');
-const Question = require('../models/Question');
+const Progress = require("../models/Progress");
+const Bookmark = require("../models/Bookmark");
+const Question = require("../models/Question");
 
 // @desc    Save a question attempt
 // @route   POST /api/progress/attempt
@@ -29,7 +29,7 @@ const saveAttempt = async (req, res, next) => {
       existingAttempt.isCorrect = isCorrect;
       existingAttempt.timeTaken = timeTaken || existingAttempt.timeTaken;
       existingAttempt.attemptNumber += 1;
-      existingAttempt.mode = mode || 'practice';
+      existingAttempt.mode = mode || "practice";
       await existingAttempt.save();
 
       return res.json({ success: true, data: existingAttempt });
@@ -44,7 +44,7 @@ const saveAttempt = async (req, res, next) => {
       chapter,
       subject,
       level,
-      mode: mode || 'practice',
+      mode: mode || "practice",
     });
 
     res.status(201).json({ success: true, data: progress });
@@ -72,7 +72,7 @@ const saveQuizResults = async (req, res, next) => {
             chapter,
             subject,
             level,
-            mode: 'quiz',
+            mode: "quiz",
           },
           $inc: { attemptNumber: 1 },
           $setOnInsert: {
@@ -111,22 +111,22 @@ const getMyStats = async (req, res, next) => {
         $group: {
           _id: null,
           totalAttempted: { $sum: 1 },
-          totalCorrect: { $sum: { $cond: ['$isCorrect', 1, 0] } },
-          totalWrong: { $sum: { $cond: ['$isCorrect', 0, 1] } },
-          avgTimeTaken: { $avg: '$timeTaken' },
-          totalAttempts: { $sum: '$attemptNumber' },
+          totalCorrect: { $sum: { $cond: ["$isCorrect", 1, 0] } },
+          totalWrong: { $sum: { $cond: ["$isCorrect", 0, 1] } },
+          avgTimeTaken: { $avg: "$timeTaken" },
+          totalAttempts: { $sum: "$attemptNumber" },
         },
       },
       {
         $addFields: {
           accuracy: {
             $cond: [
-              { $gt: ['$totalAttempted', 0] },
+              { $gt: ["$totalAttempted", 0] },
               {
                 $round: [
                   {
                     $multiply: [
-                      { $divide: ['$totalCorrect', '$totalAttempted'] },
+                      { $divide: ["$totalCorrect", "$totalAttempted"] },
                       100,
                     ],
                   },
@@ -145,31 +145,31 @@ const getMyStats = async (req, res, next) => {
       { $match: match },
       {
         $group: {
-          _id: '$subject',
+          _id: "$subject",
           attempted: { $sum: 1 },
-          correct: { $sum: { $cond: ['$isCorrect', 1, 0] } },
+          correct: { $sum: { $cond: ["$isCorrect", 1, 0] } },
         },
       },
       {
         $lookup: {
-          from: 'subjects',
-          localField: '_id',
-          foreignField: '_id',
-          as: 'subjectInfo',
+          from: "subjects",
+          localField: "_id",
+          foreignField: "_id",
+          as: "subjectInfo",
         },
       },
-      { $unwind: '$subjectInfo' },
+      { $unwind: "$subjectInfo" },
       {
         $project: {
-          subjectName: '$subjectInfo.name',
-          subjectCode: '$subjectInfo.code',
-          subjectIcon: '$subjectInfo.icon',
+          subjectName: "$subjectInfo.name",
+          subjectCode: "$subjectInfo.code",
+          subjectIcon: "$subjectInfo.icon",
           attempted: 1,
           correct: 1,
-          totalQuestions: '$subjectInfo.totalQuestions',
+          totalQuestions: "$subjectInfo.totalQuestions",
           accuracy: {
             $round: [
-              { $multiply: [{ $divide: ['$correct', '$attempted'] }, 100] },
+              { $multiply: [{ $divide: ["$correct", "$attempted"] }, 100] },
               1,
             ],
           },
@@ -183,31 +183,31 @@ const getMyStats = async (req, res, next) => {
       { $match: match },
       {
         $group: {
-          _id: '$chapter',
+          _id: "$chapter",
           attempted: { $sum: 1 },
-          correct: { $sum: { $cond: ['$isCorrect', 1, 0] } },
+          correct: { $sum: { $cond: ["$isCorrect", 1, 0] } },
         },
       },
       {
         $lookup: {
-          from: 'chapters',
-          localField: '_id',
-          foreignField: '_id',
-          as: 'chapterInfo',
+          from: "chapters",
+          localField: "_id",
+          foreignField: "_id",
+          as: "chapterInfo",
         },
       },
-      { $unwind: '$chapterInfo' },
+      { $unwind: "$chapterInfo" },
       {
         $project: {
-          chapterName: '$chapterInfo.name',
-          chapterNumber: '$chapterInfo.chapterNumber',
-          subject: '$chapterInfo.subject',
+          chapterName: "$chapterInfo.name",
+          chapterNumber: "$chapterInfo.chapterNumber",
+          subject: "$chapterInfo.subject",
           attempted: 1,
           correct: 1,
-          totalQuestions: '$chapterInfo.totalQuestions',
+          totalQuestions: "$chapterInfo.totalQuestions",
           accuracy: {
             $round: [
-              { $multiply: [{ $divide: ['$correct', '$attempted'] }, 100] },
+              { $multiply: [{ $divide: ["$correct", "$attempted"] }, 100] },
               1,
             ],
           },
@@ -230,48 +230,16 @@ const getMyStats = async (req, res, next) => {
       {
         $group: {
           _id: {
-            $dateToString: { format: '%Y-%m-%d', date: '$createdAt' },
+            $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
           },
           count: { $sum: 1 },
-          correct: { $sum: { $cond: ['$isCorrect', 1, 0] } },
+          correct: { $sum: { $cond: ["$isCorrect", 1, 0] } },
         },
       },
       { $sort: { _id: 1 } },
     ]);
 
     // Difficulty breakdown
-    const difficultyStats = await Progress.aggregate([
-      { $match: match },
-      {
-        $lookup: {
-          from: 'questions',
-          localField: 'question',
-          foreignField: '_id',
-          as: 'questionInfo',
-        },
-      },
-      { $unwind: '$questionInfo' },
-      {
-        $group: {
-          _id: '$questionInfo.difficulty',
-          attempted: { $sum: 1 },
-          correct: { $sum: { $cond: ['$isCorrect', 1, 0] } },
-        },
-      },
-      {
-        $project: {
-          difficulty: '$_id',
-          attempted: 1,
-          correct: 1,
-          accuracy: {
-            $round: [
-              { $multiply: [{ $divide: ['$correct', '$attempted'] }, 100] },
-              1,
-            ],
-          },
-        },
-      },
-    ]);
 
     res.json({
       success: true,
@@ -286,7 +254,6 @@ const getMyStats = async (req, res, next) => {
         subjectWise,
         chapterWise,
         dailyActivity,
-        difficultyStats,
       },
     });
   } catch (error) {
@@ -304,7 +271,7 @@ const getChapterProgress = async (req, res, next) => {
     const attemptedQuestions = await Progress.find({
       user: req.user._id,
       chapter: chapterId,
-    }).select('question isCorrect selectedAnswer attemptNumber');
+    }).select("question isCorrect selectedAnswer attemptNumber");
 
     const attemptedMap = {};
     attemptedQuestions.forEach((p) => {
@@ -341,7 +308,7 @@ const toggleBookmark = async (req, res, next) => {
     if (!question) {
       return res.status(404).json({
         success: false,
-        message: 'Question not found',
+        message: "Question not found",
       });
     }
 
@@ -355,7 +322,7 @@ const toggleBookmark = async (req, res, next) => {
       return res.json({
         success: true,
         bookmarked: false,
-        message: 'Bookmark removed',
+        message: "Bookmark removed",
       });
     }
 
@@ -365,13 +332,13 @@ const toggleBookmark = async (req, res, next) => {
       chapter: question.chapter,
       subject: question.subject,
       level: question.level,
-      note: note || '',
+      note: note || "",
     });
 
     res.status(201).json({
       success: true,
       bookmarked: true,
-      message: 'Question bookmarked',
+      message: "Question bookmarked",
     });
   } catch (error) {
     next(error);
@@ -394,11 +361,12 @@ const getBookmarks = async (req, res, next) => {
 
     const bookmarks = await Bookmark.find(filter)
       .populate({
-        path: 'question',
-        select: 'questionText options correctAnswer explanation difficulty marks',
+        path: "question",
+        select:
+          "questionText options correctAnswer explanation type modelAnswer paperType",
       })
-      .populate('chapter', 'name chapterNumber')
-      .populate('subject', 'name code icon')
+      .populate("chapter", "name chapterNumber")
+      .populate("subject", "name code icon")
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(parseInt(limit));
@@ -425,13 +393,34 @@ const checkBookmarks = async (req, res, next) => {
     const bookmarks = await Bookmark.find({
       user: req.user._id,
       chapter: req.params.chapterId,
-    }).select('question');
+    }).select("question");
 
     const bookmarkedIds = bookmarks.map((b) => b.question.toString());
 
     res.json({
       success: true,
       data: bookmarkedIds,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Check if a specific question is bookmarked
+// @route   GET /api/progress/bookmarks/check-question/:questionId
+// @access  Private
+const checkSingleBookmark = async (req, res, next) => {
+  try {
+    const bookmark = await Bookmark.findOne({
+      user: req.user._id,
+      question: req.params.questionId,
+    });
+
+    res.json({
+      success: true,
+      data: {
+        isBookmarked: !!bookmark,
+      },
     });
   } catch (error) {
     next(error);
@@ -446,4 +435,5 @@ module.exports = {
   toggleBookmark,
   getBookmarks,
   checkBookmarks,
+  checkSingleBookmark,
 };

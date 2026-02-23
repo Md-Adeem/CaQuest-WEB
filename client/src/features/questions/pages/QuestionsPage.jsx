@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useQuestions } from "../hooks/useQuestions";
 import QuestionList from "../components/QuestionList";
-import QuestionFilter from "../components/QuestionFilter";
 import SubscriptionGate from "../components/SubscriptionGate";
 import Loader from "../../../shared/components/Loader";
 import { HiArrowLeft } from "react-icons/hi";
@@ -17,11 +16,11 @@ const QuestionsPage = () => {
     pagination,
     fetchQuestions,
   } = useQuestions(chapterId);
-  const [difficulty, setDifficulty] = useState(null);
+  const [paperType, setPaperType] = useState("");
 
-  const handleFilterChange = (diff) => {
-    setDifficulty(diff);
-    fetchQuestions({ difficulty: diff });
+  const handlePaperTypeChange = (type) => {
+    setPaperType(type);
+    fetchQuestions({ paperType: type || undefined });
   };
 
   if (loading) {
@@ -77,12 +76,62 @@ const QuestionsPage = () => {
         )}
       </div>
 
-      {/* Filter */}
-      <QuestionFilter
-        selectedDifficulty={difficulty}
-        onFilterChange={handleFilterChange}
-        total={pagination.total}
-      />
+      {/* Paper Type Filter */}
+      <div className="flex flex-wrap items-center gap-2 mb-6 p-3 bg-gray-50 rounded-lg">
+        <span className="text-sm font-medium text-gray-700 mr-2">
+          Filter by:
+        </span>
+        <button
+          onClick={() => handlePaperTypeChange("")}
+          className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
+            !paperType
+              ? "bg-primary-600 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+          }`}
+        >
+          All
+        </button>
+        <button
+          onClick={() => handlePaperTypeChange("RTP")}
+          className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
+            paperType === "RTP"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+          }`}
+        >
+          RTP
+        </button>
+        <button
+          onClick={() => handlePaperTypeChange("MTP")}
+          className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
+            paperType === "MTP"
+              ? "bg-green-600 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+          }`}
+        >
+          MTP
+        </button>
+        <button
+          onClick={() => handlePaperTypeChange("PYQS")}
+          className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
+            paperType === "PYQS"
+              ? "bg-purple-600 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+          }`}
+        >
+          PYQS
+        </button>
+        <button
+          onClick={() => handlePaperTypeChange("Practice")}
+          className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
+            paperType === "Practice"
+              ? "bg-orange-600 text-white"
+              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+          }`}
+        >
+          Practice
+        </button>
+      </div>
 
       {/* Questions */}
       <QuestionList questions={questions} />
@@ -93,7 +142,12 @@ const QuestionsPage = () => {
           {Array.from({ length: pagination.totalPages }, (_, i) => (
             <button
               key={i}
-              onClick={() => fetchQuestions({ page: i + 1, difficulty })}
+              onClick={() =>
+                fetchQuestions({
+                  page: i + 1,
+                  paperType: paperType || undefined,
+                })
+              }
               className={`w-10 h-10 rounded-lg text-sm font-medium transition-colors ${
                 pagination.currentPage === i + 1
                   ? "bg-primary-600 text-white"

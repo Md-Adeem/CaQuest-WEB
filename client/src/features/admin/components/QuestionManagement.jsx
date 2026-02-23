@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import adminService from '../services/adminService';
-import subjectService from '../../subjects/services/subjectService';
-import Badge from '../../../shared/components/Badge';
-import Loader from '../../../shared/components/Loader';
-import Modal from '../../../shared/components/Modal';
-import { LEVELS } from '../../../shared/utils/constants';
-import { HiPencil, HiTrash, HiSearch } from 'react-icons/hi';
-import toast from 'react-hot-toast';
+import React, { useState, useEffect } from "react";
+import adminService from "../services/adminService";
+import subjectService from "../../subjects/services/subjectService";
+import Badge from "../../../shared/components/Badge";
+import Loader from "../../../shared/components/Loader";
+import Modal from "../../../shared/components/Modal";
+import { LEVELS } from "../../../shared/utils/constants";
+import { HiPencil, HiTrash, HiSearch } from "react-icons/hi";
+import toast from "react-hot-toast";
 
 const QuestionManagement = () => {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [selectedLevel, setSelectedLevel] = useState('');
+  const [selectedLevel, setSelectedLevel] = useState("");
   const [subjects, setSubjects] = useState([]);
-  const [selectedSubject, setSelectedSubject] = useState('');
+  const [selectedSubject, setSelectedSubject] = useState("");
   const [chapters, setChapters] = useState([]);
-  const [selectedChapter, setSelectedChapter] = useState('');
+  const [selectedChapter, setSelectedChapter] = useState("");
   const [deleteModal, setDeleteModal] = useState({ open: false, id: null });
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const QuestionManagement = () => {
       });
       setQuestions(response.data.data);
     } catch (err) {
-      toast.error('Failed to load questions');
+      toast.error("Failed to load questions");
     } finally {
       setLoading(false);
     }
@@ -59,18 +59,18 @@ const QuestionManagement = () => {
   const handleDelete = async (id) => {
     try {
       await adminService.deleteQuestion(id);
-      toast.success('Question deleted');
+      toast.success("Question deleted");
       setDeleteModal({ open: false, id: null });
       fetchQuestions();
     } catch (err) {
-      toast.error('Failed to delete question');
+      toast.error("Failed to delete question");
     }
   };
 
   const difficultyVariant = {
-    easy: 'success',
-    medium: 'warning',
-    hard: 'danger',
+    easy: "success",
+    medium: "warning",
+    hard: "danger",
   };
 
   return (
@@ -81,8 +81,8 @@ const QuestionManagement = () => {
           value={selectedLevel}
           onChange={(e) => {
             setSelectedLevel(e.target.value);
-            setSelectedSubject('');
-            setSelectedChapter('');
+            setSelectedSubject("");
+            setSelectedChapter("");
             setQuestions([]);
           }}
           className="input-field"
@@ -99,7 +99,7 @@ const QuestionManagement = () => {
           value={selectedSubject}
           onChange={(e) => {
             setSelectedSubject(e.target.value);
-            setSelectedChapter('');
+            setSelectedChapter("");
             setQuestions([]);
           }}
           className="input-field"
@@ -143,9 +143,6 @@ const QuestionManagement = () => {
                   <span className="text-xs font-bold text-gray-400">
                     Q{index + 1}
                   </span>
-                  <Badge variant={difficultyVariant[q.difficulty]} size="sm">
-                    {q.difficulty}
-                  </Badge>
                 </div>
                 <p className="text-sm text-gray-900 font-medium">
                   {q.questionText}
@@ -156,8 +153,8 @@ const QuestionManagement = () => {
                       key={i}
                       className={`text-xs px-2 py-1 rounded ${
                         i === q.correctAnswer
-                          ? 'bg-green-100 text-green-700 font-bold'
-                          : 'bg-gray-200 text-gray-600'
+                          ? "bg-green-100 text-green-700 font-bold"
+                          : "bg-gray-200 text-gray-600"
                       }`}
                     >
                       {String.fromCharCode(65 + i)}: {opt}

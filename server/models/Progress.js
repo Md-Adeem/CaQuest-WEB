@@ -1,31 +1,31 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const progressSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
       index: true,
     },
     question: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Question',
+      ref: "Question",
       required: true,
     },
     chapter: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Chapter',
+      ref: "Chapter",
       required: true,
     },
     subject: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Subject',
+      ref: "Subject",
       required: true,
     },
     level: {
       type: String,
-      enum: ['foundation', 'intermediate', 'final'],
+      enum: ["foundation", "intermediate", "final"],
       required: true,
     },
     selectedAnswer: {
@@ -49,8 +49,8 @@ const progressSchema = new mongoose.Schema(
     },
     mode: {
       type: String,
-      enum: ['practice', 'quiz'],
-      default: 'practice',
+      enum: ["practice", "quiz"],
+      default: "practice",
     },
   },
   {
@@ -63,4 +63,4 @@ progressSchema.index({ user: 1, chapter: 1 });
 progressSchema.index({ user: 1, subject: 1 });
 progressSchema.index({ user: 1, level: 1, createdAt: -1 });
 
-module.exports = mongoose.model('Progress', progressSchema);
+module.exports = mongoose.model("Progress", progressSchema);

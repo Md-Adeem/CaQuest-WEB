@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-import RegisterForm from '../components/RegisterForm';
-import { HiAcademicCap } from 'react-icons/hi';
-import toast from 'react-hot-toast';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import RegisterForm from "../components/RegisterForm";
+import { HiAcademicCap } from "react-icons/hi";
+import toast from "react-hot-toast";
 
 const RegisterPage = () => {
   const { register } = useAuth();
@@ -14,11 +14,12 @@ const RegisterPage = () => {
     try {
       setLoading(true);
       const user = await register(formData);
-      toast.success('Account created successfully!');
-      navigate('/dashboard');
+      toast.success("Account created successfully!");
+      navigate("/dashboard");
     } catch (error) {
       toast.error(
-        error.response?.data?.message || 'Registration failed. Please try again.'
+        error.response?.data?.message ||
+          "Registration failed. Please try again."
       );
     } finally {
       setLoading(false);
@@ -34,7 +35,7 @@ const RegisterPage = () => {
             <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
               <HiAcademicCap className="w-8 h-8" />
             </div>
-            <span className="text-3xl font-bold">CAPrep</span>
+            <span className="text-3xl font-bold">CaQuest</span>
           </div>
           <h1 className="text-4xl font-bold mb-4">
             Start Your CA Journey Today

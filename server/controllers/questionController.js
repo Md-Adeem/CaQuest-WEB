@@ -1,19 +1,19 @@
-const Question = require('../models/Question');
-const Chapter = require('../models/Chapter');
-const Subject = require('../models/Subject');
-const User = require('../models/User');
+const Question = require("../models/Question");
+const Chapter = require("../models/Chapter");
+const Subject = require("../models/Subject");
+const User = require("../models/User");
 
 // @desc    Get questions by chapter (requires subscription)
 // @route   GET /api/questions?chapter=chapterId
 // @access  Private (Subscribed)
 const getQuestions = async (req, res, next) => {
   try {
-    const { chapter, difficulty, page = 1, limit = 20 } = req.query;
+    const { chapter, page = 1, limit = 20, paperType } = req.query;
 
     if (!chapter) {
       return res.status(400).json({
         success: false,
-        message: 'Chapter ID is required',
+        message: "Chapter ID is required",
       });
     }
 
@@ -22,24 +22,27 @@ const getQuestions = async (req, res, next) => {
     if (!chapterDoc) {
       return res.status(404).json({
         success: false,
-        message: 'Chapter not found',
+        message: "Chapter not found",
       });
     }
 
     // Check if user has active subscription for this level
     const user = await User.findById(req.user._id);
-    if (!user.hasActiveSubscription(chapterDoc.level) && user.role !== 'admin') {
+    if (
+      !user.hasActiveSubscription(chapterDoc.level) &&
+      user.role !== "admin"
+    ) {
       return res.status(403).json({
         success: false,
-        message: 'Active subscription required to access questions',
+        message: "Active subscription required to access questions",
         requiresSubscription: true,
         level: chapterDoc.level,
       });
     }
 
     const filter = { chapter, isActive: true };
-    if (difficulty) {
-      filter.difficulty = difficulty;
+    if (paperType) {
+      filter.paperType = paperType;
     }
 
     const skip = (page - 1) * limit;
@@ -70,18 +73,20 @@ const getQuestions = async (req, res, next) => {
 const checkAccess = async (req, res, next) => {
   try {
     // ✅ Populate subject
-    const chapter = await Chapter.findById(req.params.chapterId).populate('subject');
+    const chapter = await Chapter.findById(req.params.chapterId).populate(
+      "subject"
+    );
 
     if (!chapter) {
       return res.status(404).json({
         success: false,
-        message: 'Chapter not found',
+        message: "Chapter not found",
       });
     }
 
     const user = await User.findById(req.user._id);
     const hasAccess =
-      user.hasActiveSubscription(chapter.level) || user.role === 'admin';
+      user.hasActiveSubscription(chapter.level) || user.role === "admin";
 
     res.json({
       success: true,
@@ -102,11 +107,13 @@ const checkAccess = async (req, res, next) => {
 // @access  Admin
 const createQuestion = async (req, res, next) => {
   try {
-    const chapter = await Chapter.findById(req.body.chapter).populate('subject');
+    const chapter = await Chapter.findById(req.body.chapter).populate(
+      "subject"
+    );
     if (!chapter) {
       return res.status(404).json({
         success: false,
-        message: 'Chapter not found',
+        message: "Chapter not found",
       });
     }
 
@@ -140,11 +147,11 @@ const bulkCreateQuestions = async (req, res, next) => {
   try {
     const { questions, chapterId } = req.body;
 
-    const chapter = await Chapter.findById(chapterId).populate('subject');
+    const chapter = await Chapter.findById(chapterId).populate("subject");
     if (!chapter) {
       return res.status(404).json({
         success: false,
-        message: 'Chapter not found',
+        message: "Chapter not found",
       });
     }
 
@@ -181,16 +188,15 @@ const bulkCreateQuestions = async (req, res, next) => {
 // @access  Admin
 const updateQuestion = async (req, res, next) => {
   try {
-    const question = await Question.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true, runValidators: true }
-    );
+    const question = await Question.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!question) {
       return res.status(404).json({
         success: false,
-        message: 'Question not found',
+        message: "Question not found",
       });
     }
 
@@ -213,7 +219,7 @@ const deleteQuestion = async (req, res, next) => {
     if (!question) {
       return res.status(404).json({
         success: false,
-        message: 'Question not found',
+        message: "Question not found",
       });
     }
 
@@ -229,7 +235,7 @@ const deleteQuestion = async (req, res, next) => {
 
     res.json({
       success: true,
-      message: 'Question deleted successfully',
+      message: "Question deleted successfully",
     });
   } catch (error) {
     next(error);

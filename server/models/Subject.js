@@ -1,31 +1,31 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const subjectSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Subject name is required'],
+      required: [true, "Subject name is required"],
       trim: true,
     },
 
     code: {
       type: String,
-      required: [true, 'Subject code is required'],
+      required: [true, "Subject code is required"],
       trim: true,
       uppercase: true,
     },
 
     level: {
       type: String,
-      required: [true, 'Level is required'],
-      enum: ['foundation', 'intermediate', 'final'],
+      required: [true, "Level is required"],
+      enum: ["foundation", "intermediate", "final"],
     },
 
-    // ✅ NEW FIELD
+    // Question type for this subject
     type: {
       type: String,
-      enum: ['MCQ', 'SUBJECTIVE'],
-      default: 'MCQ',
+      enum: ["MCQ", "SUBJECTIVE"],
+      default: "MCQ",
       required: true,
     },
 
@@ -56,7 +56,7 @@ const subjectSchema = new mongoose.Schema(
 
     icon: {
       type: String,
-      default: '📚',
+      default: "📚",
     },
   },
   {
@@ -66,4 +66,4 @@ const subjectSchema = new mongoose.Schema(
 
 subjectSchema.index({ level: 1, order: 1 });
 
-module.exports = mongoose.model('Subject', subjectSchema);
+module.exports = mongoose.model("Subject", subjectSchema);

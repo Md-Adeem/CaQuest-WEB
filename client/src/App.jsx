@@ -14,6 +14,8 @@ import ProtectedRoute from "./features/auth/components/ProtectedRoute";
 
 // Home
 import HomePage from "./features/home/pages/HomePage";
+import AboutPage from "./features/home/pages/AboutPage";
+import ContactPage from "./features/home/pages/ContactPage";
 
 // Student
 import DashboardPage from "./features/dashboard/pages/DashboardPage";
@@ -25,27 +27,27 @@ import PaymentPage from "./features/subscription/pages/PaymentPage";
 import ProfilePage from "./features/profile/pages/ProfilePage";
 // ========= LAZY LOADED PAGES =========
 const QuizPage = lazy(() => import("./features/quiz/pages/QuizPage"));
-const ProgressPage = lazy(
-  () => import("./features/progress/pages/ProgressPage"),
+const ProgressPage = lazy(() =>
+  import("./features/progress/pages/ProgressPage")
 );
-const BookmarksPage = lazy(
-  () => import("./features/progress/pages/BookmarksPage"),
+const BookmarksPage = lazy(() =>
+  import("./features/progress/pages/BookmarksPage")
 );
 
-const AdminDashboardPage = lazy(
-  () => import("./features/admin/pages/AdminDashboardPage"),
+const AdminDashboardPage = lazy(() =>
+  import("./features/admin/pages/AdminDashboardPage")
 );
-const PaymentApprovalsPage = lazy(
-  () => import("./features/admin/pages/PaymentApprovalsPage"),
+const PaymentApprovalsPage = lazy(() =>
+  import("./features/admin/pages/PaymentApprovalsPage")
 );
-const ContentManagementPage = lazy(
-  () => import("./features/admin/pages/ContentManagementPage"),
+const ContentManagementPage = lazy(() =>
+  import("./features/admin/pages/ContentManagementPage")
 );
-const QuestionManagementPage = lazy(
-  () => import("./features/admin/pages/QuestionManagementPage"),
+const QuestionManagementPage = lazy(() =>
+  import("./features/admin/pages/QuestionManagementPage")
 );
-const PlanManagementPage = lazy(
-  () => import("./features/admin/pages/PlanManagementPage"),
+const PlanManagementPage = lazy(() =>
+  import("./features/admin/pages/PlanManagementPage")
 );
 
 import NotFoundPage from "./shared/components/NotFoundPage";
@@ -61,7 +63,6 @@ const LazyRoute = ({ children }) => (
     {children}
   </Suspense>
 );
-
 
 const App = () => {
   const { user, loading } = useAuth();
@@ -80,10 +81,9 @@ const App = () => {
       <main className="flex-1">
         <Routes>
           {/* ========= PUBLIC ========= */}
-          <Route
-            path="/"
-            element={user ? <Navigate to="/dashboard" /> : <HomePage />}
-          />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route
             path="/login"
             element={!user ? <LoginPage /> : <Navigate to="/dashboard" />}
@@ -152,15 +152,15 @@ const App = () => {
             }
           />
           <Route
-  path="/quiz/:chapterId"
-  element={
-    <ProtectedRoute>
-      <LazyRoute>
-        <QuizPage />
-      </LazyRoute>
-    </ProtectedRoute>
-  }
-/>
+            path="/quiz/:chapterId"
+            element={
+              <ProtectedRoute>
+                <LazyRoute>
+                  <QuizPage />
+                </LazyRoute>
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="/payment/:planId"

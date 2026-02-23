@@ -1,17 +1,63 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { HiMail, HiLockClosed, HiEye, HiEyeOff } from 'react-icons/hi';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { HiMail, HiLockClosed, HiEye, HiEyeOff } from "react-icons/hi";
 
 const LoginForm = ({ onSubmit, loading }) => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const validateField = (name, value) => {
+    const newErrors = { ...errors };
+
+    switch (name) {
+      case "email":
+        if (!value) {
+          newErrors.email = "Email is required";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          newErrors.email = "Please enter a valid email address";
+        } else {
+          delete newErrors.email;
+        }
+        break;
+      case "password":
+        if (!value) {
+          newErrors.password = "Password is required";
+        } else if (value.length < 6) {
+          newErrors.password = "Password must be at least 6 characters";
+        } else {
+          delete newErrors.password;
+        }
+        break;
+      default:
+        break;
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    validateField(name, value);
+  };
+
+  const handleBlur = (e) => {
+    validateField(e.target.name, e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Validate all fields
+    const isEmailValid = validateField("email", formData.email);
+    const isPasswordValid = validateField("password", formData.password);
+
+    if (!isEmailValid || !isPasswordValid) {
+      return;
+    }
+
     onSubmit(formData);
   };
 
@@ -28,10 +74,16 @@ const LoginForm = ({ onSubmit, loading }) => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="input-field pl-10"
+            onBlur={handleBlur}
+            className={`input-field pl-10 ${
+              errors.email ? "border-red-500 focus:border-red-500" : ""
+            }`}
             placeholder="you@example.com"
             required
           />
+          {errors.email && (
+            <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+          )}
         </div>
       </div>
 
@@ -42,14 +94,20 @@ const LoginForm = ({ onSubmit, loading }) => {
         <div className="relative">
           <HiLockClosed className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
           <input
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             name="password"
             value={formData.password}
             onChange={handleChange}
-            className="input-field pl-10 pr-10"
+            onBlur={handleBlur}
+            className={`input-field pl-10 pr-10 ${
+              errors.password ? "border-red-500 focus:border-red-500" : ""
+            }`}
             placeholder="••••••••"
             required
           />
+          {errors.password && (
+            <p className="mt-1 text-sm text-red-600">{errors.password}</p>
+          )}
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
@@ -72,12 +130,12 @@ const LoginForm = ({ onSubmit, loading }) => {
         {loading ? (
           <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
         ) : (
-          'Sign In'
+          "Sign In"
         )}
       </button>
 
       <p className="text-center text-sm text-gray-600">
-        Don't have an account?{' '}
+        Don't have an account?{" "}
         <Link
           to="/register"
           className="text-primary-600 hover:text-primary-700 font-semibold"

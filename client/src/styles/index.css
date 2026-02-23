@@ -1,8 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @layer base {
   body {
@@ -40,6 +39,23 @@
     @apply w-full px-4 py-2.5 border border-gray-300 rounded-lg 
            focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 
            transition-all duration-200 bg-white;
+  }
+
+  /* Table styles for question rendering */
+  .question-table {
+    @apply min-w-full border-collapse border border-gray-300 my-4;
+  }
+
+  .question-table th {
+    @apply bg-gray-100 border border-gray-300 px-4 py-2 text-left font-semibold;
+  }
+
+  .question-table td {
+    @apply border border-gray-300 px-4 py-2;
+  }
+
+  .question-table tr:nth-child(even) {
+    @apply bg-gray-50;
   }
 
   .card {

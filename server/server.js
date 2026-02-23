@@ -34,8 +34,19 @@ app.use(requestLogger);
 app.use(helmet());
 
 // CORS
+const allowedOrigins = [
+  'http://localhost:5173',
+  process.env.CLIENT_URL ? process.env.CLIENT_URL.replace(/\/$/, '') : null
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 

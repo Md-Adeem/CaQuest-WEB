@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSubscription } from '../hooks/useSubscription';
 import PlanCard from '../components/PlanCard';
-import Loader from '../../../shared/components/Loader';
+import { CardGridShimmer } from '../../../shared/components/Shimmer';
 import { LEVELS } from '../../../shared/utils/constants';
 
 const SubscriptionPage = () => {
@@ -50,7 +50,9 @@ const SubscriptionPage = () => {
 
       {/* Plans Grid */}
       {loading ? (
-        <Loader size="lg" text="Loading plans..." />
+        <div className="max-w-5xl mx-auto">
+          <CardGridShimmer count={3} />
+        </div>
       ) : plans.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {plans.map((plan) => (

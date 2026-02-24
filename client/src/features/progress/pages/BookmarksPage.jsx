@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import progressService from "../services/progressService";
-import Loader from "../../../shared/components/Loader";
+import { QuestionListShimmer } from "../../../shared/components/Shimmer";
 import Badge from "../../../shared/components/Badge";
 import EmptyState from "../../../shared/components/EmptyState";
 import { LEVELS } from "../../../shared/utils/constants";
@@ -98,7 +98,7 @@ const BookmarksPage = () => {
 
       {/* Bookmarks List */}
       {loading ? (
-        <Loader size="lg" text="Loading bookmarks..." />
+        <QuestionListShimmer count={4} />
       ) : bookmarks.length === 0 ? (
         <EmptyState
           icon="🔖"

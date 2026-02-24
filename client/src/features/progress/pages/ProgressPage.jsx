@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../auth/hooks/useAuth";
 import progressService from "../services/progressService";
-import Loader from "../../../shared/components/Loader";
+import { StatsShimmer, ListShimmer } from "../../../shared/components/Shimmer";
 import Badge from "../../../shared/components/Badge";
 import { LEVELS } from "../../../shared/utils/constants";
 import {
@@ -40,7 +40,12 @@ const ProgressPage = () => {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <Loader size="lg" text="Loading your progress..." />
+        <div className="h-8 bg-gray-200 rounded w-1/4 mb-2 animate-pulse" />
+        <div className="h-4 bg-gray-200 rounded w-1/3 mb-8 animate-pulse" />
+        <StatsShimmer />
+        <div className="mt-8">
+          <ListShimmer count={5} />
+        </div>
       </div>
     );
   }

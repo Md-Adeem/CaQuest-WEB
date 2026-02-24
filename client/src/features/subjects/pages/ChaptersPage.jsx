@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useChapters } from '../hooks/useSubjects';
 import ChapterList from '../components/ChapterList';
-import Loader from '../../../shared/components/Loader';
+import { ListShimmer } from '../../../shared/components/Shimmer';
 import { LEVELS } from '../../../shared/utils/constants';
 import { HiArrowLeft } from 'react-icons/hi';
 
@@ -47,7 +47,7 @@ const ChaptersPage = () => {
 
       {/* Chapter List */}
       {loading ? (
-        <Loader size="lg" text="Loading chapters..." />
+        <ListShimmer count={6} />
       ) : (
         <ChapterList chapters={chapters} />
       )}

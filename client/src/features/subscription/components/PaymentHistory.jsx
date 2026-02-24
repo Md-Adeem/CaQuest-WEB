@@ -1,14 +1,14 @@
 import React from 'react';
 import { usePaymentHistory } from '../hooks/useSubscription';
 import Badge from '../../../shared/components/Badge';
-import Loader from '../../../shared/components/Loader';
+import { ListShimmer } from '../../../shared/components/Shimmer';
 import { formatDate, formatCurrency } from '../../../shared/utils/helpers';
 import { PAYMENT_STATUS, LEVELS } from '../../../shared/utils/constants';
 
 const PaymentHistory = () => {
   const { payments, loading } = usePaymentHistory();
 
-  if (loading) return <Loader text="Loading payment history..." />;
+  if (loading) return <ListShimmer count={3} />;
 
   if (payments.length === 0) {
     return (

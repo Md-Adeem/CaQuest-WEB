@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import subscriptionService from '../services/subscriptionService';
 import PaymentForm from '../components/PaymentForm';
 import PaymentHistory from '../components/PaymentHistory';
-import Loader from '../../../shared/components/Loader';
+import { PaymentShimmer } from '../../../shared/components/Shimmer';
 import { HiArrowLeft, HiShieldCheck } from 'react-icons/hi';
 import toast from 'react-hot-toast';
 
@@ -45,7 +45,7 @@ const PaymentPage = () => {
   if (loading) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-8">
-        <Loader size="lg" text="Loading plan details..." />
+        <PaymentShimmer />
       </div>
     );
   }

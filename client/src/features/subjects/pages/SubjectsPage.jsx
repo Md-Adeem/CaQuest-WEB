@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useSubjects } from '../hooks/useSubjects';
 import SubjectList from '../components/SubjectList';
-import Loader from '../../../shared/components/Loader';
+import { CardGridShimmer } from '../../../shared/components/Shimmer';
 import { LEVELS } from '../../../shared/utils/constants';
 import { HiArrowLeft } from 'react-icons/hi';
 
@@ -37,7 +37,7 @@ const SubjectsPage = () => {
 
       {/* Subject Grid */}
       {loading ? (
-        <Loader size="lg" text="Loading subjects..." />
+        <CardGridShimmer count={6} columns="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" />
       ) : (
         <SubjectList subjects={subjects} />
       )}

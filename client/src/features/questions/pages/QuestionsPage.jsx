@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useQuestions } from "../hooks/useQuestions";
 import QuestionList from "../components/QuestionList";
 import SubscriptionGate from "../components/SubscriptionGate";
-import Loader from "../../../shared/components/Loader";
+import { QuestionListShimmer } from '../../../shared/components/Shimmer';
 import { HiArrowLeft } from "react-icons/hi";
 
 const QuestionsPage = () => {
@@ -26,7 +26,7 @@ const QuestionsPage = () => {
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <Loader size="lg" text="Loading questions..." />
+        <QuestionListShimmer count={5} />
       </div>
     );
   }

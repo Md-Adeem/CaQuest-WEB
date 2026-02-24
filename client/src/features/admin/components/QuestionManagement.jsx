@@ -4,9 +4,10 @@ import subjectService from "../../subjects/services/subjectService";
 import Badge from "../../../shared/components/Badge";
 import Loader from "../../../shared/components/Loader";
 import Modal from "../../../shared/components/Modal";
-import { LEVELS } from "../../../shared/utils/constants";
-import { HiPencil, HiTrash, HiSearch } from "react-icons/hi";
+import { LEVELS, QUESTION_TYPES } from "../../../shared/utils/constants";
+import { HiPencil, HiTrash, HiSearch, HiX } from "react-icons/hi";
 import toast from "react-hot-toast";
+import EditQuestionModal from "./EditQuestionModal";
 
 const QuestionManagement = () => {
   const [questions, setQuestions] = useState([]);
@@ -17,6 +18,7 @@ const QuestionManagement = () => {
   const [chapters, setChapters] = useState([]);
   const [selectedChapter, setSelectedChapter] = useState("");
   const [deleteModal, setDeleteModal] = useState({ open: false, id: null });
+  const [editModal, setEditModal] = useState({ open: false, question: null });
 
   useEffect(() => {
     if (selectedLevel) {
@@ -143,31 +145,56 @@ const QuestionManagement = () => {
                   <span className="text-xs font-bold text-gray-400">
                     Q{index + 1}
                   </span>
+                  <Badge variant={q.type === 'SUBJECTIVE' ? 'secondary' : 'primary'} size="sm">
+                    {q.type || 'MCQ'}
+                  </Badge>
+                  {q.paperType && (
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-gray-200 text-gray-700">
+                      {q.paperType}
+                    </span>
+                  )}
                 </div>
                 <p className="text-sm text-gray-900 font-medium">
                   {q.questionText}
                 </p>
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {q.options.map((opt, i) => (
-                    <span
-                      key={i}
-                      className={`text-xs px-2 py-1 rounded ${
-                        i === q.correctAnswer
-                          ? "bg-green-100 text-green-700 font-bold"
-                          : "bg-gray-200 text-gray-600"
-                      }`}
-                    >
-                      {String.fromCharCode(65 + i)}: {opt}
-                    </span>
-                  ))}
+                  {q.type === 'SUBJECTIVE' ? (
+                    <div className="text-xs bg-blue-50 text-blue-800 border border-blue-200 px-3 py-2 rounded mt-2 w-full">
+                      <strong className="block mb-1">Model Answer:</strong>
+                      <span className="whitespace-pre-wrap">{q.modelAnswer}</span>
+                    </div>
+                  ) : (
+                    q.options?.map((opt, i) => (
+                      <span
+                        key={i}
+                        className={`text-xs px-2 py-1 rounded ${
+                          i === q.correctAnswer
+                            ? "bg-green-100 text-green-700 font-bold"
+                            : "bg-gray-200 text-gray-600"
+                        }`}
+                      >
+                        {String.fromCharCode(65 + i)}: {opt}
+                      </span>
+                    ))
+                  )}
                 </div>
               </div>
-              <button
-                onClick={() => setDeleteModal({ open: true, id: q._id })}
-                className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-              >
-                <HiTrash className="w-5 h-5" />
-              </button>
+              <div className="flex flex-col gap-2">
+                <button
+                  onClick={() => setEditModal({ open: true, question: q })}
+                  className="p-2 text-blue-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                  title="Edit Question"
+                >
+                  <HiPencil className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => setDeleteModal({ open: true, id: q._id })}
+                  className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                  title="Delete Question"
+                >
+                  <HiTrash className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -207,6 +234,19 @@ const QuestionManagement = () => {
           </button>
         </div>
       </Modal>
+
+      {/* Edit Question Modal */}
+      {editModal.open && editModal.question && (
+        <EditQuestionModal
+          isOpen={editModal.open}
+          onClose={() => setEditModal({ open: false, question: null })}
+          questionToEdit={editModal.question}
+          onSuccess={() => {
+            setEditModal({ open: false, question: null });
+            fetchQuestions();
+          }}
+        />
+      )}
     </div>
   );
 };

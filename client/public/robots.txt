@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
-Disallow: /admin
-Disallow: /api
 
-Sitemap: https://yourdomain.com/sitemap.xml
+# Disallow admin routes from being indexed by search engines
+Disallow: /admin/
+Disallow: /admin-login
+
+Sitemap: https://caquest.in/sitemap.xml

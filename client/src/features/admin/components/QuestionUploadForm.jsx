@@ -256,6 +256,8 @@ import subjectService from "../../subjects/services/subjectService";
 import { LEVELS, QUESTION_TYPES } from "../../../shared/utils/constants";
 import toast from "react-hot-toast";
 import { HiPlus } from "react-icons/hi";
+import MDEditor from '@uiw/react-md-editor';
+import rehypeSanitize from "rehype-sanitize";
 
 const QuestionUploadForm = ({ onSuccess }) => {
   const [subjects, setSubjects] = useState([]);
@@ -439,81 +441,22 @@ const QuestionUploadForm = ({ onSuccess }) => {
       </div>
 
       {/* Question Text */}
-      <div>
+      <div data-color-mode="light">
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Question Text *
         </label>
-        <div className="border border-gray-300 rounded-lg overflow-hidden">
-          <div className="flex border-b border-gray-200 bg-gray-50">
-            <button
-              type="button"
-              onClick={() => {
-                const tableTemplate = `
-| Account | Debit (₹) | Credit (₹) |
-|---------|------------|-------------|
-|         |            |             |
-|         |            |             |
-|         |            |             |`;
-                setQuestion({
-                  ...question,
-                  questionText: question.questionText + tableTemplate,
-                });
-              }}
-              className="px-3 py-2 text-xs font-medium text-gray-600 hover:bg-gray-100 border-r border-gray-200"
-            >
-              Add Table
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                const journalTemplate = `
-Date: ____
-Particulars: ____
-L.F.: ____
-Debit (₹): ____
-Credit (₹): ____`;
-                setQuestion({
-                  ...question,
-                  questionText: question.questionText + journalTemplate,
-                });
-              }}
-              className="px-3 py-2 text-xs font-medium text-gray-600 hover:bg-gray-100 border-r border-gray-200"
-            >
-              Add Journal Entry
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                const formatTemplate = `
-**Format Instructions:**
-- Use | to create table columns
-- Use --- for table headers
-- Example: | Account | Amount |
-          |---------|--------|
-          | Cash    | 1000   |`;
-                setQuestion({
-                  ...question,
-                  questionText: question.questionText + formatTemplate,
-                });
-              }}
-              className="px-3 py-2 text-xs font-medium text-gray-600 hover:bg-gray-100"
-            >
-              Format Help
-            </button>
-          </div>
-          <textarea
-            value={question.questionText}
-            onChange={(e) =>
-              setQuestion({ ...question, questionText: e.target.value })
-            }
-            className="input-field h-32 resize-none border-0 rounded-none"
-            placeholder="Enter question text. Use | for table columns, --- for headers. Click buttons above for templates."
-            required
-          />
-        </div>
+        <MDEditor
+          value={question.questionText}
+          onChange={(val) =>
+            setQuestion({ ...question, questionText: val || "" })
+          }
+          previewOptions={{
+            rehypePlugins: [[rehypeSanitize]],
+          }}
+          height={300}
+        />
         <p className="text-xs text-gray-500 mt-1">
-          Tip: Use Markdown table format for accounting tables (| column |
-          headers |)
+          Tip: You can use the toolbar to insert tables, lists, and formatting.
         </p>
       </div>
 
@@ -582,34 +525,37 @@ Credit (₹): ____`;
 
       {/* Model Answer - Only for SUBJECTIVE */}
       {questionType === "SUBJECTIVE" && (
-        <div>
+        <div data-color-mode="light">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Model Answer *
           </label>
-          <textarea
+          <MDEditor
             value={question.modelAnswer || ""}
-            onChange={(e) =>
-              setQuestion({ ...question, modelAnswer: e.target.value })
+            onChange={(val) =>
+              setQuestion({ ...question, modelAnswer: val || "" })
             }
-            className="input-field h-28 resize-none"
-            placeholder="Enter the expected answer for this subjective question..."
-            required
+            previewOptions={{
+              rehypePlugins: [[rehypeSanitize]],
+            }}
+            height={250}
           />
         </div>
       )}
 
       {/* Explanation */}
-      <div>
+      <div data-color-mode="light">
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Explanation (Optional)
         </label>
-        <textarea
-          value={question.explanation}
-          onChange={(e) =>
-            setQuestion({ ...question, explanation: e.target.value })
+        <MDEditor
+          value={question.explanation || ""}
+          onChange={(val) =>
+            setQuestion({ ...question, explanation: val || "" })
           }
-          className="input-field h-24 resize-none"
-          placeholder="Add explanation for the correct answer or solution approach..."
+          previewOptions={{
+            rehypePlugins: [[rehypeSanitize]],
+          }}
+          height={200}
         />
       </div>
 

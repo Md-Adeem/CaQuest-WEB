@@ -3,6 +3,8 @@ import adminService from "../services/adminService";
 import Modal from "../../../shared/components/Modal";
 import { QUESTION_TYPES } from "../../../shared/utils/constants";
 import toast from "react-hot-toast";
+import MDEditor from '@uiw/react-md-editor';
+import rehypeSanitize from "rehype-sanitize";
 
 const EditQuestionModal = ({ isOpen, onClose, questionToEdit, onSuccess }) => {
   const [loading, setLoading] = useState(false);
@@ -120,18 +122,19 @@ const EditQuestionModal = ({ isOpen, onClose, questionToEdit, onSuccess }) => {
         </div>
 
         {/* Question Text */}
-        <div>
+        <div data-color-mode="light">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Question Text *
           </label>
-          <textarea
+          <MDEditor
             value={question.questionText}
-            onChange={(e) =>
-              setQuestion({ ...question, questionText: e.target.value })
+            onChange={(val) =>
+              setQuestion({ ...question, questionText: val || "" })
             }
-            className="input-field h-32 resize-none"
-            placeholder="Enter question text..."
-            required
+            previewOptions={{
+              rehypePlugins: [[rehypeSanitize]],
+            }}
+            height={300}
           />
         </div>
 
@@ -177,34 +180,37 @@ const EditQuestionModal = ({ isOpen, onClose, questionToEdit, onSuccess }) => {
 
         {/* Model Answer - Only for SUBJECTIVE */}
         {questionType === "SUBJECTIVE" && (
-          <div>
+          <div data-color-mode="light">
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Model Answer *
             </label>
-            <textarea
+            <MDEditor
               value={question.modelAnswer || ""}
-              onChange={(e) =>
-                setQuestion({ ...question, modelAnswer: e.target.value })
+              onChange={(val) =>
+                setQuestion({ ...question, modelAnswer: val || "" })
               }
-              className="input-field h-28 resize-none"
-              placeholder="Enter the expected answer..."
-              required
+              previewOptions={{
+                rehypePlugins: [[rehypeSanitize]],
+              }}
+              height={250}
             />
           </div>
         )}
 
         {/* Explanation */}
-        <div>
+        <div data-color-mode="light">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Explanation (Optional)
           </label>
-          <textarea
-            value={question.explanation}
-            onChange={(e) =>
-              setQuestion({ ...question, explanation: e.target.value })
+          <MDEditor
+            value={question.explanation || ""}
+            onChange={(val) =>
+              setQuestion({ ...question, explanation: val || "" })
             }
-            className="input-field h-24 resize-none"
-            placeholder="Add explanation for the correct answer..."
+            previewOptions={{
+              rehypePlugins: [[rehypeSanitize]],
+            }}
+            height={200}
           />
         </div>
 

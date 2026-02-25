@@ -8,6 +8,8 @@ import { LEVELS } from "../../../shared/utils/constants";
 import { formatDate } from "../../../shared/utils/helpers";
 import { HiBookmark, HiTrash, HiArrowRight } from "react-icons/hi";
 import toast from "react-hot-toast";
+import MDEditor from '@uiw/react-md-editor';
+import rehypeSanitize from "rehype-sanitize";
 
 const BookmarksPage = () => {
   const [bookmarks, setBookmarks] = useState([]);
@@ -141,9 +143,13 @@ const BookmarksPage = () => {
                 </div>
 
                 {/* Question */}
-                <p className="font-medium text-gray-900 mb-3">
-                  {q.questionText}
-                </p>
+                <div className="font-medium text-gray-900 mb-3" data-color-mode="light">
+                  <MDEditor.Markdown
+                    source={q.questionText}
+                    rehypePlugins={[[rehypeSanitize]]}
+                    style={{ background: 'transparent' }}
+                  />
+                </div>
 
                 {/* Question Type Badge and Content */}
                 <div className="mb-3">
@@ -202,12 +208,12 @@ const BookmarksPage = () => {
                           <p className="text-sm font-medium text-gray-700 mb-2">
                             Model Answer:
                           </p>
-                          <div className="prose prose-sm max-w-none">
-                            {q.modelAnswer.split("\n").map((line, index) => (
-                              <p key={index} className="mb-1 text-gray-600">
-                                {line}
-                              </p>
-                            ))}
+                          <div className="prose prose-sm max-w-none" data-color-mode="light">
+                            <MDEditor.Markdown
+                              source={q.modelAnswer}
+                              rehypePlugins={[[rehypeSanitize]]}
+                              style={{ background: 'transparent' }}
+                            />
                           </div>
                         </div>
                       ) : (
@@ -250,7 +256,13 @@ const BookmarksPage = () => {
                         ? "Additional Notes:"
                         : "Explanation:"}
                     </p>
-                    <p className="text-xs text-blue-600">{q.explanation}</p>
+                    <div className="text-xs text-blue-600" data-color-mode="light">
+                      <MDEditor.Markdown
+                        source={q.explanation}
+                        rehypePlugins={[[rehypeSanitize]]}
+                        style={{ background: 'transparent', fontSize: '0.75rem' }}
+                      />
+                    </div>
                   </div>
                 )}
 

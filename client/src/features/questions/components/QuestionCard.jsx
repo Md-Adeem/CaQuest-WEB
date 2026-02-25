@@ -3,6 +3,8 @@ import Badge from "../../../shared/components/Badge";
 import { HiBookmark } from "react-icons/hi";
 import progressService from "../../progress/services/progressService";
 import toast from "react-hot-toast";
+import MDEditor from '@uiw/react-md-editor';
+import rehypeSanitize from "rehype-sanitize";
 
 const QuestionCard = ({ question, index }) => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -44,73 +46,17 @@ const QuestionCard = ({ question, index }) => {
     }
   };
 
-  // Function to render question text with table support
-  const renderQuestionText = (text) => {
+  // Render markdown/HTML content using the MDEditor preview
+  const renderMarkdown = (text) => {
     if (!text) return null;
-
-    // Convert markdown tables to HTML tables
-    const lines = text.split("\n");
-    let inTable = false;
-    let tableHtml = [];
-    let htmlLines = [];
-
-    lines.forEach((line) => {
-      const trimmedLine = line.trim();
-
-      // Check if this is a table separator
-      if (trimmedLine.startsWith("|") && trimmedLine.includes("---")) {
-        inTable = true;
-        return;
-      }
-
-      // Check if this is a table row
-      if (trimmedLine.startsWith("|") && inTable) {
-        const cells = trimmedLine
-          .split("|")
-          .filter((cell) => cell.trim() !== "");
-        if (cells.length > 0) {
-          tableHtml.push(
-            `<tr>${cells
-              .map((cell) => `<td>${cell.trim()}</td>`)
-              .join("")}</tr>`
-          );
-        }
-        return;
-      }
-
-      // End of table
-      if (inTable && (!trimmedLine.startsWith("|") || trimmedLine === "")) {
-        if (tableHtml.length > 0) {
-          htmlLines.push(
-            `<table class="question-table"><tbody>${tableHtml.join(
-              ""
-            )}</tbody></table>`
-          );
-          tableHtml = [];
-        }
-        inTable = false;
-      }
-
-      // Regular text line
-      if (!inTable && trimmedLine !== "") {
-        htmlLines.push(`<p class="mb-2">${trimmedLine}</p>`);
-      }
-    });
-
-    // Handle any remaining table
-    if (tableHtml.length > 0) {
-      htmlLines.push(
-        `<table class="question-table"><tbody>${tableHtml.join(
-          ""
-        )}</tbody></table>`
-      );
-    }
-
     return (
-      <div
-        className="prose max-w-none"
-        dangerouslySetInnerHTML={{ __html: htmlLines.join("") }}
-      />
+      <div data-color-mode="light">
+        <MDEditor.Markdown
+          source={text}
+          rehypePlugins={[[rehypeSanitize]]}
+          style={{ background: 'transparent', fontSize: '0.95rem' }}
+        />
+      </div>
     );
   };
 
@@ -175,7 +121,7 @@ const QuestionCard = ({ question, index }) => {
 
         {/* Question Text */}
         <div className="text-gray-900 font-medium mb-5 leading-relaxed">
-          {renderQuestionText(question.questionText)}
+          {renderMarkdown(question.questionText)}
         </div>
 
         {/* Model Answer with Toggle */}
@@ -227,9 +173,9 @@ const QuestionCard = ({ question, index }) => {
                 <p className="text-sm font-semibold text-blue-700 mb-1">
                   Answer:
                 </p>
-                <p className="text-sm text-blue-600 whitespace-pre-wrap">
-                  {question.modelAnswer}
-                </p>
+                <div className="text-sm text-blue-600">
+                  {renderMarkdown(question.modelAnswer)}
+                </div>
               </div>
             )}
           </div>
@@ -322,7 +268,7 @@ const QuestionCard = ({ question, index }) => {
 
       {/* Question Text */}
       <div className="text-gray-900 font-medium mb-5 leading-relaxed">
-        {renderQuestionText(question.questionText)}
+        {renderMarkdown(question.questionText)}
       </div>
 
       {/* Options */}
@@ -362,7 +308,7 @@ const QuestionCard = ({ question, index }) => {
           <p className="text-sm font-semibold text-blue-700 mb-1">
             Explanation:
           </p>
-          <p className="text-sm text-blue-600">{question.explanation}</p>
+          <div className="text-sm text-blue-600">{renderMarkdown(question.explanation)}</div>
         </div>
       )}
 

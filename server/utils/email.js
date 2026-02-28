@@ -1,33 +1,6 @@
-const nodemailer = require("nodemailer");
+const { Resend } = require('resend');
 
-const createTransporter = () => {
-  // Use the SMTP configuration from .env regardless of environment.
-  // We use the 'service' property for Gmail to avoid IPv6 ENETUNREACH routing errors.
-  const isGmail = process.env.EMAIL_HOST?.includes('gmail');
-  
-  if (isGmail) {
-    return nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true, // Use Implicit TLS (Port 465) to bypass Render's Port 587 outward blocking
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-  }
-
-  // Fallback for Ethereal or other custom SMTP servers
-  return nodemailer.createTransport({
-    host: process.env.EMAIL_HOST || "smtp.ethereal.email",
-    port: parseInt(process.env.EMAIL_PORT) || 587,
-    secure: process.env.EMAIL_SECURE === "true",
-    auth: {
-      user: process.env.EMAIL_USER || "test@ethereal.email",
-      pass: process.env.EMAIL_PASS || "testpass",
-    },
-  });
-};
+// The Resend instance will be created dynamically inside sendEmail to ensure dotenv has loaded.
 
 const baseTemplate = (content) => `
 <!DOCTYPE html>
@@ -307,31 +280,32 @@ const emailTemplates = {
 
 const sendEmail = async ({ to, subject, html }) => {
   try {
-    const transporter = createTransporter();
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      console.error("❌ Email failed: RESEND_API_KEY is missing from .env");
+      return null;
+    }
 
-    const mailOptions = {
-      from: `"CaQuest" <${
-        process.env.EMAIL_FROM ||
-        process.env.EMAIL_USER ||
-        "noreply@caquest.com"
-      }>`,
+    const resend = new Resend(apiKey);
+    const fromEmail = process.env.EMAIL_FROM || 'CA Quest <onboarding@resend.dev>';
+    
+    // Resend API call (Operates over secure HTTPS, never blocked by Render)
+    const { data, error } = await resend.emails.send({
+      from: fromEmail,
       to,
       subject,
       html,
-    };
+    });
 
-    const info = await transporter.sendMail(mailOptions);
-    console.log(`✉️  Email sent to ${to}: ${info.messageId}`);
-
-    // In development, log the preview URL (Ethereal)
-    if (process.env.NODE_ENV !== "production") {
-      console.log(`   Preview: ${nodemailer.getTestMessageUrl(info)}`);
+    if (error) {
+      throw new Error(error.message);
     }
 
-    return info;
+    console.log(`✉️  Email sent to ${to}: ${data?.id}`);
+    return data;
   } catch (error) {
     console.error(`❌ Email failed to ${to}:`, error.message);
-    // Don't throw - email failure shouldn't break the app
+    // Don't throw - email failure shouldn't break the app flow
     return null;
   }
 };

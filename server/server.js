@@ -101,6 +101,7 @@ app.use('/api/payments', require('./routes/paymentRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/progress', require('./routes/progressRoutes'));
 app.use('/api/search', require('./routes/searchRoutes'));
+app.use('/api/contact', require('./routes/contactRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => {

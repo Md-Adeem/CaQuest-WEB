@@ -1,23 +1,12 @@
 const nodemailer = require("nodemailer");
 
 const createTransporter = () => {
-  // Use different configs based on environment
-  if (process.env.NODE_ENV === "production") {
-    return nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: parseInt(process.env.EMAIL_PORT) || 587,
-      secure: process.env.EMAIL_SECURE === "true",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-  }
-
-  // Development - use Ethereal (fake SMTP)
+  // Use the SMTP configuration from .env regardless of environment.
+  // This allows local testing with real Gmail credentials instead of forcing fake Ethereal.
   return nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
+    host: process.env.EMAIL_HOST || "smtp.ethereal.email",
+    port: parseInt(process.env.EMAIL_PORT) || 587,
+    secure: process.env.EMAIL_SECURE === "true",
     auth: {
       user: process.env.EMAIL_USER || "test@ethereal.email",
       pass: process.env.EMAIL_PASS || "testpass",
@@ -267,6 +256,34 @@ const emailTemplates = {
               Renew Subscription
             </a>
           </div>
+        </td>
+      </tr>
+    `),
+  }),
+
+  contactForm: (name, email, message) => ({
+    subject: `New Contact Message: ${name}`,
+    html: baseTemplate(`
+      <tr>
+        <td style="background: linear-gradient(135deg, #4f46e5, #4338ca); padding: 40px 30px; border-radius: 16px 16px 0 0; text-align: center;">
+          <h1 style="color: white; margin: 0; font-size: 28px;">New Contact Submission ✉️</h1>
+        </td>
+      </tr>
+      <tr>
+        <td style="background: white; padding: 40px 30px; border-radius: 0 0 16px 16px;">
+          <h2 style="color: #1f2937; margin: 0 0 15px;">Contact Request Details</h2>
+          <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin: 20px 0;">
+            <p style="color: #374151; margin: 0 0 10px; font-size: 14px;">
+              <strong>Name:</strong> ${name}
+            </p>
+            <p style="color: #374151; margin: 0 0 10px; font-size: 14px;">
+              <strong>Email:</strong> ${email}
+            </p>
+          </div>
+          <h3 style="color: #1f2937; margin: 20px 0 10px;">Message:</h3>
+          <p style="color: #4b5563; line-height: 1.6; background: #fffbeb; padding: 15px; border-left: 4px solid #f59e0b; font-style: italic;">
+            "${message.replace(/\n/g, '<br/>')}"
+          </p>
         </td>
       </tr>
     `),

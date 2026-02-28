@@ -1,20 +1,25 @@
 import React, { useState } from "react";
 import { HiMail, HiPhone, HiLocationMarker } from "react-icons/hi";
 import toast from "react-hot-toast";
+import api from "../../../shared/utils/api";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
+    
+    try {
+      await api.post('/contact', formData);
       toast.success("Message sent successfully! We'll get back to you soon.");
       setFormData({ name: "", email: "", message: "" });
-    }, 1500);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to send message. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e) => {

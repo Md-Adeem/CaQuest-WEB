@@ -9,6 +9,8 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
   });
   const [screenshot, setScreenshot] = useState(null);
   const [transactionError, setTransactionError] = useState("");
+  const [showQR, setShowQR] = useState(false);
+  const [upiUrlString, setUpiUrlString] = useState("");
 
   const handleUPIPayment = () => {
     // Construct UPI payment URL
@@ -21,14 +23,19 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
     const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(
       name
     )}&am=${amount}&tn=${encodeURIComponent(desc)}`;
+    
+    setUpiUrlString(upiUrl);
 
-    // Try to open the UPI app
-    window.open(upiUrl, "_blank");
+    // Check if user is on mobile
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-    // Show a message to the user
-    alert(
-      "Opening UPI app. Please complete the payment and return to enter the transaction ID."
-    );
+    if (isMobile) {
+      // Redirect to UPI app deeply without opening blank tab
+      window.location.href = upiUrl;
+    } else {
+      // Desktop: Instead of erroring or empty tab, show a QR code
+      setShowQR(true);
+    }
   };
 
   const validateTransactionId = (transactionId) => {
@@ -145,9 +152,22 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
             <span className="text-xl">📱</span>
             <span className="text-sm font-medium text-gray-700">UPI</span>
             <span className="ml-auto text-xs text-primary-600 font-medium">
-              Click to Pay
+              Click to Pay / View QR
             </span>
           </label>
+          
+          {/* Desktop QR Code Display */}
+          {showQR && formData.paymentMethod === 'upi' && upiUrlString && (
+            <div className="mt-3 p-4 bg-white border border-gray-200 rounded-xl flex flex-col items-center justify-center shadow-sm animate-fade-in text-center">
+              <p className="text-sm font-semibold text-gray-800 mb-2">Scan with any UPI App (PhonePe, GPay, Paytm)</p>
+              <img 
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrlString)}`} 
+                alt="Scan to pay" 
+                className="w-48 h-48 border rounded-lg shadow-sm"
+              />
+              <p className="text-xs text-gray-500 mt-2">Paying to: {UPI_CONFIG.id}</p>
+            </div>
+          )}
         </div>
 
         {/* Coming Soon Banner for other methods */}
@@ -225,49 +245,24 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
         </div>
       </div>
 
-      {/* Screenshot Upload */}
+      {/* Screenshot Upload (Coming Soon) */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Payment Screenshot (Optional)
         </label>
-        <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:border-primary-400 transition-colors">
-          <div className="space-y-1 text-center">
-            <svg
-              className="mx-auto h-12 w-12 text-gray-400"
-              stroke="currentColor"
-              fill="none"
-              viewBox="0 0 48 48"
-            >
-              <path
-                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <div className="flex text-sm text-gray-600">
-              <label
-                htmlFor="file-upload"
-                className="relative cursor-pointer rounded-md font-medium text-primary-600 hover:text-primary-700"
-              >
-                <span>Upload a file</span>
-                <input
-                  id="file-upload"
-                  name="screenshot"
-                  type="file"
-                  className="sr-only"
-                  accept="image/*,.pdf"
-                  onChange={handleFileChange}
-                />
-              </label>
-              <p className="pl-1">or drag and drop</p>
+        <div className="bg-gradient-to-r from-gray-100 to-gray-200 border border-gray-300 rounded-xl p-6 mt-1 flex flex-col items-center justify-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px] z-10"></div>
+          
+          <div className="z-20 text-center flex flex-col items-center">
+            <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mb-3">
+              <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
             </div>
-            <p className="text-xs text-gray-500">PNG, JPG, PDF up to 5MB</p>
-            {screenshot && (
-              <p className="text-sm text-green-600 font-medium">
-                ✓ {screenshot.name}
-              </p>
-            )}
+            <h4 className="text-gray-800 font-medium mb-1">Screenshot Upload</h4>
+            <div className="px-3 py-1 bg-gray-800 text-white text-xs font-bold rounded-full uppercase tracking-wider shadow-sm">
+              Coming Soon
+            </div>
           </div>
         </div>
       </div>

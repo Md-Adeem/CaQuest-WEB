@@ -89,7 +89,6 @@ const PaymentPage = () => {
               <li>✓ Your payment details are encrypted</li>
               <li>✓ Manual verification by admin</li>
               <li>✓ Instant activation after approval</li>
-              <li>✓ Refund available within 7 days</li>
             </ul>
           </div>
 

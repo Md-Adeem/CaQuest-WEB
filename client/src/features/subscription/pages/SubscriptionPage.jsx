@@ -76,14 +76,14 @@ const SubscriptionPage = () => {
               q: 'How does payment verification work?',
               a: 'After you make a payment and submit the transaction details, our admin team will verify it within 24 hours. Once verified, your subscription will be activated immediately.',
             },
-            {
-              q: 'Can I upgrade my plan later?',
-              a: 'Yes! You can upgrade to a different plan at any time. Your existing subscription duration will be extended accordingly.',
-            },
-            {
-              q: 'What payment methods are accepted?',
-              a: 'We accept UPI, bank transfers, credit/debit cards, and digital wallets.',
-            },
+           {
+  q: 'Can I upgrade my plan later?',
+  a: 'Yes! You can purchase multiple plan levels simultaneously or upgrade to a higher plan at any time. Your subscription benefits will be adjusted accordingly.',
+},
+{
+  q: 'What payment methods are accepted?',
+  a: 'Currently, we accept UPI payments. Additional payment methods such as bank transfers, credit/debit cards, and digital wallets will be added later.',
+},
           ].map((faq, index) => (
             <div key={index} className="card">
               <h3 className="font-semibold text-gray-900 mb-2">{faq.q}</h3>

@@ -1,12 +1,19 @@
 import React from 'react';
 import { HiBookOpen, HiClipboardList, HiCreditCard, HiStar } from 'react-icons/hi';
 
-const DashboardStats = ({ user }) => {
+const DashboardStats = ({ user, stats }) => {
   const activeSubCount = user?.activeSubscriptions?.filter(
     (s) => new Date(s.expiresAt) > new Date()
   ).length || 0;
 
-  const stats = [
+  const overall = stats?.overall || {};
+  const totalAttempted = overall.totalAttempted || 0;
+  const accuracy = overall.accuracy || 0;
+
+  const displayAttempted = stats ? totalAttempted : '—';
+  const displayAccuracy = stats ? `${accuracy}%` : '—';
+
+  const dashboardStats = [
     {
       label: 'Active Level',
       value: user?.selectedLevel
@@ -23,13 +30,13 @@ const DashboardStats = ({ user }) => {
     },
     {
       label: 'Questions Attempted',
-      value: '—',
+      value: displayAttempted,
       icon: <HiClipboardList className="w-6 h-6" />,
       color: 'bg-purple-500',
     },
     {
       label: 'Accuracy',
-      value: '—',
+      value: displayAccuracy,
       icon: <HiStar className="w-6 h-6" />,
       color: 'bg-amber-500',
     },
@@ -37,7 +44,7 @@ const DashboardStats = ({ user }) => {
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      {stats.map((stat, index) => (
+      {dashboardStats.map((stat, index) => (
         <div key={index} className="card flex flex-col xl:flex-row items-center text-center xl:text-left gap-3 xl:gap-4 p-4">
           <div className={`${stat.color} text-white p-3 rounded-xl`}>
             {stat.icon}

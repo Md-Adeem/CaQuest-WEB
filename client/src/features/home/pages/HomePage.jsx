@@ -47,9 +47,9 @@ const HomePage = () => {
   ];
 
   const stats = [
-    { value: "10,000+", label: "Practice Questions" },
-    { value: "50+", label: "Subjects Covered" },
-    { value: "5,000+", label: "Active Students" },
+    { value: "5,000+", label: "Practice Questions" },
+    { value: "16", label: "Subjects Covered" },
+    { value: "2,000+", label: "Active Students" },
     { value: "95%", label: "Success Rate" },
   ];
 
@@ -108,7 +108,7 @@ const HomePage = () => {
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
               <HiStar className="w-4 h-4 text-yellow-400" />
               <span className="text-sm font-medium">
-                Trusted by 5000+ CA Students
+                Trusted by 2000+ CA Students
               </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
@@ -280,7 +280,7 @@ const HomePage = () => {
               {
                 step: "02",
                 title: "Subscribe",
-                description: "Choose an affordable plan that suits your needs",
+                description: "Choose a plan according to your level",
                 icon: "💳",
               },
               {

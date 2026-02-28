@@ -44,20 +44,20 @@ const Navbar = () => {
 
           {/* Search Bar (Desktop) */}
           {user && !isAdminPage && (
-            <div className="hidden lg:block flex-1 max-w-md mx-8">
+            <div className="hidden lg:block flex-1 max-w-xs xl:max-w-md mx-4 xl:mx-8">
               <SearchBar />
             </div>
           )}
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-1 lg:space-x-2 xl:space-x-4">
             {user ? (
               <>
                 {!isAdminPage && (
                   <>
                     <Link
                       to="/dashboard"
-                      className={`text-sm font-medium transition-colors flex items-center gap-1.5 px-3 py-2 rounded-lg ${
+                      className={`text-sm font-medium transition-colors flex items-center gap-1 xl:gap-1.5 px-2 xl:px-3 py-2 rounded-lg ${
                         location.pathname === "/dashboard"
                           ? "text-primary-600 bg-primary-50"
                           : "text-gray-600 hover:text-primary-600 hover:bg-gray-50"
@@ -68,7 +68,7 @@ const Navbar = () => {
                     </Link>
                     <Link
                       to="/progress"
-                      className={`text-sm font-medium transition-colors flex items-center gap-1.5 px-3 py-2 rounded-lg ${
+                      className={`text-sm font-medium transition-colors flex items-center gap-1 xl:gap-1.5 px-2 xl:px-3 py-2 rounded-lg ${
                         location.pathname === "/progress"
                           ? "text-primary-600 bg-primary-50"
                           : "text-gray-600 hover:text-primary-600 hover:bg-gray-50"
@@ -79,7 +79,7 @@ const Navbar = () => {
                     </Link>
                     <Link
                       to="/bookmarks"
-                      className={`text-sm font-medium transition-colors flex items-center gap-1.5 px-3 py-2 rounded-lg ${
+                      className={`text-sm font-medium transition-colors flex items-center gap-1 xl:gap-1.5 px-2 xl:px-3 py-2 rounded-lg ${
                         location.pathname === "/bookmarks"
                           ? "text-primary-600 bg-primary-50"
                           : "text-gray-600 hover:text-primary-600 hover:bg-gray-50"
@@ -94,7 +94,7 @@ const Navbar = () => {
                 {user.role === "admin" && !isAdminPage && (
                   <Link
                     to="/admin"
-                    className="text-sm font-medium text-gray-600 hover:text-primary-600 hover:bg-gray-50 flex items-center gap-1.5 px-3 py-2 rounded-lg"
+                    className="text-sm font-medium text-gray-600 hover:text-primary-600 hover:bg-gray-50 flex items-center gap-1 xl:gap-1.5 px-2 xl:px-3 py-2 rounded-lg"
                   >
                     <HiCog className="w-4 h-4" />
                     Admin
@@ -161,13 +161,13 @@ const Navbar = () => {
               <>
                 <Link
                   to="/subscriptions"
-                  className="text-gray-600 hover:text-primary-600 font-medium text-sm"
+                  className="text-gray-600 hover:text-primary-600 font-medium text-sm px-2 xl:px-3"
                 >
                   Pricing
                 </Link>
                 <Link
                   to="/login"
-                  className="text-gray-600 hover:text-primary-600 font-medium text-sm"
+                  className="text-gray-600 hover:text-primary-600 font-medium text-sm px-2 xl:px-3"
                 >
                   Sign In
                 </Link>

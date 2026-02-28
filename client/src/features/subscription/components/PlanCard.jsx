@@ -55,14 +55,21 @@ const PlanCard = ({ plan }) => {
         </ul>
 
         <button
-          onClick={() => navigate(`/payment/${plan._id}`)}
+          onClick={() => {
+            if (plan.level !== 'intermediate' && plan.level !== 'final') {
+              navigate(`/payment/${plan._id}`);
+            }
+          }}
+          disabled={plan.level === 'intermediate' || plan.level === 'final'}
           className={`w-full py-3 rounded-xl font-semibold transition-all duration-200 ${
-            plan.isPopular
-              ? 'btn-primary'
-              : 'btn-secondary'
+            plan.level === 'intermediate' || plan.level === 'final'
+              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              : plan.isPopular
+              ? 'btn-primary hover:shadow-lg hover:-translate-y-0.5'
+              : 'bg-white border-2 border-primary-100 text-primary-600 hover:bg-primary-50 hover:border-primary-200'
           }`}
         >
-          Subscribe Now
+          {plan.level === 'intermediate' || plan.level === 'final' ? 'Coming soon...' : 'Subscribe Now'}
         </button>
       </div>
     </div>

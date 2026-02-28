@@ -43,11 +43,11 @@ const ContactPage = () => {
             <div className="space-y-6">
               <div className="flex items-center space-x-4">
                 <HiPhone className="w-6 h-6 text-primary-400" />
-                <span>+91 98765 43210</span>
+                <span>+91 6203793113</span>
               </div>
               <div className="flex items-center space-x-4">
                 <HiMail className="w-6 h-6 text-primary-400" />
-                <span>support@caquest.com</span>
+                <span>helpcaquest@gmail.com</span>
               </div>
               <div className="flex items-center space-x-4">
                 <HiLocationMarker className="w-6 h-6 text-primary-400" />

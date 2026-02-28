@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../auth/hooks/useAuth';
+import progressService from '../../progress/services/progressService';
 import LevelSelector from '../components/LevelSelector';
 import DashboardStats from '../components/DashboardStats';
 import SubscriptionStatus from '../components/SubscriptionStatus';
@@ -7,6 +8,20 @@ import toast from 'react-hot-toast';
 
 const DashboardPage = () => {
   const { user, selectLevel } = useAuth();
+  const [stats, setStats] = useState(null);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      if (!user) return;
+      try {
+        const response = await progressService.getMyStats(user.selectedLevel);
+        setStats(response.data.data);
+      } catch (error) {
+        console.error("Failed to load dashboard stats", error);
+      }
+    };
+    fetchStats();
+  }, [user?.selectedLevel, user]);
 
   const handleSelectLevel = async (level) => {
     try {
@@ -31,7 +46,7 @@ const DashboardPage = () => {
 
       {/* Stats */}
       <div className="mb-8">
-        <DashboardStats user={user} />
+        <DashboardStats user={user} stats={stats} />
       </div>
 
       {/* Main Content Grid */}

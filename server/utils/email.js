@@ -7,7 +7,9 @@ const createTransporter = () => {
   
   if (isGmail) {
     return nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true, // Use Implicit TLS (Port 465) to bypass Render's Port 587 outward blocking
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,

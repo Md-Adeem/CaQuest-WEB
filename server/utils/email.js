@@ -2,7 +2,20 @@ const nodemailer = require("nodemailer");
 
 const createTransporter = () => {
   // Use the SMTP configuration from .env regardless of environment.
-  // This allows local testing with real Gmail credentials instead of forcing fake Ethereal.
+  // We use the 'service' property for Gmail to avoid IPv6 ENETUNREACH routing errors.
+  const isGmail = process.env.EMAIL_HOST?.includes('gmail');
+  
+  if (isGmail) {
+    return nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+  }
+
+  // Fallback for Ethereal or other custom SMTP servers
   return nodemailer.createTransport({
     host: process.env.EMAIL_HOST || "smtp.ethereal.email",
     port: parseInt(process.env.EMAIL_PORT) || 587,

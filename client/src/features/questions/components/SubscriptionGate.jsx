@@ -33,9 +33,7 @@ const SubscriptionGate = ({ level }) => {
           <HiSparkles className="w-5 h-5" />
           View Subscription Plans
         </Link>
-        <p className="text-xs text-gray-400">
-          Plans start from just ₹199/month
-        </p>
+        
       </div>
     </div>
   );

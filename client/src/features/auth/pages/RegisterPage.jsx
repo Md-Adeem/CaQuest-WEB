@@ -46,11 +46,11 @@ const RegisterPage = () => {
           </p>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-white/10 rounded-xl p-4 text-center">
-              <div className="text-3xl font-bold">10K+</div>
+              <div className="text-3xl font-bold">5K+</div>
               <div className="text-sm text-purple-200">Questions</div>
             </div>
             <div className="bg-white/10 rounded-xl p-4 text-center">
-              <div className="text-3xl font-bold">5K+</div>
+              <div className="text-3xl font-bold">2K+</div>
               <div className="text-sm text-purple-200">Students</div>
             </div>
             <div className="bg-white/10 rounded-xl p-4 text-center">

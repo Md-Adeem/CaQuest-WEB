@@ -26,9 +26,9 @@ const ChaptersPage = () => {
       {/* Header */}
       {subject && (
         <div className="mb-8">
-          <div className="flex items-center gap-2 text-sm text-primary-600 mb-1">
-            <span>{subject.icon}</span>
-            <span className="font-mono uppercase">{subject.code}</span>
+          <div className="flex items-center gap-2 text-lg font-bold text-primary-600 mb-2">
+            <span className="text-2xl">{subject.icon}</span>
+            <span className="font-mono uppercase px-2 py-0.5 bg-primary-50 border border-primary-100 rounded-md tracking-wider">{subject.code}</span>
           </div>
           <h1 className="text-3xl font-bold text-gray-900">{subject.name}</h1>
           {subject.description && (

@@ -14,7 +14,7 @@ const SubjectCard = ({ subject }) => {
         <div className="flex items-center gap-3">
           <div className="text-3xl">{subject.icon || '📚'}</div>
           <div>
-            <span className="text-xs font-mono text-gray-400 uppercase">
+            <span className="text-sm font-mono font-semibold text-primary-600 bg-primary-50 border border-primary-100 px-2 py-0.5 rounded uppercase mb-1 inline-block tracking-wide">
               {subject.code}
             </span>
             <h3 className="text-lg font-bold text-gray-900">{subject.name}</h3>

@@ -61,7 +61,7 @@ const QuestionsPage = () => {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">
-            Practice Questions
+            {accessInfo?.chapterName || "Practice Questions"}
           </h1>
           <p className="text-gray-500 mt-1">
             Test your knowledge with these chapter-wise questions

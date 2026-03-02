@@ -70,7 +70,7 @@ const getQuestions = async (req, res, next) => {
 // @desc    Check subscription status for a chapter
 // @route   GET /api/questions/check-access/:chapterId
 // @access  Private
-const checkAccess = async (req, res, next) => {
+  const checkAccess = async (req, res, next) => {
   try {
     // ✅ Populate subject
     const chapter = await Chapter.findById(req.params.chapterId).populate(
@@ -95,6 +95,7 @@ const checkAccess = async (req, res, next) => {
         level: chapter.level,
         totalQuestions: chapter.totalQuestions,
         subjectType: chapter.subject?.type, // ✅ added safely
+        chapterName: chapter.name, // ✅ Include chapter name
       },
     });
   } catch (error) {

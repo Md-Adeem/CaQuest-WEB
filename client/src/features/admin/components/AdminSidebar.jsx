@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   HiChartBar, HiCreditCard, HiQuestionMarkCircle,
-  HiArrowLeft, HiBookOpen, HiCog,
+  HiArrowLeft, HiBookOpen, HiCog, HiUsers
 } from 'react-icons/hi';
 
 const AdminSidebar = () => {
@@ -10,6 +10,7 @@ const AdminSidebar = () => {
 
   const links = [
     { path: '/admin', icon: HiChartBar, label: 'Dashboard', exact: true },
+    { path: '/admin/students', icon: HiUsers, label: 'Students' },
     { path: '/admin/payments', icon: HiCreditCard, label: 'Payments' },
     { path: '/admin/content', icon: HiBookOpen, label: 'Content' },
     { path: '/admin/questions', icon: HiQuestionMarkCircle, label: 'Questions' },

@@ -49,6 +49,9 @@ const QuestionManagementPage = lazy(() =>
 const PlanManagementPage = lazy(() =>
   import("./features/admin/pages/PlanManagementPage")
 );
+const StudentManagementPage = lazy(() =>
+  import("./features/admin/pages/StudentManagementPage")
+);
 
 import NotFoundPage from "./shared/components/NotFoundPage";
 
@@ -177,6 +180,14 @@ const App = () => {
             element={
               <ProtectedRoute adminOnly>
                 <AdminDashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/students"
+            element={
+              <ProtectedRoute adminOnly>
+                <StudentManagementPage />
               </ProtectedRoute>
             }
           />

@@ -256,6 +256,7 @@ const getUsers = async (req, res, next) => {
     const skip = (page - 1) * limit;
 
     const users = await User.find(filter)
+      .populate('activeSubscriptions.plan', 'name level duration price')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(parseInt(limit));

@@ -82,3 +82,41 @@ export const useAdminPayments = (initialStatus = 'pending') => {
     refetch: fetchPayments,
   };
 };
+
+export const useAdminUsers = () => {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    total: 0,
+  });
+
+  const fetchUsers = useCallback(async (params = {}) => {
+    try {
+      setLoading(true);
+      const response = await adminService.getUsers(params);
+      setUsers(response.data.data);
+      setPagination({
+        currentPage: response.data.currentPage,
+        totalPages: response.data.totalPages,
+        total: response.data.total,
+      });
+    } catch (err) {
+      toast.error('Failed to load users');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
+
+  return {
+    users,
+    loading,
+    pagination,
+    fetchUsers,
+  };
+};

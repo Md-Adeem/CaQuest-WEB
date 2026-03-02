@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import AdminSidebar from '../components/AdminSidebar';
 import QuestionUploadForm from '../components/QuestionUploadForm';
+import BulkUploadForm from '../components/BulkUploadForm';
 import QuestionManagement from '../components/QuestionManagement';
-import { HiPlus, HiCollection } from 'react-icons/hi';
+import { HiPlus, HiCollection, HiUpload } from 'react-icons/hi';
 
 const QuestionManagementPage = () => {
   const [activeTab, setActiveTab] = useState('upload');
+  const [uploadMode, setUploadMode] = useState('single');
 
   return (
     <div className="flex flex-col lg:flex-row min-h-[calc(100vh-4rem)] relative">
@@ -50,10 +52,39 @@ const QuestionManagementPage = () => {
         <div className="card">
           {activeTab === 'upload' ? (
             <>
-              <h2 className="text-xl font-bold text-gray-900 mb-6">
-                Upload New Question
-              </h2>
-              <QuestionUploadForm />
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-bold text-gray-900">
+                  {uploadMode === 'single' ? 'Upload New Question' : 'Bulk Upload via CSV'}
+                </h2>
+                <div className="flex bg-gray-100 rounded-lg p-1">
+                  <button
+                    onClick={() => setUploadMode('single')}
+                    className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                      uploadMode === 'single'
+                        ? 'bg-white text-gray-900 shadow-sm'
+                        : 'text-gray-500 hover:text-gray-700'
+                    }`}
+                  >
+                    Single
+                  </button>
+                  <button
+                    onClick={() => setUploadMode('bulk')}
+                    className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                      uploadMode === 'bulk'
+                        ? 'bg-white text-gray-900 shadow-sm'
+                        : 'text-gray-500 hover:text-gray-700'
+                    }`}
+                  >
+                    Bulk (CSV)
+                  </button>
+                </div>
+              </div>
+
+              {uploadMode === 'single' ? (
+                <QuestionUploadForm />
+              ) : (
+                <BulkUploadForm onSuccess={() => setActiveTab('manage')} />
+              )}
             </>
           ) : (
             <>

@@ -134,7 +134,7 @@ const QuestionsPage = () => {
       </div>
 
       {/* Questions */}
-      <QuestionList questions={questions} />
+      <QuestionList questions={questions} currentPage={pagination.currentPage} />
 
       {/* Pagination */}
       {pagination.totalPages > 1 && (
@@ -142,12 +142,13 @@ const QuestionsPage = () => {
           {Array.from({ length: pagination.totalPages }, (_, i) => (
             <button
               key={i}
-              onClick={() =>
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 fetchQuestions({
                   page: i + 1,
                   paperType: paperType || undefined,
-                })
-              }
+                });
+              }}
               className={`w-10 h-10 rounded-lg text-sm font-medium transition-colors ${
                 pagination.currentPage === i + 1
                   ? "bg-primary-600 text-white"

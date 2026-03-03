@@ -1,9 +1,27 @@
 import React from "react";
 import { HiUserGroup, HiBookOpen, HiLightBulb } from "react-icons/hi";
+import SEO from '../../../shared/components/SEO';
 
 const AboutPage = () => {
+  const aboutSchema = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About CaQuest",
+    "description": "CaQuest is a comprehensive platform designed to help students ace their CA journey with robust exams, mock tests, and analytics.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CaQuest"
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <SEO 
+        title="About Us"
+        description="Learn about CaQuest's mission to empower CA Students with industry-leading mock exams, practice tools, and personalized analytics to clear the ICAI."
+        keywords="About CaQuest, CA platform, CA study tools, ICAI preparation company"
+        schema={aboutSchema}
+      />
       <div className="max-w-7xl mx-auto">
         <div className="text-center">
           <h2 className="text-base text-primary-600 font-semibold tracking-wide uppercase">About Us</h2>

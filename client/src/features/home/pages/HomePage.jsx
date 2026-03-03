@@ -2,6 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../auth/hooks/useAuth";
+import SEO from '../../../shared/components/SEO';
 import {
   HiAcademicCap,
   HiBookOpen,
@@ -98,8 +99,45 @@ const HomePage = () => {
     },
   ];
 
+  const homeSchema = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": "https://caquest.com/#website",
+                "url": "https://caquest.com",
+                "name": "CaQuest",
+                "description": "Master the CA exams with precision. CaQuest offers personalized practice, real-time analytics, and comprehensive mocks for Foundation, Intermediate, and Final levels.",
+                "publisher": {
+                    "@id": "https://caquest.com/#organization"
+                }
+            },
+            {
+                "@type": "Organization",
+                "@id": "https://caquest.com/#organization",
+                "name": "CaQuest",
+                "url": "https://caquest.com",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://caquest.com/logo.png"
+                },
+                "sameAs": [
+                    "https://www.facebook.com/caquest",
+                    "https://www.twitter.com/caquest",
+                    "https://www.linkedin.com/company/caquest"
+                ]
+            }
+        ]
+    };
+
   return (
-    <div>
+    <div className="min-h-screen">
+      <SEO 
+                title="Master CA Exams | Practice & Mocks"
+                description="CaQuest is the ultimate platform for CA students. Access Foundation, Inter, and Final mock papers, chapter-wise MCQ practice, and detailed performance analytics."
+                keywords="CA exams, CA foundation practice, CA inter mock tests, chartered accountancy, ICAI exam prep, CaQuest"
+                schema={homeSchema}
+            />
       {/* Hero Section */}
       <section className="relative overflow-hidden gradient-bg text-white">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,...')] opacity-10"></div>

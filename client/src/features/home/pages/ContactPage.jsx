@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { HiMail, HiPhone, HiLocationMarker } from "react-icons/hi";
 import toast from "react-hot-toast";
 import api from "../../../shared/utils/api";
+import SEO from '../../../shared/components/SEO';
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -26,8 +27,36 @@ const ContactPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const contactSchema = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact CaQuest",
+    "description": "Get in touch with the CaQuest support team for queries related to CA Foundation, Intermediate, or Final mock tests and platform access.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CaQuest"
+    },
+    "mainEntity": {
+      "@type": "Organization",
+      "contactPoint": {
+         "@type": "ContactPoint",
+         "telephone": "+91-9876543210",
+         "contactType": "customer support",
+         "email": "support@caquest.com",
+         "areaServed": "IN",
+         "availableLanguage": "en"
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <SEO 
+        title="Contact Us"
+        description="Have questions about CaQuest or your CA prep? Reach out to our 24/7 dedicated support team for help with mock tests, subscriptions, or technical issues."
+        keywords="Contact CaQuest, CaQuest support, CA exam help desk"
+        schema={contactSchema}
+      />
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-base text-primary-600 font-semibold tracking-wide uppercase">Contact Us</h2>

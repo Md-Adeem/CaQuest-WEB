@@ -3,10 +3,11 @@ import React, { useState } from 'react';
 import { useAuth } from '../../auth/hooks/useAuth';
 import api from '../../../shared/utils/api';
 import toast from 'react-hot-toast';
-import { HiUser, HiMail, HiPhone, HiLockClosed, HiSave } from 'react-icons/hi';
+import { HiUser, HiMail, HiPhone, HiLockClosed, HiSave, HiCreditCard } from 'react-icons/hi';
 import { formatDate, daysRemaining } from '../../../shared/utils/helpers';
 import { LEVELS } from '../../../shared/utils/constants';
 import Badge from '../../../shared/components/Badge';
+import PaymentHistoryList from '../components/PaymentHistoryList';
 
 const ProfilePage = () => {
   const { user, updateUser } = useAuth();
@@ -145,6 +146,17 @@ const ProfilePage = () => {
             >
               Change Password
             </button>
+            <button
+              onClick={() => setActiveTab('payments')}
+              className={`px-4 py-2 rounded-lg text-sm flex gap-2 items-center font-semibold transition-all ${
+                activeTab === 'payments'
+                  ? 'bg-primary-600 text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              <HiCreditCard className="w-4 h-4" />
+              Payment History
+            </button>
           </div>
 
           {activeTab === 'profile' ? (
@@ -211,7 +223,7 @@ const ProfilePage = () => {
                 </button>
               </form>
             </div>
-          ) : (
+          ) : activeTab === 'password' ? (
             <div className="card">
               <h2 className="text-xl font-bold text-gray-900 mb-6">
                 Change Password
@@ -279,7 +291,9 @@ const ProfilePage = () => {
                 </button>
               </form>
             </div>
-          )}
+          ) : activeTab === 'payments' ? (
+            <PaymentHistoryList />
+          ) : null}
         </div>
       </div>
     </div>

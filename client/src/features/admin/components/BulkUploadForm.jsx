@@ -16,6 +16,7 @@ const BulkUploadForm = ({ onSuccess }) => {
   const [selectedLevel, setSelectedLevel] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('');
   const [selectedChapter, setSelectedChapter] = useState('');
+  const [selectedPaperType, setSelectedPaperType] = useState('Practice');
 
   // Fetch Subjects on Level Change
   useEffect(() => {
@@ -63,14 +64,13 @@ const BulkUploadForm = ({ onSuccess }) => {
   };
 
   const handleDownloadTemplate = () => {
-    const templateCSV = "questionText,type,option1,option2,option3,option4,correctAnswer,explanation,difficulty,marks\nWhat is a journal?,subjective,,,,,,Detailed explanation,medium,5\nAssets equal Liabilities plus?,MCQ,Equity,Revenue,Expenses,Income,0,Accounting equation principle,easy,1";
+    const templateCSV = "questionText,type,option1,option2,option3,option4,correctAnswer,explanation,difficulty,marks\nWhat is a journal?,SUBJECTIVE,,,,,,Detailed explanation,medium,5\nAssets equal Liabilities plus?,MCQ,Equity,Revenue,Expenses,Income,0,Accounting equation principle,easy,1";
     
     const blob = new Blob([templateCSV], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement("a");
     const url = URL.createObjectURL(blob);
-    link.setAttribute("href", url);
-    link.setAttribute("download", "caquest_questions_template.csv");
-    link.style.visibility = 'hidden';
+    link.href = url;
+    link.download = "caquest_questions_template.csv";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -98,7 +98,8 @@ const BulkUploadForm = ({ onSuccess }) => {
         try {
           // Map CSV rows to match Question Schema
           const formattedQuestions = results.data.map((row, index) => {
-            const type = row.type?.toUpperCase() === 'MCQ' ? 'MCQ' : 'subjective';
+            const rawType = String(row.type || 'MCQ').trim().toUpperCase();
+            const type = rawType === 'SUBJECTIVE' ? 'SUBJECTIVE' : 'MCQ';
             
             // Reconstruct Options Array for MCQ
             let options = [];
@@ -109,20 +110,24 @@ const BulkUploadForm = ({ onSuccess }) => {
               if (options.length < 2) {
                 throw new Error(`Row ${index + 1}: MCQ requires at least 2 options`);
               }
-              correctAnswer = parseInt(row.correctAnswer) || 0;
+              
+              let rawAns = String(row.correctAnswer || '').trim().toUpperCase();
+              if (['A', '1'].includes(rawAns)) correctAnswer = 0;
+              else if (['B', '2'].includes(rawAns)) correctAnswer = 1;
+              else if (['C', '3'].includes(rawAns)) correctAnswer = 2;
+              else if (['D', '4'].includes(rawAns)) correctAnswer = 3;
+              else if (rawAns === '0') correctAnswer = 0;
             }
 
             return {
-              questionText: row.questionText,
-              type,
-              options: type === 'MCQ' ? options : [],
+              questionText: String(row.questionText || '').trim(),
+              type: type,
+              options: type === 'MCQ' ? options : undefined,
               correctAnswer: type === 'MCQ' ? correctAnswer : undefined,
-              modelAnswer: type === 'subjective' ? row.correctAnswer : undefined,
-              explanation: row.explanation || '',
-              difficulty: row.difficulty?.toLowerCase() || 'medium',
-              marks: parseInt(row.marks) || (type === 'MCQ' ? 1 : 5),
-              // Ensure numerical accuracy for parsing
-              paperType: row.paperType || 'Practice'
+              modelAnswer: type === 'SUBJECTIVE' ? String(row.correctAnswer || 'Provided model answer').trim() : undefined,
+              explanation: String(row.explanation || '').trim(),
+              // Use the UI dropdown for Paper Type so it correctly applies to MongoDB Enum
+              paperType: selectedPaperType
             };
           });
 
@@ -176,7 +181,7 @@ const BulkUploadForm = ({ onSuccess }) => {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Classification Selectors */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Level <span className="text-red-500">*</span>
@@ -231,6 +236,23 @@ const BulkUploadForm = ({ onSuccess }) => {
                   {chapter.chapterNumber}. {chapter.name}
                 </option>
               ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Paper Type <span className="text-red-500">*</span>
+            </label>
+            <select
+              required
+              value={selectedPaperType}
+              onChange={(e) => setSelectedPaperType(e.target.value)}
+              className="input-field w-full"
+            >
+              <option value="Practice">Practice</option>
+              <option value="RTP">RTP</option>
+              <option value="MTP">MTP</option>
+              <option value="PYQS">PYQS</option>
             </select>
           </div>
         </div>

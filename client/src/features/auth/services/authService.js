@@ -6,6 +6,7 @@ const authService = {
   getMe: () => api.get('/auth/me'),
   selectLevel: (level) => api.put('/auth/select-level', { level }),
   updateProfile: (data) => api.put('/auth/profile', data),
+  updateStreak: () => api.put('/auth/streak'),
 };
 
 export default authService;

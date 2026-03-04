@@ -57,6 +57,20 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    
+    // Gamification properties
+    currentStreak: {
+      type: Number,
+      default: 0,
+    },
+    longestStreak: {
+      type: Number,
+      default: 0,
+    },
+    lastStudyDate: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,

@@ -206,6 +206,66 @@ const changePassword = async (req, res, next) => {
   }
 };
 
+// @desc    Update User Study Streak
+// @route   PUT /api/auth/streak
+// @access  Private
+const updateStreak = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalize to start of today local time
+    
+    let lastDate = user.lastStudyDate ? new Date(user.lastStudyDate) : null;
+    if (lastDate) lastDate.setHours(0, 0, 0, 0);
+
+    let streakUpdated = false;
+
+    if (!lastDate) {
+      // First time studying
+      user.currentStreak = 1;
+      user.longestStreak = 1;
+      user.lastStudyDate = new Date();
+      streakUpdated = true;
+    } else {
+      const diffTime = Math.abs(today - lastDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if (diffDays === 1) {
+        // Studied yesterday, increment streak
+        user.currentStreak += 1;
+        user.lastStudyDate = new Date();
+        if (user.currentStreak > user.longestStreak) {
+          user.longestStreak = user.currentStreak;
+        }
+        streakUpdated = true;
+      } else if (diffDays > 1) {
+        // Missed a day, reset streak
+        user.currentStreak = 1;
+        user.lastStudyDate = new Date();
+        streakUpdated = true;
+      }
+      // If diffDays === 0, they already studied today. Do nothing but return success.
+    }
+
+    if (streakUpdated) {
+      await user.save();
+    }
+
+    res.json({
+      success: true,
+      data: {
+        currentStreak: user.currentStreak,
+        longestStreak: user.longestStreak,
+        lastStudyDate: user.lastStudyDate
+      }
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -213,4 +273,5 @@ module.exports = {
   selectLevel,
   updateProfile,
   changePassword,
+  updateStreak,
 };

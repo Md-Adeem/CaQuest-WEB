@@ -12,10 +12,12 @@ import LoginPage from "./features/auth/pages/LoginPage";
 import RegisterPage from "./features/auth/pages/RegisterPage";
 import ProtectedRoute from "./features/auth/components/ProtectedRoute";
 
-// Home
 import HomePage from "./features/home/pages/HomePage";
 import AboutPage from "./features/home/pages/AboutPage";
 import ContactPage from "./features/home/pages/ContactPage";
+import FAQPage from "./features/home/pages/FAQPage";
+import BlogPage from "./features/home/pages/BlogPage";
+import BlogPostPage from "./features/home/pages/BlogPostPage";
 
 // Student
 import DashboardPage from "./features/dashboard/pages/DashboardPage";
@@ -87,6 +89,9 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/faq" element={<FAQPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:id" element={<BlogPostPage />} />
           <Route
             path="/login"
             element={!user ? <LoginPage /> : <Navigate to="/dashboard" />}

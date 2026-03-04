@@ -3,13 +3,34 @@ import { useSubscription } from '../hooks/useSubscription';
 import PlanCard from '../components/PlanCard';
 import { CardGridShimmer } from '../../../shared/components/Shimmer';
 import { LEVELS } from '../../../shared/utils/constants';
+import SEO from '../../../shared/components/SEO';
 
 const SubscriptionPage = () => {
   const [selectedLevel, setSelectedLevel] = useState(null);
   const { plans, loading } = useSubscription(selectedLevel);
 
+  const pricingSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "CA Exam Subscription Plans | CaQuest",
+    "description": "View CaQuest subscription pricing for CA Foundation, Inter, and Final mock tests.",
+    "offers": {
+      "@type": "AggregateOffer",
+      "priceCurrency": "INR",
+      "lowPrice": plans?.length > 0 ? Math.min(...plans.map(p => p.price)) : 499,
+      "highPrice": plans?.length > 0 ? Math.max(...plans.map(p => p.price)) : 2999,
+      "offerCount": plans?.length || 3
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <SEO 
+        title="Pricing & Subscription Plans"
+        description="Choose the right CaQuest subscription plan for your CA preparation. Get unlimited access to foundation, intermediate, or final mock tests."
+        keywords="CaQuest pricing, CA mock tests cost, CA subscription plans, ICAI exam prep pricing"
+        schema={pricingSchema}
+      />
       {/* Header */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">

@@ -7,6 +7,7 @@ const authService = {
   selectLevel: (level) => api.put('/auth/select-level', { level }),
   updateProfile: (data) => api.put('/auth/profile', data),
   updateStreak: () => api.put('/auth/streak'),
+  getLeaderboard: () => api.get('/auth/leaderboard'),
 };
 
 export default authService;

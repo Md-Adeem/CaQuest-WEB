@@ -8,10 +8,13 @@ const {
   updateProfile,
   changePassword,
   updateStreak,
+  getLeaderboard,
 } = require('../controllers/authController');
 const { protect } = require('../middleware/auth');
 const { registerValidation, loginValidation } = require('../utils/validators');
 const { authLimiter } = require('../middleware/rateLimiter');
+
+router.get('/leaderboard', getLeaderboard);
 
 
 router.post('/login', authLimiter, loginValidation, login);

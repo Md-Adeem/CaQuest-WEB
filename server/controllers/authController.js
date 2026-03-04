@@ -265,6 +265,52 @@ const updateStreak = async (req, res, next) => {
     next(error);
   }
 };
+// @desc    Get Global Student Leaderboard by Streak
+// @route   GET /api/auth/leaderboard
+// @access  Public
+const getLeaderboard = async (req, res, next) => {
+  try {
+    // Return top 50 active students with highest current streak
+    const users = await User.find({ role: 'student', isActive: true })
+      .select('name activeSubscriptions currentStreak longestStreak updatedAt createdAt')
+      .sort({ currentStreak: -1, longestStreak: -1 }) // Sort by active streak, tiebreaker is longest historical streak
+      .limit(50)
+      .lean();
+
+    const now = new Date();
+
+    const leaderboard = users.map((user) => {
+      // Extract unexpired overlapping active subscriptions
+      const validSubs = (user.activeSubscriptions || []).filter(
+        (sub) => new Date(sub.expiresAt) > now
+      );
+
+      let computedLevel = 'Student'; // Default fallback
+      if (validSubs.length > 0) {
+        // Collect unique level names (e.g. foundation, intermediate) and capitalize them
+        const uniqueLevels = [...new Set(validSubs.map((sub) => sub.level))];
+        computedLevel = uniqueLevels
+          .map((l) => l.charAt(0).toUpperCase() + l.slice(1))
+          .join(', ');
+      }
+
+      return {
+        name: user.name,
+        currentStreak: user.currentStreak,
+        longestStreak: user.longestStreak,
+        level: computedLevel,
+      };
+    });
+
+    res.status(200).json({
+      success: true,
+      count: leaderboard.length,
+      data: leaderboard,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   register,
@@ -274,4 +320,5 @@ module.exports = {
   updateProfile,
   changePassword,
   updateStreak,
+  getLeaderboard,
 };

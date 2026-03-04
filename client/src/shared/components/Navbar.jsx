@@ -16,6 +16,7 @@ import {
   HiBookmark,
   HiSun,
   HiMoon,
+  HiStar,
 } from "react-icons/hi";
 import { getInitials } from "../utils/helpers";
 
@@ -91,6 +92,17 @@ const Navbar = () => {
                     >
                       <HiBookmark className="w-4 h-4" />
                       Bookmarks
+                    </Link>
+                    <Link
+                      to="/leaderboard"
+                      className={`text-sm font-medium transition-colors flex items-center gap-1 xl:gap-1.5 px-2 xl:px-3 py-2 rounded-lg ${
+                        location.pathname === "/leaderboard"
+                          ? "text-yellow-600 bg-yellow-50 dark:text-yellow-400 dark:bg-yellow-900/30"
+                          : "text-gray-600 dark:text-gray-300 hover:text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/30"
+                      }`}
+                    >
+                      <HiStar className="w-4 h-4" />
+                      Leaderboard
                     </Link>
                   </>
                 )}
@@ -278,6 +290,12 @@ const Navbar = () => {
                   to="/bookmarks"
                   icon={HiBookmark}
                   label="Bookmarks"
+                  onClick={() => setIsMenuOpen(false)}
+                />
+                <MobileLink
+                  to="/leaderboard"
+                  icon={HiStar}
+                  label="Leaderboard"
                   onClick={() => setIsMenuOpen(false)}
                 />
                 <MobileLink

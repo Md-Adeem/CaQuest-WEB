@@ -18,6 +18,7 @@ import ContactPage from "./features/home/pages/ContactPage";
 import FAQPage from "./features/home/pages/FAQPage";
 import BlogPage from "./features/home/pages/BlogPage";
 import BlogPostPage from "./features/home/pages/BlogPostPage";
+import LeaderboardPage from "./features/leaderboard/pages/LeaderboardPage";
 
 // Student
 import DashboardPage from "./features/dashboard/pages/DashboardPage";
@@ -27,6 +28,7 @@ import QuestionsPage from "./features/questions/pages/QuestionsPage";
 import SubscriptionPage from "./features/subscription/pages/SubscriptionPage";
 import PaymentPage from "./features/subscription/pages/PaymentPage";
 import ProfilePage from "./features/profile/pages/ProfilePage";
+
 // ========= LAZY LOADED PAGES =========
 const QuizPage = lazy(() => import("./features/quiz/pages/QuizPage"));
 const ProgressPage = lazy(() =>
@@ -92,6 +94,7 @@ const App = () => {
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:id" element={<BlogPostPage />} />
+          <Route path="/leaderboard" element={<LeaderboardPage />} />
           <Route
             path="/login"
             element={!user ? <LoginPage /> : <Navigate to="/dashboard" />}

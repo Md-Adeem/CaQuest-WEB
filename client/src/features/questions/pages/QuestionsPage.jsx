@@ -36,7 +36,7 @@ const QuestionsPage = () => {
       <div className="max-w-4xl mx-auto px-4 py-8">
         <Link
           to={-1}
-          className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary-600 mb-6"
+          className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 mb-6"
         >
           <HiArrowLeft className="w-4 h-4" />
           Back
@@ -51,7 +51,7 @@ const QuestionsPage = () => {
       {/* Breadcrumb */}
       <button
         onClick={() => window.history.back()}
-        className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary-600 mb-6"
+        className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 mb-6"
       >
         <HiArrowLeft className="w-4 h-4" />
         Back to Chapters
@@ -60,10 +60,10 @@ const QuestionsPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
             {accessInfo?.chapterName || "Practice Questions"}
           </h1>
-          <p className="text-gray-500 mt-1">
+          <p className="text-gray-500 dark:text-gray-400 mt-1">
             Test your knowledge with these chapter-wise questions
           </p>
         </div>
@@ -77,8 +77,8 @@ const QuestionsPage = () => {
       </div>
 
       {/* Paper Type Filter */}
-      <div className="flex flex-wrap items-center gap-2 mb-6 p-3 bg-gray-50 rounded-lg">
-        <span className="text-sm font-medium text-gray-700 mr-2">
+      <div className="flex flex-wrap items-center gap-2 mb-6 p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-200 mr-2">
           Filter by:
         </span>
         <button
@@ -86,7 +86,7 @@ const QuestionsPage = () => {
           className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
             !paperType
               ? "bg-primary-600 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              : "bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
           }`}
         >
           All
@@ -96,7 +96,7 @@ const QuestionsPage = () => {
           className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
             paperType === "RTP"
               ? "bg-blue-600 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              : "bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
           }`}
         >
           RTP
@@ -106,7 +106,7 @@ const QuestionsPage = () => {
           className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
             paperType === "MTP"
               ? "bg-green-600 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              : "bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
           }`}
         >
           MTP
@@ -116,7 +116,7 @@ const QuestionsPage = () => {
           className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
             paperType === "PYQS"
               ? "bg-purple-600 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              : "bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
           }`}
         >
           PYQS
@@ -126,7 +126,7 @@ const QuestionsPage = () => {
           className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
             paperType === "Practice"
               ? "bg-orange-600 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              : "bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
           }`}
         >
           Practice
@@ -152,7 +152,7 @@ const QuestionsPage = () => {
               className={`w-10 h-10 rounded-lg text-sm font-medium transition-colors ${
                 pagination.currentPage === i + 1
                   ? "bg-primary-600 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200"
               }`}
             >
               {i + 1}

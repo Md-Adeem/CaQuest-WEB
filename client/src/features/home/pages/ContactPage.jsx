@@ -50,7 +50,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <SEO 
         title="Contact Us"
         description="Have questions about CaQuest or your CA prep? Reach out to our 24/7 dedicated support team for help with mock tests, subscriptions, or technical issues."
@@ -60,15 +60,15 @@ const ContactPage = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-base text-primary-600 font-semibold tracking-wide uppercase">Contact Us</h2>
-          <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+          <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
             Get in Touch
           </p>
-          <p className="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+          <p className="mt-4 max-w-2xl text-xl text-gray-500 dark:text-gray-400 mx-auto">
             Have questions about our plans, materials, or anything else? We're here to help!
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden max-w-5xl mx-auto flex flex-col md:flex-row">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden max-w-5xl mx-auto flex flex-col md:flex-row">
           {/* Contact Info */}
           <div className="bg-gray-900 text-white p-8 md:w-1/3 flex flex-col justify-center">
             <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
@@ -94,7 +94,7 @@ const ContactPage = () => {
           <div className="p-8 md:w-2/3">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Your Name</label>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-200">Your Name</label>
                 <input
                   type="text"
                   name="name"
@@ -107,7 +107,7 @@ const ContactPage = () => {
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">Your Email</label>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200">Your Email</label>
                 <input
                   type="email"
                   name="email"
@@ -120,7 +120,7 @@ const ContactPage = () => {
                 />
               </div>
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700">Message</label>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-200">Message</label>
                 <textarea
                   name="message"
                   id="message"

@@ -11,12 +11,12 @@ const SubscriptionGate = ({ level }) => {
       <div className="w-20 h-20 mx-auto bg-yellow-100 rounded-full flex items-center justify-center mb-6">
         <HiLockClosed className="w-10 h-10 text-yellow-600" />
       </div>
-      <h2 className="text-2xl font-bold text-gray-900 mb-3">
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
         Subscription Required
       </h2>
-      <p className="text-gray-500 mb-2">
+      <p className="text-gray-500 dark:text-gray-400 mb-2">
         You need an active subscription for{' '}
-        <span className="font-semibold text-gray-700">
+        <span className="font-semibold text-gray-700 dark:text-gray-200">
           {levelInfo?.name || 'this level'}
         </span>{' '}
         to access these questions.

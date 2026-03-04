@@ -17,24 +17,24 @@ const SubjectCard = ({ subject }) => {
             <span className="text-sm font-mono font-semibold text-primary-600 bg-primary-50 border border-primary-100 px-2 py-0.5 rounded uppercase mb-1 inline-block tracking-wide">
               {subject.code}
             </span>
-            <h3 className="text-lg font-bold text-gray-900">{subject.name}</h3>
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white">{subject.name}</h3>
           </div>
         </div>
         <HiChevronRight className="w-5 h-5 text-gray-400 group-hover:text-primary-600 transition-colors" />
       </div>
 
       {subject.description && (
-        <p className="text-sm text-gray-500 mt-3 line-clamp-2">
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-3 line-clamp-2">
           {subject.description}
         </p>
       )}
 
-      <div className="flex items-center gap-4 mt-4 pt-4 border-t border-gray-100">
-        <div className="flex items-center gap-1 text-sm text-gray-500">
+      <div className="flex items-center gap-4 mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
+        <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
           <HiBookOpen className="w-4 h-4" />
           <span>{subject.totalChapters} Chapters</span>
         </div>
-        <div className="flex items-center gap-1 text-sm text-gray-500">
+        <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
           <HiQuestionMarkCircle className="w-4 h-4" />
           <span>{subject.totalQuestions} Questions</span>
         </div>

@@ -9,12 +9,12 @@ const SubscriptionStatus = ({ subscriptions }) => {
   if (!subscriptions || subscriptions.length === 0) {
     return (
       <div className="card">
-        <h3 className="text-lg font-bold text-gray-900 mb-3">
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">
           Your Subscriptions
         </h3>
         <div className="text-center py-6">
           <div className="text-4xl mb-3">🔒</div>
-          <p className="text-gray-500 mb-4">
+          <p className="text-gray-500 dark:text-gray-400 mb-4">
             No active subscriptions yet. Subscribe to access question banks.
           </p>
           <Link to="/subscriptions" className="btn-primary text-sm">
@@ -27,7 +27,7 @@ const SubscriptionStatus = ({ subscriptions }) => {
 
   return (
     <div className="card">
-      <h3 className="text-lg font-bold text-gray-900 mb-4">
+      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
         Your Subscriptions
       </h3>
       <div className="space-y-3">
@@ -46,8 +46,8 @@ const SubscriptionStatus = ({ subscriptions }) => {
               <div className="flex items-center gap-3">
                 <span className="text-2xl">{level?.icon}</span>
                 <div>
-                  <p className="font-semibold text-gray-900">{level?.name}</p>
-                  <p className="text-xs text-gray-500">
+                  <p className="font-semibold text-gray-900 dark:text-white">{level?.name}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
                     Expires: {formatDate(sub.expiresAt)}
                   </p>
                 </div>

@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center space-x-2 mb-6 bg-white p-3 rounded-xl inline-block shadow-sm">
+            <div className="flex items-center space-x-2 mb-6 bg-white dark:bg-gray-800 p-3 rounded-xl inline-block shadow-sm">
               <img src="/logo.png" alt="CaQuest" className="h-20 w-auto object-contain" />
             </div>
             <p className="text-sm leading-relaxed max-w-md">

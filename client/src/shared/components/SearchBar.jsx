@@ -80,8 +80,8 @@ const SearchBar = () => {
             if (results) setIsOpen(true);
           }}
           placeholder="Search subjects, chapters, questions..."
-          className="w-full pl-10 pr-10 py-2.5 bg-gray-100 border border-transparent rounded-xl 
-                     focus:bg-white focus:border-primary-300 focus:ring-2 focus:ring-primary-100 
+          className="w-full pl-10 pr-10 py-2.5 bg-gray-100 dark:bg-gray-800 border border-transparent rounded-xl 
+                     focus:bg-white dark:bg-gray-800 focus:border-primary-300 focus:ring-2 focus:ring-primary-100 
                      transition-all text-sm"
         />
         {query && (
@@ -91,7 +91,7 @@ const SearchBar = () => {
               setResults(null);
               setIsOpen(false);
             }}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-gray-300"
           >
             <HiX className="w-4 h-4" />
           </button>
@@ -100,14 +100,14 @@ const SearchBar = () => {
 
       {/* Results Dropdown */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50 animate-slide-up max-h-96 overflow-y-auto">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden z-50 animate-slide-up max-h-96 overflow-y-auto">
           {loading ? (
-            <div className="p-4 text-center text-sm text-gray-500">
+            <div className="p-4 text-center text-sm text-gray-500 dark:text-gray-400">
               Searching...
             </div>
           ) : !hasResults ? (
             <div className="p-6 text-center">
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 No results found for "{query}"
               </p>
             </div>
@@ -116,7 +116,7 @@ const SearchBar = () => {
               {/* Subjects */}
               {results.subjects?.length > 0 && (
                 <div>
-                  <div className="px-4 py-2 bg-gray-50 text-xs font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-1">
+                  <div className="px-4 py-2 bg-gray-50 dark:bg-gray-900 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider flex items-center gap-1">
                     <HiBookOpen className="w-3 h-3" />
                     Subjects
                   </div>
@@ -126,14 +126,14 @@ const SearchBar = () => {
                       onClick={() =>
                         handleNavigate(`/chapters/${subject._id}`)
                       }
-                      className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-3 transition-colors"
+                      className="w-full text-left px-4 py-3 hover:bg-gray-50 dark:bg-gray-900 flex items-center gap-3 transition-colors"
                     >
                       <span className="text-lg">{subject.icon}</span>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate">
+                        <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
                           {subject.name}
                         </p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
                           {LEVELS[subject.level]?.name} • {subject.totalChapters} chapters
                         </p>
                       </div>
@@ -145,7 +145,7 @@ const SearchBar = () => {
               {/* Chapters */}
               {results.chapters?.length > 0 && (
                 <div>
-                  <div className="px-4 py-2 bg-gray-50 text-xs font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-1">
+                  <div className="px-4 py-2 bg-gray-50 dark:bg-gray-900 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider flex items-center gap-1">
                     <HiCollection className="w-3 h-3" />
                     Chapters
                   </div>
@@ -155,16 +155,16 @@ const SearchBar = () => {
                       onClick={() =>
                         handleNavigate(`/questions/${chapter._id}`)
                       }
-                      className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-3 transition-colors"
+                      className="w-full text-left px-4 py-3 hover:bg-gray-50 dark:bg-gray-900 flex items-center gap-3 transition-colors"
                     >
                       <div className="w-8 h-8 rounded-lg bg-primary-100 text-primary-700 flex items-center justify-center text-xs font-bold">
                         {chapter.chapterNumber}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate">
+                        <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
                           {chapter.name}
                         </p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
                           {chapter.subject?.name} • {chapter.totalQuestions} questions
                         </p>
                       </div>
@@ -176,7 +176,7 @@ const SearchBar = () => {
               {/* Questions */}
               {results.questions?.length > 0 && (
                 <div>
-                  <div className="px-4 py-2 bg-gray-50 text-xs font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-1">
+                  <div className="px-4 py-2 bg-gray-50 dark:bg-gray-900 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider flex items-center gap-1">
                     <HiQuestionMarkCircle className="w-3 h-3" />
                     Questions
                   </div>
@@ -186,12 +186,12 @@ const SearchBar = () => {
                       onClick={() =>
                         handleNavigate(`/questions/${q.chapter?._id}`)
                       }
-                      className="w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors"
+                      className="w-full text-left px-4 py-3 hover:bg-gray-50 dark:bg-gray-900 transition-colors"
                     >
-                      <p className="text-sm text-gray-900 truncate">
+                      <p className="text-sm text-gray-900 dark:text-white truncate">
                         {q.questionText}
                       </p>
-                      <p className="text-xs text-gray-500 mt-0.5">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                         {q.subject?.name} • Ch {q.chapter?.chapterNumber}
                       </p>
                     </button>

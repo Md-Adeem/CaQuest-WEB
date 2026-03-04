@@ -121,15 +121,15 @@ const QuizPage = () => {
         <div className="card">
           <div className="text-center mb-8">
             <div className="text-5xl mb-4">📝</div>
-            <h1 className="text-3xl font-bold text-gray-900">Quiz Mode</h1>
-            <p className="text-gray-500 mt-2">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Quiz Mode</h1>
+            <p className="text-gray-500 dark:text-gray-400 mt-2">
               Test yourself with a timed quiz
             </p>
           </div>
 
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                 Number of Questions
               </label>
               <div className="flex flex-wrap gap-2 md:gap-3">
@@ -142,7 +142,7 @@ const QuizPage = () => {
                     className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                       settings.numberOfQuestions === num
                         ? "bg-primary-600 text-white"
-                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                        : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200"
                     }`}
                   >
                     {num}
@@ -152,7 +152,7 @@ const QuizPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                 Time per Question (seconds)
               </label>
               <div className="flex flex-wrap gap-2 md:gap-3">
@@ -165,7 +165,7 @@ const QuizPage = () => {
                     className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                       settings.timePerQuestion === time
                         ? "bg-primary-600 text-white"
-                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                        : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200"
                     }`}
                   >
                     {time}s
@@ -174,7 +174,7 @@ const QuizPage = () => {
               </div>
             </div>
 
-            <div className="bg-blue-50 rounded-xl p-4 text-sm text-blue-700">
+            <div className="bg-blue-50 dark:bg-blue-900/30 rounded-xl p-4 text-sm text-blue-700 dark:text-blue-300">
               <p>
                 <strong>Total Time:</strong>{" "}
                 {formatTime(
@@ -208,7 +208,7 @@ const QuizPage = () => {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
-            <span className="text-sm font-bold text-gray-500">
+            <span className="text-sm font-bold text-gray-500 dark:text-gray-400">
               Question {currentIndex + 1} / {questions.length}
             </span>
             <div className="w-48 h-2 bg-gray-200 rounded-full overflow-hidden">
@@ -224,7 +224,7 @@ const QuizPage = () => {
             className={`flex items-center gap-2 px-4 py-2 rounded-lg font-mono font-bold ${
               timeLeft < 60
                 ? "bg-red-100 text-red-700"
-                : "bg-gray-100 text-gray-700"
+                : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200"
             }`}
           >
             <HiClock className="w-5 h-5" />
@@ -234,7 +234,7 @@ const QuizPage = () => {
 
         {/* Question */}
         <div className="card mb-6">
-          <p className="text-lg font-medium text-gray-900 mb-6">
+          <p className="text-lg font-medium text-gray-900 dark:text-white mb-6">
             {currentQuestion.questionText}
           </p>
 
@@ -245,8 +245,8 @@ const QuizPage = () => {
                 onClick={() => handleAnswer(currentQuestion._id, optIndex)}
                 className={`w-full text-left p-4 rounded-xl border-2 transition-all ${
                   answers[currentQuestion._id] === optIndex
-                    ? "border-primary-500 bg-primary-50"
-                    : "border-gray-200 hover:border-primary-300"
+                    ? "border-primary-500 bg-primary-50 dark:bg-primary-900/30 dark:text-primary-300"
+                    : "border-gray-200 dark:border-gray-700 hover:border-primary-300"
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -254,7 +254,7 @@ const QuizPage = () => {
                     className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${
                       answers[currentQuestion._id] === optIndex
                         ? "bg-primary-600 text-white"
-                        : "bg-gray-100 text-gray-500"
+                        : "bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400"
                     }`}
                   >
                     {String.fromCharCode(65 + optIndex)}
@@ -287,8 +287,8 @@ const QuizPage = () => {
                   i === currentIndex
                     ? "bg-primary-600 text-white"
                     : answers[q._id] !== undefined
-                    ? "bg-green-100 text-green-700"
-                    : "bg-gray-100 text-gray-500"
+                    ? "bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400"
+                    : "bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400"
                 }`}
               >
                 {i + 1}
@@ -338,7 +338,7 @@ const QuizPage = () => {
               ? "📚"
               : "💪"}
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             Quiz Complete!
           </h1>
 
@@ -364,19 +364,19 @@ const QuizPage = () => {
               <p className="text-2xl font-bold text-green-600">
                 {results.correct}
               </p>
-              <p className="text-xs text-gray-500">Correct</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Correct</p>
             </div>
             <div className="bg-red-50 rounded-xl p-4">
               <HiXCircle className="w-6 h-6 text-red-600 mx-auto mb-1" />
               <p className="text-2xl font-bold text-red-600">{results.wrong}</p>
-              <p className="text-xs text-gray-500">Wrong</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Wrong</p>
             </div>
-            <div className="bg-gray-50 rounded-xl p-4">
+            <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-4">
               <div className="w-6 h-6 rounded-full border-2 border-gray-400 mx-auto mb-1"></div>
-              <p className="text-2xl font-bold text-gray-600">
+              <p className="text-2xl font-bold text-gray-600 dark:text-gray-300">
                 {results.unanswered}
               </p>
-              <p className="text-xs text-gray-500">Skipped</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Skipped</p>
             </div>
           </div>
 
@@ -398,7 +398,7 @@ const QuizPage = () => {
         </div>
 
         {/* Review Answers */}
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Review Answers</h2>
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Review Answers</h2>
         <div className="space-y-4">
           {questions.map((q, index) => {
             const userAnswer = answers[q._id];
@@ -421,20 +421,20 @@ const QuizPage = () => {
                     Q{index + 1}
                   </span>
                   {isUnanswered ? (
-                    <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                    <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-2 py-1 rounded-full">
                       Skipped
                     </span>
                   ) : isCorrect ? (
-                    <span className="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">
+                    <span className="text-xs bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 px-2 py-1 rounded-full">
                       Correct ✓
                     </span>
                   ) : (
-                    <span className="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full">
+                    <span className="text-xs bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-2 py-1 rounded-full">
                       Wrong ✗
                     </span>
                   )}
                 </div>
-                <p className="font-medium text-gray-900 mb-3">
+                <p className="font-medium text-gray-900 dark:text-white mb-3">
                   {q.questionText}
                 </p>
                 <div className="space-y-2">
@@ -443,10 +443,10 @@ const QuizPage = () => {
                       key={i}
                       className={`px-3 py-2 rounded-lg text-sm ${
                         i === q.correctAnswer
-                          ? "bg-green-100 text-green-700 font-medium"
+                          ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 font-medium"
                           : i === userAnswer && i !== q.correctAnswer
-                          ? "bg-red-100 text-red-700"
-                          : "bg-gray-50 text-gray-600"
+                          ? "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400"
+                          : "bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-300"
                       }`}
                     >
                       {String.fromCharCode(65 + i)}: {opt}
@@ -456,11 +456,11 @@ const QuizPage = () => {
                   ))}
                 </div>
                 {q.explanation && (
-                  <div className="mt-3 p-3 bg-blue-50 rounded-lg">
-                    <p className="text-xs font-semibold text-blue-700 mb-1">
+                  <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+                    <p className="text-xs font-semibold text-blue-700 dark:text-blue-300 mb-1">
                       Explanation:
                     </p>
-                    <p className="text-xs text-blue-600">{q.explanation}</p>
+                    <p className="text-xs text-blue-600 dark:text-blue-400">{q.explanation}</p>
                   </div>
                 )}
               </div>

@@ -14,10 +14,10 @@ const QuestionManagementPage = () => {
       <AdminSidebar />
       <div className="flex-1 p-4 md:p-8 w-full max-w-[100vw] overflow-x-hidden">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             Question Management
           </h1>
-          <p className="text-gray-500 mt-1">
+          <p className="text-gray-500 dark:text-gray-400 mt-1">
             Upload, manage, and organize practice questions
           </p>
         </div>
@@ -29,7 +29,7 @@ const QuestionManagementPage = () => {
             className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all ${
               activeTab === 'upload'
                 ? 'bg-primary-600 text-white shadow-md'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200'
             }`}
           >
             <HiPlus className="w-4 h-4" />
@@ -40,7 +40,7 @@ const QuestionManagementPage = () => {
             className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all ${
               activeTab === 'manage'
                 ? 'bg-primary-600 text-white shadow-md'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200'
             }`}
           >
             <HiCollection className="w-4 h-4" />
@@ -53,16 +53,16 @@ const QuestionManagementPage = () => {
           {activeTab === 'upload' ? (
             <>
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-gray-900">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                   {uploadMode === 'single' ? 'Upload New Question' : 'Bulk Upload via CSV'}
                 </h2>
-                <div className="flex bg-gray-100 rounded-lg p-1">
+                <div className="flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
                   <button
                     onClick={() => setUploadMode('single')}
                     className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
                       uploadMode === 'single'
-                        ? 'bg-white text-gray-900 shadow-sm'
-                        : 'text-gray-500 hover:text-gray-700'
+                        ? 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm'
+                        : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-200'
                     }`}
                   >
                     Single
@@ -71,8 +71,8 @@ const QuestionManagementPage = () => {
                     onClick={() => setUploadMode('bulk')}
                     className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
                       uploadMode === 'bulk'
-                        ? 'bg-white text-gray-900 shadow-sm'
-                        : 'text-gray-500 hover:text-gray-700'
+                        ? 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm'
+                        : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-200'
                     }`}
                   >
                     Bulk (CSV)
@@ -88,7 +88,7 @@ const QuestionManagementPage = () => {
             </>
           ) : (
             <>
-              <h2 className="text-xl font-bold text-gray-900 mb-6">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
                 Manage Existing Questions
               </h2>
               <QuestionManagement />

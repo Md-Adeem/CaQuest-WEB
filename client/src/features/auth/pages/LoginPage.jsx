@@ -34,7 +34,7 @@ const LoginPage = () => {
       <div className="hidden lg:flex lg:w-1/2 gradient-bg items-center justify-center p-12">
         <div className="max-w-md text-white">
           <div className="flex items-center space-x-3 mb-8">
-            <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-white dark:bg-gray-800/20 rounded-xl flex items-center justify-center">
               <HiAcademicCap className="w-8 h-8" />
             </div>
             <span className="text-3xl font-bold">CaQuest</span>
@@ -49,19 +49,19 @@ const LoginPage = () => {
           </p>
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center text-sm">
+              <div className="w-8 h-8 bg-white dark:bg-gray-800/20 rounded-lg flex items-center justify-center text-sm">
                 ✓
               </div>
               <span>Chapter-wise question banks</span>
             </div>
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center text-sm">
+              <div className="w-8 h-8 bg-white dark:bg-gray-800/20 rounded-lg flex items-center justify-center text-sm">
                 ✓
               </div>
               <span>All CA levels covered</span>
             </div>
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center text-sm">
+              <div className="w-8 h-8 bg-white dark:bg-gray-800/20 rounded-lg flex items-center justify-center text-sm">
                 ✓
               </div>
               <span>Detailed explanations</span>
@@ -74,8 +74,8 @@ const LoginPage = () => {
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900">Welcome Back</h2>
-            <p className="text-gray-500 mt-2">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Welcome Back</h2>
+            <p className="text-gray-500 dark:text-gray-400 mt-2">
               Sign in to continue your preparation
             </p>
           </div>

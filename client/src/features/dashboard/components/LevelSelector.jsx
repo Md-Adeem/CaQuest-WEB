@@ -38,10 +38,10 @@ const LevelSelector = ({ selectedLevel, onSelectLevel }) => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-gray-900 mb-2">
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
         Choose Your Level
       </h2>
-      <p className="text-gray-500 mb-6">
+      <p className="text-gray-500 dark:text-gray-400 mb-6">
         Select your CA exam level to access relevant subjects and chapters
       </p>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -49,17 +49,17 @@ const LevelSelector = ({ selectedLevel, onSelectLevel }) => {
           <button
             key={level.id}
             onClick={() => handleSelect(level.id)}
-            className={`bg-white rounded-xl shadow-sm border border-gray-100 p-6 text-left group hover:shadow-md hover:scale-[1.02] transition-all duration-200 ${
+            className={`bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 text-left group hover:shadow-md hover:scale-[1.02] transition-all duration-200 ${
               selectedLevel === level.id
                 ? `ring-2 ring-blue-500 ${level.bgColor}`
                 : ''
             }`}
           >
             <div className="text-4xl mb-4">{level.icon}</div>
-            <h3 className="text-lg font-bold text-gray-900 mb-1">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
               {level.name}
             </h3>
-            <p className="text-sm text-gray-500 mb-4">{level.description}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{level.description}</p>
             <div className="flex items-center text-blue-600 font-semibold text-sm group-hover:gap-2 transition-all">
               View Subjects
               <HiChevronRight className="w-4 h-4 ml-1" />

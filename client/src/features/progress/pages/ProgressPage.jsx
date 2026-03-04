@@ -57,11 +57,11 @@ const ProgressPage = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
           <HiChartBar className="w-8 h-8 text-primary-600" />
           My Progress
         </h1>
-        <p className="text-gray-500 mt-1">
+        <p className="text-gray-500 dark:text-gray-400 mt-1">
           Track your preparation journey and identify areas for improvement
         </p>
       </div>
@@ -73,7 +73,7 @@ const ProgressPage = () => {
           className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
             !selectedLevel
               ? "bg-primary-600 text-white"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200"
           }`}
         >
           All Levels
@@ -85,7 +85,7 @@ const ProgressPage = () => {
             className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
               selectedLevel === level.id
                 ? "bg-primary-600 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200"
             }`}
           >
             {level.icon} {level.name}
@@ -99,10 +99,10 @@ const ProgressPage = () => {
           <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
             <HiAcademicCap className="w-6 h-6 text-blue-600" />
           </div>
-          <p className="text-3xl font-bold text-gray-900">
+          <p className="text-3xl font-bold text-gray-900 dark:text-white">
             {overall.totalAttempted || 0}
           </p>
-          <p className="text-sm text-gray-500">Questions Attempted</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Questions Attempted</p>
         </div>
 
         <div className="card text-center">
@@ -112,7 +112,7 @@ const ProgressPage = () => {
           <p className="text-3xl font-bold text-green-600">
             {overall.totalCorrect || 0}
           </p>
-          <p className="text-sm text-gray-500">Correct Answers</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Correct Answers</p>
         </div>
 
         <div className="card text-center">
@@ -122,7 +122,7 @@ const ProgressPage = () => {
           <p className="text-3xl font-bold text-red-600">
             {overall.totalWrong || 0}
           </p>
-          <p className="text-sm text-gray-500">Wrong Answers</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Wrong Answers</p>
         </div>
 
         <div className="card text-center">
@@ -140,13 +140,13 @@ const ProgressPage = () => {
           >
             {accuracy}%
           </p>
-          <p className="text-sm text-gray-500">Accuracy</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Accuracy</p>
         </div>
       </div>
 
       {/* Accuracy Gauge */}
       <div className="card mb-8">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">
+        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
           Overall Accuracy
         </h2>
         <div className="flex items-center gap-8">
@@ -183,7 +183,7 @@ const ProgressPage = () => {
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-2xl font-bold text-gray-900">
+              <span className="text-2xl font-bold text-gray-900 dark:text-white">
                 {accuracy}%
               </span>
             </div>
@@ -204,7 +204,7 @@ const ProgressPage = () => {
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
               activeTab === tab.id
                 ? "bg-primary-600 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200"
             }`}
           >
             <tab.icon className="w-4 h-4" />
@@ -225,10 +225,10 @@ const ProgressPage = () => {
                 <div className="flex items-center gap-4">
                   <span className="text-2xl">{s.subjectIcon || "📚"}</span>
                   <div>
-                    <p className="font-semibold text-gray-900">
+                    <p className="font-semibold text-gray-900 dark:text-white">
                       {s.subjectName}
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
                       {s.attempted} of {s.totalQuestions || "?"} questions
                       attempted
                     </p>
@@ -236,7 +236,7 @@ const ProgressPage = () => {
                 </div>
                 <div className="flex items-center gap-6">
                   <div className="text-right">
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                       {s.correct}/{s.attempted} correct
                     </p>
                   </div>
@@ -271,7 +271,7 @@ const ProgressPage = () => {
               </div>
             ))
           ) : (
-            <div className="card text-center py-12 text-gray-500">
+            <div className="card text-center py-12 text-gray-500 dark:text-gray-400">
               <div className="text-4xl mb-3">📊</div>
               No subject data yet. Start practicing to see your progress!
             </div>
@@ -293,10 +293,10 @@ const ProgressPage = () => {
                     {c.chapterNumber}
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900 text-sm">
+                    <p className="font-medium text-gray-900 dark:text-white text-sm">
                       {c.chapterName}
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
                       {c.attempted} attempted • {c.correct} correct
                     </p>
                   </div>
@@ -329,7 +329,7 @@ const ProgressPage = () => {
               </div>
             ))
           ) : (
-            <div className="card text-center py-12 text-gray-500">
+            <div className="card text-center py-12 text-gray-500 dark:text-gray-400">
               <div className="text-4xl mb-3">📖</div>
               No chapter data yet.
             </div>
@@ -340,7 +340,7 @@ const ProgressPage = () => {
       {/* Daily Activity */}
       {activeTab === "activity" && (
         <div className="card">
-          <h3 className="text-lg font-bold text-gray-900 mb-4">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
             Last 30 Days Activity
           </h3>
           {stats?.dailyActivity?.length > 0 ? (
@@ -350,7 +350,7 @@ const ProgressPage = () => {
                   key={day._id}
                   className="flex items-center gap-4 py-2 border-b border-gray-50"
                 >
-                  <span className="text-sm text-gray-500 w-24 font-mono">
+                  <span className="text-sm text-gray-500 dark:text-gray-400 w-24 font-mono">
                     {new Date(day._id).toLocaleDateString("en-IN", {
                       month: "short",
                       day: "numeric",
@@ -372,7 +372,7 @@ const ProgressPage = () => {
                           minWidth: "20px",
                         }}
                       ></div>
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm text-gray-600 dark:text-gray-300">
                         {day.count} questions
                       </span>
                       <span className="text-xs text-green-600">
@@ -384,7 +384,7 @@ const ProgressPage = () => {
               ))}
             </div>
           ) : (
-            <div className="text-center py-8 text-gray-500">
+            <div className="text-center py-8 text-gray-500 dark:text-gray-400">
               <div className="text-4xl mb-3">📅</div>
               No recent activity. Start practicing today!
             </div>

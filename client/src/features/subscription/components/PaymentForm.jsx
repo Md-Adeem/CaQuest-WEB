@@ -113,13 +113,13 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Plan Summary */}
-      <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
+      <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
         <div className="flex justify-between items-center">
           <div>
-            <h4 className="font-semibold text-gray-900">{plan.name}</h4>
-            <p className="text-sm text-gray-500">{plan.durationLabel}</p>
+            <h4 className="font-semibold text-gray-900 dark:text-white">{plan.name}</h4>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{plan.durationLabel}</p>
           </div>
-          <span className="text-2xl font-bold text-gray-900">
+          <span className="text-2xl font-bold text-gray-900 dark:text-white">
             {formatCurrency(plan.price)}
           </span>
         </div>
@@ -127,7 +127,7 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
 
       {/* Payment Method */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
           Payment Method
         </label>
 
@@ -137,7 +137,7 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
             className={`flex items-center gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all ${
               formData.paymentMethod === "upi"
                 ? "border-primary-500 bg-primary-50"
-                : "border-gray-200 hover:border-gray-300"
+                : "border-gray-200 dark:border-gray-700 hover:border-gray-300"
             }`}
             onClick={handleUPIPayment}
           >
@@ -150,7 +150,7 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
               className="sr-only"
             />
             <span className="text-xl">📱</span>
-            <span className="text-sm font-medium text-gray-700">UPI</span>
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-200">UPI</span>
             <span className="ml-auto text-xs text-primary-600 font-medium">
               Click to Pay / View QR
             </span>
@@ -158,14 +158,14 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
           
           {/* Desktop QR Code Display */}
           {showQR && formData.paymentMethod === 'upi' && upiUrlString && (
-            <div className="mt-3 p-4 bg-white border border-gray-200 rounded-xl flex flex-col items-center justify-center shadow-sm animate-fade-in text-center">
-              <p className="text-sm font-semibold text-gray-800 mb-2">Scan with any UPI App (PhonePe, GPay, Paytm)</p>
+            <div className="mt-3 p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl flex flex-col items-center justify-center shadow-sm animate-fade-in text-center">
+              <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-2">Scan with any UPI App (PhonePe, GPay, Paytm)</p>
               <img 
                 src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrlString)}`} 
                 alt="Scan to pay" 
                 className="w-48 h-48 border rounded-lg shadow-sm"
               />
-              <p className="text-xs text-gray-500 mt-2">Paying to: {UPI_CONFIG.id}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Paying to: {UPI_CONFIG.id}</p>
             </div>
           )}
         </div>
@@ -174,14 +174,14 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
         <div className="bg-gradient-to-r from-gray-100 to-gray-200 border border-gray-300 rounded-xl p-4">
           <div className="flex items-center gap-3">
             <div className="flex-1">
-              <h4 className="font-medium text-gray-800 mb-1">
+              <h4 className="font-medium text-gray-800 dark:text-gray-100 mb-1">
                 More Payment Options Coming Soon!
               </h4>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-gray-300">
                 Bank Transfer • Credit/Debit Cards • Digital Wallets
               </p>
             </div>
-            <div className="px-3 py-1 bg-gray-300 text-gray-700 text-xs font-medium rounded-full">
+            <div className="px-3 py-1 bg-gray-300 text-gray-700 dark:text-gray-200 text-xs font-medium rounded-full">
               Coming Soon
             </div>
           </div>
@@ -218,7 +218,7 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
 
       {/* Transaction ID */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
           Transaction / Reference ID
         </label>
         <input
@@ -235,7 +235,7 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
         {transactionError && (
           <p className="mt-1 text-sm text-red-600">{transactionError}</p>
         )}
-        <div className="mt-2 text-xs text-gray-500">
+        <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
           <p>Valid formats:</p>
           <ul className="list-disc list-inside space-y-1 mt-1">
             <li>UPI Transaction ID (12-20 alphanumeric characters)</li>
@@ -247,11 +247,11 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
 
       {/* Screenshot Upload (Coming Soon) */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
           Payment Screenshot (Optional)
         </label>
         <div className="bg-gradient-to-r from-gray-100 to-gray-200 border border-gray-300 rounded-xl p-6 mt-1 flex flex-col items-center justify-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px] z-10"></div>
+          <div className="absolute inset-0 bg-white dark:bg-gray-800/40 backdrop-blur-[2px] z-10"></div>
           
           <div className="z-20 text-center flex flex-col items-center">
             <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mb-3">
@@ -259,7 +259,7 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
-            <h4 className="text-gray-800 font-medium mb-1">Screenshot Upload</h4>
+            <h4 className="text-gray-800 dark:text-gray-100 font-medium mb-1">Screenshot Upload</h4>
             <div className="px-3 py-1 bg-gray-800 text-white text-xs font-bold rounded-full uppercase tracking-wider shadow-sm">
               Coming Soon
             </div>

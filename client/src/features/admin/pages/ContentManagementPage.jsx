@@ -237,10 +237,10 @@ const ContentManagementPage = () => {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
               Content Management
             </h1>
-            <p className="text-gray-500 mt-1">
+            <p className="text-gray-500 dark:text-gray-400 mt-1">
               Manage subjects, chapters, and organize your content
             </p>
           </div>
@@ -259,7 +259,7 @@ const ContentManagementPage = () => {
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
                 selectedLevel === level.id
                   ? 'bg-primary-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200'
               }`}
             >
               <span>{level.icon}</span>
@@ -274,10 +274,10 @@ const ContentManagementPage = () => {
         ) : subjects.length === 0 ? (
           <div className="card text-center py-12">
             <div className="text-5xl mb-4">📂</div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
               No Subjects Yet
             </h3>
-            <p className="text-gray-500 mb-6">
+            <p className="text-gray-500 dark:text-gray-400 mb-6">
               Start by adding subjects for {LEVELS[selectedLevel]?.name}
             </p>
             <button onClick={openCreateSubject} className="btn-primary">
@@ -293,7 +293,7 @@ const ContentManagementPage = () => {
               >
                 {/* Subject Header */}
                 <div
-                  className="flex items-center justify-between p-5 cursor-pointer hover:bg-gray-50 transition-colors"
+                  className="flex items-center justify-between p-5 cursor-pointer hover:bg-gray-50 dark:bg-gray-900 transition-colors"
                   onClick={() => toggleSubjectExpand(subject._id)}
                 >
                   <div className="flex items-center gap-4">
@@ -305,15 +305,15 @@ const ContentManagementPage = () => {
                     <span className="text-2xl">{subject.icon}</span>
                     <div>
                       <div className="flex items-center gap-2">
-                        <h3 className="font-bold text-gray-900">
+                        <h3 className="font-bold text-gray-900 dark:text-white">
                           {subject.name}
                         </h3>
-                        <span className="text-xs font-mono text-gray-400 bg-gray-100 px-2 py-0.5 rounded">
+                        <span className="text-xs font-mono text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded">
                           {subject.code}
                         </span>
                       </div>
                       {subject.description && (
-                        <p className="text-sm text-gray-500 mt-0.5">
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
                           {subject.description}
                         </p>
                       )}
@@ -321,7 +321,7 @@ const ContentManagementPage = () => {
                   </div>
 
                   <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-3 text-sm text-gray-500">
+                    <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
                       <span className="flex items-center gap-1">
                         <HiBookOpen className="w-4 h-4" />
                         {subject.totalChapters} chapters
@@ -362,9 +362,9 @@ const ContentManagementPage = () => {
 
                 {/* Expanded Chapters */}
                 {expandedSubject === subject._id && (
-                  <div className="border-t border-gray-100 bg-gray-50 p-5">
+                  <div className="border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-5">
                     <div className="flex items-center justify-between mb-4">
-                      <h4 className="text-sm font-semibold text-gray-700">
+                      <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
                         Chapters
                       </h4>
                       <button
@@ -379,7 +379,7 @@ const ContentManagementPage = () => {
                     {!chapters[subject._id] ? (
                       <Loader text="Loading chapters..." />
                     ) : chapters[subject._id].length === 0 ? (
-                      <div className="text-center py-6 text-gray-500 text-sm">
+                      <div className="text-center py-6 text-gray-500 dark:text-gray-400 text-sm">
                         No chapters yet.{' '}
                         <button
                           onClick={() => openCreateChapter(subject._id)}
@@ -393,17 +393,17 @@ const ContentManagementPage = () => {
                         {chapters[subject._id].map((chapter) => (
                           <div
                             key={chapter._id}
-                            className="flex items-center justify-between bg-white rounded-lg p-3 border border-gray-200"
+                            className="flex items-center justify-between bg-white dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-700"
                           >
                             <div className="flex items-center gap-3">
                               <div className="w-8 h-8 rounded-lg bg-primary-100 text-primary-700 flex items-center justify-center text-sm font-bold">
                                 {chapter.chapterNumber}
                               </div>
                               <div>
-                                <p className="font-medium text-gray-900 text-sm">
+                                <p className="font-medium text-gray-900 dark:text-white text-sm">
                                   {chapter.name}
                                 </p>
-                                <p className="text-xs text-gray-500">
+                                <p className="text-xs text-gray-500 dark:text-gray-400">
                                   {chapter.totalQuestions} questions
                                 </p>
                               </div>
@@ -450,7 +450,7 @@ const ContentManagementPage = () => {
           <form onSubmit={handleSubjectSubmit} className="space-y-5">
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                   Subject Name *
                 </label>
                 <input
@@ -465,7 +465,7 @@ const ContentManagementPage = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                   Subject Code *
                 </label>
                 <input
@@ -483,7 +483,7 @@ const ContentManagementPage = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                   Level *
                 </label>
                 <select
@@ -504,7 +504,7 @@ const ContentManagementPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                 Description
               </label>
               <textarea
@@ -518,7 +518,7 @@ const ContentManagementPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                 Icon
               </label>
               <div className="flex flex-wrap gap-2">
@@ -532,7 +532,7 @@ const ContentManagementPage = () => {
                     className={`w-10 h-10 rounded-lg text-xl flex items-center justify-center transition-all ${
                       subjectForm.icon === icon
                         ? 'bg-primary-100 ring-2 ring-primary-500 scale-110'
-                        : 'bg-gray-100 hover:bg-gray-200'
+                        : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200'
                     }`}
                   >
                     {icon}
@@ -541,7 +541,7 @@ const ContentManagementPage = () => {
               </div>
             </div>
 
-            <div className="flex gap-3 justify-end pt-4 border-t border-gray-100">
+            <div className="flex gap-3 justify-end pt-4 border-t border-gray-100 dark:border-gray-700">
               <button
                 type="button"
                 onClick={() =>
@@ -574,7 +574,7 @@ const ContentManagementPage = () => {
           <form onSubmit={handleChapterSubmit} className="space-y-5">
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                   Chapter # *
                 </label>
                 <input
@@ -592,7 +592,7 @@ const ContentManagementPage = () => {
                 />
               </div>
               <div className="col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                   Chapter Name *
                 </label>
                 <input
@@ -609,7 +609,7 @@ const ContentManagementPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                 Description
               </label>
               <textarea
@@ -622,7 +622,7 @@ const ContentManagementPage = () => {
               />
             </div>
 
-            <div className="flex gap-3 justify-end pt-4 border-t border-gray-100">
+            <div className="flex gap-3 justify-end pt-4 border-t border-gray-100 dark:border-gray-700">
               <button
                 type="button"
                 onClick={() =>

@@ -111,7 +111,7 @@ const QuestionUploadForm = ({ onSuccess }) => {
       {/* Level, Subject, Chapter Selection */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
             Level *
           </label>
           <select
@@ -130,7 +130,7 @@ const QuestionUploadForm = ({ onSuccess }) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
             Subject *
           </label>
           <select
@@ -150,7 +150,7 @@ const QuestionUploadForm = ({ onSuccess }) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
             Chapter *
           </label>
           <select
@@ -189,8 +189,8 @@ const QuestionUploadForm = ({ onSuccess }) => {
       </div>
 
       {/* Question Text */}
-      <div data-color-mode="light">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
           Question Text *
         </label>
         <MDEditor
@@ -203,14 +203,14 @@ const QuestionUploadForm = ({ onSuccess }) => {
           }}
           height={300}
         />
-        <p className="text-xs text-gray-500 mt-1">
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
           Tip: You can use the toolbar to insert tables, lists, and formatting.
         </p>
       </div>
 
       {/* Paper Type */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
           Paper Type *
         </label>
         <select
@@ -234,7 +234,7 @@ const QuestionUploadForm = ({ onSuccess }) => {
       {/* Options - Only for MCQ */}
       {questionType === "MCQ" && (
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
             Options *
           </label>
           <div className="space-y-3">
@@ -244,7 +244,7 @@ const QuestionUploadForm = ({ onSuccess }) => {
                   className={`flex items-center justify-center w-10 h-10 rounded-lg text-sm font-bold cursor-pointer transition-all ${
                     question.correctAnswer === index
                       ? "bg-green-500 text-white"
-                      : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                      : "bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200"
                   }`}
                 >
                   <input
@@ -273,8 +273,8 @@ const QuestionUploadForm = ({ onSuccess }) => {
 
       {/* Model Answer - Only for SUBJECTIVE */}
       {questionType === "SUBJECTIVE" && (
-        <div data-color-mode="light">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
             Model Answer *
           </label>
           <MDEditor
@@ -291,8 +291,8 @@ const QuestionUploadForm = ({ onSuccess }) => {
       )}
 
       {/* Explanation */}
-      <div data-color-mode="light">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
           Explanation (Optional)
         </label>
         <MDEditor

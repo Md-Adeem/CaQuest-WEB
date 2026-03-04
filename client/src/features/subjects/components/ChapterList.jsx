@@ -6,8 +6,8 @@ const ChapterList = ({ chapters }) => {
     return (
       <div className="text-center py-12">
         <div className="text-5xl mb-4">📖</div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">No Chapters Available</h3>
-        <p className="text-gray-500">Chapters for this subject haven't been added yet.</p>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No Chapters Available</h3>
+        <p className="text-gray-500 dark:text-gray-400">Chapters for this subject haven't been added yet.</p>
       </div>
     );
   }

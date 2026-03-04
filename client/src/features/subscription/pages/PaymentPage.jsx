@@ -54,7 +54,7 @@ const PaymentPage = () => {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <Link
         to="/subscriptions"
-        className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary-600 mb-6"
+        className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 mb-6"
       >
         <HiArrowLeft className="w-4 h-4" />
         Back to Plans
@@ -64,7 +64,7 @@ const PaymentPage = () => {
         {/* Payment Form - 3 cols */}
         <div className="lg:col-span-3">
           <div className="card">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
               Complete Your Payment
             </h2>
             {plan && (
@@ -83,9 +83,9 @@ const PaymentPage = () => {
           <div className="card">
             <div className="flex items-center gap-3 mb-3">
               <HiShieldCheck className="w-6 h-6 text-green-600" />
-              <h3 className="font-semibold text-gray-900">Secure Payment</h3>
+              <h3 className="font-semibold text-gray-900 dark:text-white">Secure Payment</h3>
             </div>
-            <ul className="space-y-2 text-sm text-gray-500">
+            <ul className="space-y-2 text-sm text-gray-500 dark:text-gray-400">
               <li>✓ Your payment details are encrypted</li>
               <li>✓ Manual verification by admin</li>
               <li>✓ Instant activation after approval</li>
@@ -94,7 +94,7 @@ const PaymentPage = () => {
 
           {/* Recent Payments */}
           <div className="card">
-            <h3 className="font-semibold text-gray-900 mb-4">
+            <h3 className="font-semibold text-gray-900 dark:text-white mb-4">
               Your Payment History
             </h3>
             <PaymentHistory />

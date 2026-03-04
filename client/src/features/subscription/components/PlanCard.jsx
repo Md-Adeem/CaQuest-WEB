@@ -31,8 +31,8 @@ const PlanCard = ({ plan }) => {
           <span>{levelInfo?.name}</span>
         </div>
 
-        <h3 className="text-xl font-bold text-gray-900 mb-1">{plan.name}</h3>
-        <p className="text-sm text-gray-500 mb-4">{plan.durationLabel}</p>
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">{plan.name}</h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{plan.durationLabel}</p>
 
         <div className="mb-6">
           {plan.originalPrice && plan.originalPrice > plan.price && (
@@ -40,14 +40,14 @@ const PlanCard = ({ plan }) => {
               {formatCurrency(plan.originalPrice)}
             </span>
           )}
-          <span className="text-4xl font-bold text-gray-900">
+          <span className="text-4xl font-bold text-gray-900 dark:text-white">
             {formatCurrency(plan.price)}
           </span>
         </div>
 
         <ul className="space-y-3 mb-8 text-left">
           {plan.features?.map((feature, idx) => (
-            <li key={idx} className="flex items-start gap-2 text-sm text-gray-600">
+            <li key={idx} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
               <HiCheck className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
               <span>{feature}</span>
             </li>
@@ -63,10 +63,10 @@ const PlanCard = ({ plan }) => {
           disabled={plan.level === 'intermediate' || plan.level === 'final'}
           className={`w-full py-3 rounded-xl font-semibold transition-all duration-200 ${
             plan.level === 'intermediate' || plan.level === 'final'
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed'
               : plan.isPopular
               ? 'btn-primary hover:shadow-lg hover:-translate-y-0.5'
-              : 'bg-white border-2 border-primary-100 text-primary-600 hover:bg-primary-50 hover:border-primary-200'
+              : 'bg-white dark:bg-gray-800 border-2 border-primary-100 text-primary-600 hover:bg-primary-50 hover:border-primary-200'
           }`}
         >
           {plan.level === 'intermediate' || plan.level === 'final' ? 'Coming soon...' : 'Subscribe Now'}

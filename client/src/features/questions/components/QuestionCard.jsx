@@ -50,7 +50,7 @@ const QuestionCard = ({ question, index }) => {
   const renderMarkdown = (text) => {
     if (!text) return null;
     return (
-      <div data-color-mode="light">
+      <div>
         <MDEditor.Markdown
           source={text}
           rehypePlugins={[[rehypeSanitize]]}
@@ -75,7 +75,7 @@ const QuestionCard = ({ question, index }) => {
       case "Practice":
         return "bg-orange-100 text-orange-800";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100";
     }
   };
 
@@ -120,7 +120,7 @@ const QuestionCard = ({ question, index }) => {
         </div>
 
         {/* Question Text */}
-        <div className="text-gray-900 font-medium mb-5 leading-relaxed">
+        <div className="text-gray-900 dark:text-white font-medium mb-5 leading-relaxed">
           {renderMarkdown(question.questionText)}
         </div>
 
@@ -169,11 +169,11 @@ const QuestionCard = ({ question, index }) => {
             </button>
 
             {showAnswer && (
-              <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl">
-                <p className="text-sm font-semibold text-blue-700 mb-1">
+              <div className="p-4 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-xl">
+                <p className="text-sm font-semibold text-blue-700 dark:text-blue-300 mb-1">
                   Answer:
                 </p>
-                <div className="text-sm text-blue-600">
+                <div className="text-sm text-blue-600 dark:text-blue-400">
                   {renderMarkdown(question.modelAnswer)}
                 </div>
               </div>
@@ -213,20 +213,20 @@ const QuestionCard = ({ question, index }) => {
   const getOptionClass = (optionIndex) => {
     if (!showAnswer) {
       return selectedOption === optionIndex
-        ? "border-primary-500 bg-primary-50"
-        : "border-gray-200 hover:border-primary-300 hover:bg-primary-50/50";
+        ? "border-primary-500 bg-primary-50 dark:bg-primary-900/30 dark:text-primary-300"
+        : "border-gray-200 dark:border-gray-700 hover:border-primary-300 hover:bg-primary-50/50 dark:hover:bg-primary-900/20";
     }
 
     if (optionIndex === question.correctAnswer) {
-      return "border-green-500 bg-green-50";
+      return "border-green-500 bg-green-50 dark:bg-green-900/30 text-green-900 dark:text-green-300";
     }
     if (
       optionIndex === selectedOption &&
       optionIndex !== question.correctAnswer
     ) {
-      return "border-red-500 bg-red-50";
+      return "border-red-500 bg-red-50 dark:bg-red-900/30 text-red-900 dark:text-red-300";
     }
-    return "border-gray-200 opacity-60";
+    return "border-gray-200 dark:border-gray-700 opacity-60";
   };
 
   return (
@@ -267,7 +267,7 @@ const QuestionCard = ({ question, index }) => {
       </div>
 
       {/* Question Text */}
-      <div className="text-gray-900 font-medium mb-5 leading-relaxed">
+      <div className="text-gray-900 dark:text-white font-medium mb-5 leading-relaxed">
         {renderMarkdown(question.questionText)}
       </div>
 
@@ -286,17 +286,17 @@ const QuestionCard = ({ question, index }) => {
               <div
                 className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${
                   showAnswer && optionIndex === question.correctAnswer
-                    ? "bg-green-500 text-white"
+                    ? "bg-green-500 text-white dark:bg-green-600 dark:text-gray-100"
                     : showAnswer &&
                       optionIndex === selectedOption &&
                       optionIndex !== question.correctAnswer
-                    ? "bg-red-500 text-white"
-                    : "bg-gray-100 text-gray-600"
+                    ? "bg-red-500 text-white dark:bg-red-600 dark:text-gray-100"
+                    : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300"
                 }`}
               >
                 {String.fromCharCode(65 + optionIndex)}
               </div>
-              <span className="text-gray-700">{option}</span>
+              <span className="text-gray-700 dark:text-gray-200">{option}</span>
             </div>
           </button>
         ))}
@@ -304,11 +304,11 @@ const QuestionCard = ({ question, index }) => {
 
       {/* Explanation */}
       {showAnswer && question.explanation && (
-        <div className="mt-5 p-4 bg-blue-50 border border-blue-200 rounded-xl">
-          <p className="text-sm font-semibold text-blue-700 mb-1">
+        <div className="mt-5 p-4 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-xl">
+          <p className="text-sm font-semibold text-blue-700 dark:text-blue-300 mb-1">
             Explanation:
           </p>
-          <div className="text-sm text-blue-600">{renderMarkdown(question.explanation)}</div>
+          <div className="text-sm text-blue-600 dark:text-blue-400">{renderMarkdown(question.explanation)}</div>
         </div>
       )}
 

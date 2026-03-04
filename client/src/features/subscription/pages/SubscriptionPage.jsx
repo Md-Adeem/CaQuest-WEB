@@ -33,10 +33,10 @@ const SubscriptionPage = () => {
       />
       {/* Header */}
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
           Simple, Transparent Pricing
         </h1>
-        <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+        <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
           Choose the plan that fits your preparation needs. Get unlimited access
           to chapter-wise questions with detailed explanations.
         </p>
@@ -49,7 +49,7 @@ const SubscriptionPage = () => {
           className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${
             !selectedLevel
               ? 'bg-primary-600 text-white shadow-md'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200'
           }`}
         >
           All Levels
@@ -61,7 +61,7 @@ const SubscriptionPage = () => {
             className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${
               selectedLevel === level.id
                 ? 'bg-primary-600 text-white shadow-md'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200'
             }`}
           >
             {level.icon} {level.name}
@@ -81,14 +81,14 @@ const SubscriptionPage = () => {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 text-gray-500">
+        <div className="text-center py-12 text-gray-500 dark:text-gray-400">
           No subscription plans available at the moment.
         </div>
       )}
 
       {/* FAQ Section */}
       <div className="mt-20 max-w-3xl mx-auto">
-        <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white text-center mb-8">
           Frequently Asked Questions
         </h2>
         <div className="space-y-4">
@@ -107,8 +107,8 @@ const SubscriptionPage = () => {
 },
           ].map((faq, index) => (
             <div key={index} className="card">
-              <h3 className="font-semibold text-gray-900 mb-2">{faq.q}</h3>
-              <p className="text-sm text-gray-500">{faq.a}</p>
+              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{faq.q}</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{faq.a}</p>
             </div>
           ))}
         </div>

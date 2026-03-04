@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../auth/hooks/useAuth';
+import authService from '../../auth/services/authService';
 import progressService from '../../progress/services/progressService';
 import LevelSelector from '../components/LevelSelector';
 import DashboardStats from '../components/DashboardStats';
@@ -7,12 +8,25 @@ import SubscriptionStatus from '../components/SubscriptionStatus';
 import toast from 'react-hot-toast';
 
 const DashboardPage = () => {
-  const { user, selectLevel } = useAuth();
+  const { user, selectLevel, updateUser } = useAuth();
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
-    const fetchStats = async () => {
+    const initDashboard = async () => {
       if (!user) return;
+      
+      // Silently sync gamification streak
+      if (user.role === 'student') {
+        try {
+          const streakRes = await authService.updateStreak();
+          // Update global user object with new gamification stats
+          updateUser(streakRes.data.data);
+        } catch (error) {
+          console.error("Streak sync failed:", error);
+        }
+      }
+
+      // Fetch normal stats
       try {
         const response = await progressService.getMyStats(user.selectedLevel);
         setStats(response.data.data);
@@ -20,8 +34,8 @@ const DashboardPage = () => {
         console.error("Failed to load dashboard stats", error);
       }
     };
-    fetchStats();
-  }, [user?.selectedLevel, user]);
+    initDashboard();
+  }, [user?.selectedLevel]); // Removing user from dependencies to prevent infinite loop on updateUser
 
   const handleSelectLevel = async (level) => {
     try {
@@ -36,10 +50,10 @@ const DashboardPage = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Welcome Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
           Welcome back, {user?.name?.split(' ')[0]}! 👋
         </h1>
-        <p className="text-gray-500 mt-1">
+        <p className="text-gray-500 dark:text-gray-400 mt-1">
           Here's your study dashboard. Keep up the great work!
         </p>
       </div>

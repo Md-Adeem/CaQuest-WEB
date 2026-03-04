@@ -138,7 +138,7 @@ const QuestionManagement = () => {
           {questions.map((q, index) => (
             <div
               key={q._id}
-              className="bg-gray-50 rounded-xl p-4 flex items-start justify-between gap-4"
+              className="bg-gray-50 dark:bg-gray-900 rounded-xl p-4 flex items-start justify-between gap-4"
             >
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
@@ -149,12 +149,12 @@ const QuestionManagement = () => {
                     {q.type || 'MCQ'}
                   </Badge>
                   {q.paperType && (
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-gray-200 text-gray-700">
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-gray-200 text-gray-700 dark:text-gray-200">
                       {q.paperType}
                     </span>
                   )}
                 </div>
-                <p className="text-sm text-gray-900 font-medium">
+                <p className="text-sm text-gray-900 dark:text-white font-medium">
                   {q.questionText}
                 </p>
                 <div className="flex flex-wrap gap-2 mt-2">
@@ -170,7 +170,7 @@ const QuestionManagement = () => {
                         className={`text-xs px-2 py-1 rounded ${
                           i === q.correctAnswer
                             ? "bg-green-100 text-green-700 font-bold"
-                            : "bg-gray-200 text-gray-600"
+                            : "bg-gray-200 text-gray-600 dark:text-gray-300"
                         }`}
                       >
                         {String.fromCharCode(65 + i)}: {opt}
@@ -199,11 +199,11 @@ const QuestionManagement = () => {
           ))}
         </div>
       ) : selectedChapter ? (
-        <div className="text-center py-8 text-gray-500">
+        <div className="text-center py-8 text-gray-500 dark:text-gray-400">
           No questions found for this chapter.
         </div>
       ) : (
-        <div className="text-center py-8 text-gray-500">
+        <div className="text-center py-8 text-gray-500 dark:text-gray-400">
           Select a level, subject, and chapter to view questions.
         </div>
       )}
@@ -215,7 +215,7 @@ const QuestionManagement = () => {
         title="Delete Question"
         size="sm"
       >
-        <p className="text-gray-500 mb-6">
+        <p className="text-gray-500 dark:text-gray-400 mb-6">
           Are you sure you want to delete this question? This action cannot be
           undone.
         </p>

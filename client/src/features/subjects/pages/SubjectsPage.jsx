@@ -16,7 +16,7 @@ const SubjectsPage = () => {
       {/* Breadcrumb */}
       <Link
         to="/dashboard"
-        className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary-600 mb-6"
+        className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 mb-6"
       >
         <HiArrowLeft className="w-4 h-4" />
         Back to Dashboard
@@ -26,11 +26,11 @@ const SubjectsPage = () => {
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <span className="text-3xl">{levelInfo?.icon}</span>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             {levelInfo?.name || 'Subjects'}
           </h1>
         </div>
-        <p className="text-gray-500">
+        <p className="text-gray-500 dark:text-gray-400">
           Select a subject to view chapters and practice questions
         </p>
       </div>

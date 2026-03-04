@@ -16,7 +16,7 @@ const ChaptersPage = () => {
       {subject && (
         <Link
           to={`/subjects/${subject.level}`}
-          className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-primary-600 mb-6"
+          className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 mb-6"
         >
           <HiArrowLeft className="w-4 h-4" />
           Back to {LEVELS[subject.level]?.name} Subjects
@@ -30,15 +30,15 @@ const ChaptersPage = () => {
             <span className="text-2xl">{subject.icon}</span>
             <span className="font-mono uppercase px-2 py-0.5 bg-primary-50 border border-primary-100 rounded-md tracking-wider">{subject.code}</span>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">{subject.name}</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{subject.name}</h1>
           {subject.description && (
-            <p className="text-gray-500 mt-2">{subject.description}</p>
+            <p className="text-gray-500 dark:text-gray-400 mt-2">{subject.description}</p>
           )}
           <div className="flex items-center gap-4 mt-4">
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-gray-500 dark:text-gray-400">
               {chapters.length} Chapters
             </span>
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-gray-500 dark:text-gray-400">
               {subject.totalQuestions} Total Questions
             </span>
           </div>

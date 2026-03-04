@@ -47,7 +47,7 @@ const FAQPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <SEO 
         title="Frequently Asked Questions (FAQ)"
         description="Find answers to common questions about CaQuest, CA mock exams, subscription plans, and how our platform helps you clear the ICAI exams."
@@ -57,22 +57,22 @@ const FAQPage = () => {
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-base text-primary-600 font-semibold tracking-wide uppercase">Support</h2>
-          <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+          <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
             Frequently Asked Questions
           </p>
-          <p className="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+          <p className="mt-4 max-w-2xl text-xl text-gray-500 dark:text-gray-400 mx-auto">
             Everything you need to know about preparing for your CA exams with CaQuest.
           </p>
         </div>
 
         <div className="space-y-4">
           {faqs.map((faq, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+            <div key={index} className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
               <button
                 className="w-full px-6 py-4 text-left focus:outline-none flex justify-between items-center"
                 onClick={() => toggleFAQ(index)}
               >
-                <span className="font-semibold text-gray-900">{faq.question}</span>
+                <span className="font-semibold text-gray-900 dark:text-white">{faq.question}</span>
                 {openIndex === index ? (
                   <HiOutlineChevronUp className="w-5 h-5 text-primary-600" />
                 ) : (
@@ -81,7 +81,7 @@ const FAQPage = () => {
               </button>
               {openIndex === index && (
                 <div className="px-6 pb-4">
-                  <p className="text-gray-600">{faq.answer}</p>
+                  <p className="text-gray-600 dark:text-gray-300">{faq.answer}</p>
                 </div>
               )}
             </div>

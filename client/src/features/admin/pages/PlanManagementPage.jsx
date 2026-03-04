@@ -126,10 +126,10 @@ const PlanManagementPage = () => {
       <div className="flex-1 p-4 md:p-8 w-full max-w-[100vw] overflow-x-hidden">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
               Subscription Plans
             </h1>
-            <p className="text-gray-500 mt-1">
+            <p className="text-gray-500 dark:text-gray-400 mt-1">
               Manage pricing plans for each CA level
             </p>
           </div>
@@ -147,7 +147,7 @@ const PlanManagementPage = () => {
               const levelInfo = LEVELS[level];
               return (
                 <div key={level}>
-                  <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                     <span>{levelInfo?.icon}</span>
                     {levelInfo?.name}
                   </h2>
@@ -169,10 +169,10 @@ const PlanManagementPage = () => {
                         )}
                         <div className="flex items-start justify-between mb-3">
                           <div>
-                            <h3 className="font-bold text-gray-900">
+                            <h3 className="font-bold text-gray-900 dark:text-white">
                               {plan.name}
                             </h3>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
                               {plan.durationLabel} ({plan.duration} days)
                             </p>
                           </div>
@@ -189,7 +189,7 @@ const PlanManagementPage = () => {
                               {formatCurrency(plan.originalPrice)}
                             </span>
                           )}
-                          <span className="text-2xl font-bold text-gray-900">
+                          <span className="text-2xl font-bold text-gray-900 dark:text-white">
                             {formatCurrency(plan.price)}
                           </span>
                         </div>
@@ -197,13 +197,13 @@ const PlanManagementPage = () => {
                           {plan.features?.map((f, i) => (
                             <li
                               key={i}
-                              className="text-xs text-gray-600 flex items-center gap-1"
+                              className="text-xs text-gray-600 dark:text-gray-300 flex items-center gap-1"
                             >
                               <span className="text-green-500">✓</span> {f}
                             </li>
                           ))}
                         </ul>
-                        <div className="mt-3 pt-3 border-t border-gray-100">
+                        <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
                           <Badge
                             variant={plan.isActive ? 'success' : 'danger'}
                             size="sm"
@@ -230,7 +230,7 @@ const PlanManagementPage = () => {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                   Plan Name *
                 </label>
                 <input
@@ -244,7 +244,7 @@ const PlanManagementPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                   Level *
                 </label>
                 <select
@@ -262,7 +262,7 @@ const PlanManagementPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                   Duration (days) *
                 </label>
                 <input
@@ -278,7 +278,7 @@ const PlanManagementPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                   Price (₹) *
                 </label>
                 <input
@@ -294,7 +294,7 @@ const PlanManagementPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                   Original Price (₹)
                 </label>
                 <input
@@ -313,7 +313,7 @@ const PlanManagementPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                   Duration Label *
                 </label>
                 <input
@@ -338,7 +338,7 @@ const PlanManagementPage = () => {
                     }
                     className="w-4 h-4 text-primary-600 rounded"
                   />
-                  <span className="text-sm font-medium text-gray-700">
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
                     Mark as Popular
                   </span>
                 </label>
@@ -351,7 +351,7 @@ const PlanManagementPage = () => {
                     }
                     className="w-4 h-4 text-primary-600 rounded"
                   />
-                  <span className="text-sm font-medium text-gray-700">
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
                     Active
                   </span>
                 </label>
@@ -360,7 +360,7 @@ const PlanManagementPage = () => {
 
             {/* Features */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                 Features
               </label>
               <div className="space-y-2">
@@ -394,7 +394,7 @@ const PlanManagementPage = () => {
               </div>
             </div>
 
-            <div className="flex gap-3 justify-end pt-4 border-t border-gray-100">
+            <div className="flex gap-3 justify-end pt-4 border-t border-gray-100 dark:border-gray-700">
               <button
                 type="button"
                 onClick={() =>

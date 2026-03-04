@@ -28,10 +28,10 @@ const StudentManagementPage = () => {
       <div className="flex-1 p-4 md:p-8 w-full max-w-[100vw] overflow-x-hidden">
         <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
               Student Management
             </h1>
-            <p className="text-gray-500 mt-1">
+            <p className="text-gray-500 dark:text-gray-400 mt-1">
               View registered users and their active subscriptions
             </p>
           </div>
@@ -51,25 +51,25 @@ const StudentManagementPage = () => {
         {loading ? (
           <Loader size="lg" text="Loading students..." />
         ) : (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
             <div className="overflow-x-auto w-full">
               <table className="w-full text-left border-collapse min-w-[800px]">
                 <thead>
-                  <tr className="bg-gray-50 border-b border-gray-100">
-                    <th className="p-4 font-semibold text-gray-700">Student Info</th>
-                    <th className="p-4 font-semibold text-gray-700">Phone</th>
-                    <th className="p-4 font-semibold text-gray-700">Active Plans</th>
-                    <th className="p-4 font-semibold text-gray-700">Joined</th>
+                  <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-700">
+                    <th className="p-4 font-semibold text-gray-700 dark:text-gray-200">Student Info</th>
+                    <th className="p-4 font-semibold text-gray-700 dark:text-gray-200">Phone</th>
+                    <th className="p-4 font-semibold text-gray-700 dark:text-gray-200">Active Plans</th>
+                    <th className="p-4 font-semibold text-gray-700 dark:text-gray-200">Joined</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {users.map((user) => (
-                    <tr key={user._id} className="hover:bg-gray-50/50 transition-colors">
+                    <tr key={user._id} className="hover:bg-gray-50 dark:bg-gray-900/50 transition-colors">
                       <td className="p-4">
-                        <div className="font-medium text-gray-900">{user.name}</div>
-                        <div className="text-sm text-gray-500">{user.email}</div>
+                        <div className="font-medium text-gray-900 dark:text-white">{user.name}</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">{user.email}</div>
                       </td>
-                      <td className="p-4 text-gray-600">
+                      <td className="p-4 text-gray-600 dark:text-gray-300">
                         {user.phone || '-'}
                       </td>
                       <td className="p-4">
@@ -81,26 +81,26 @@ const StudentManagementPage = () => {
                                   <HiBadgeCheck className="w-4 h-4" />
                                   {sub.plan?.name || sub.level.toUpperCase()}
                                 </span>
-                                <span className="text-gray-600 mt-1">
+                                <span className="text-gray-600 dark:text-gray-300 mt-1">
                                   Expires: {formatDate(sub.expiresAt)}
                                 </span>
                               </div>
                             ))}
                           </div>
                         ) : (
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
                             No Active Plans
                           </span>
                         )}
                       </td>
-                      <td className="p-4 text-gray-500 text-sm">
+                      <td className="p-4 text-gray-500 dark:text-gray-400 text-sm">
                         {formatDate(user.createdAt)}
                       </td>
                     </tr>
                   ))}
                   {users.length === 0 && (
                     <tr>
-                      <td colSpan="4" className="p-8 text-center text-gray-500">
+                      <td colSpan="4" className="p-8 text-center text-gray-500 dark:text-gray-400">
                         No students found matching your criteria.
                       </td>
                     </tr>
@@ -111,7 +111,7 @@ const StudentManagementPage = () => {
 
             {/* Pagination Controls */}
             {pagination.totalPages > 1 && (
-              <div className="p-4 border-t border-gray-100 flex justify-center gap-2">
+              <div className="p-4 border-t border-gray-100 dark:border-gray-700 flex justify-center gap-2">
                 {Array.from({ length: pagination.totalPages }, (_, i) => (
                   <button
                     key={i}
@@ -122,7 +122,7 @@ const StudentManagementPage = () => {
                     className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${
                       pagination.currentPage === i + 1
                         ? "bg-primary-600 text-white"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200"
                     }`}
                   >
                     {i + 1}

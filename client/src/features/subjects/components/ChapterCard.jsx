@@ -15,11 +15,11 @@ const ChapterCard = ({ chapter, index }) => {
           {chapter.chapterNumber || index + 1}
         </div>
         <div>
-          <h3 className="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors">
+          <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors">
             {chapter.name}
           </h3>
           {chapter.description && (
-            <p className="text-sm text-gray-500 mt-0.5 line-clamp-1">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5 line-clamp-1">
               {chapter.description}
             </p>
           )}
@@ -27,7 +27,7 @@ const ChapterCard = ({ chapter, index }) => {
       </div>
 
       <div className="flex items-center gap-3">
-        <div className="flex items-center gap-1 text-sm text-gray-500">
+        <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
           <HiQuestionMarkCircle className="w-4 h-4" />
           <span>{chapter.totalQuestions}</span>
         </div>

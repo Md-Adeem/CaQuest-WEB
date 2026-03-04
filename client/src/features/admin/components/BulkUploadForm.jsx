@@ -160,14 +160,14 @@ const BulkUploadForm = ({ onSuccess }) => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm mt-6">
-      <div className="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm mt-6">
+      <div className="flex justify-between items-center mb-6 border-b border-gray-100 dark:border-gray-700 pb-4">
         <div>
           <h2 className="text-xl font-bold flex items-center gap-2">
             <HiOutlineDocumentText className="text-primary-600" />
             Bulk Upload Questions
           </h2>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
             Upload a CSV file to add multiple questions to a chapter at once.
           </p>
         </div>
@@ -183,7 +183,7 @@ const BulkUploadForm = ({ onSuccess }) => {
         {/* Classification Selectors */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
               Level <span className="text-red-500">*</span>
             </label>
             <select
@@ -200,7 +200,7 @@ const BulkUploadForm = ({ onSuccess }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
               Subject <span className="text-red-500">*</span>
             </label>
             <select
@@ -220,7 +220,7 @@ const BulkUploadForm = ({ onSuccess }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
               Chapter <span className="text-red-500">*</span>
             </label>
             <select
@@ -240,7 +240,7 @@ const BulkUploadForm = ({ onSuccess }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
               Paper Type <span className="text-red-500">*</span>
             </label>
             <select
@@ -258,7 +258,7 @@ const BulkUploadForm = ({ onSuccess }) => {
         </div>
 
         {/* File Dropzone */}
-        <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:bg-gray-50 transition-colors">
+        <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:bg-gray-50 dark:bg-gray-900 transition-colors">
           <input
             type="file"
             accept=".csv"
@@ -274,7 +274,7 @@ const BulkUploadForm = ({ onSuccess }) => {
             <span className="text-sm font-medium text-primary-600 hover:text-primary-700">
               {file ? file.name : 'Click to upload CSV file'}
             </span>
-            <span className="text-xs text-gray-500 mt-1">
+            <span className="text-xs text-gray-500 dark:text-gray-400 mt-1">
               Make sure to use the provided CSV template format.
             </span>
           </label>
@@ -282,11 +282,11 @@ const BulkUploadForm = ({ onSuccess }) => {
 
         {/* Data Preview */}
         {previewData.length > 0 && (
-          <div className="bg-gray-50 p-4 rounded-lg overflow-x-auto text-xs font-mono">
-            <h4 className="font-semibold text-gray-700 mb-2">CSV Data Preview (First 3 rows)</h4>
+          <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto text-xs font-mono">
+            <h4 className="font-semibold text-gray-700 dark:text-gray-200 mb-2">CSV Data Preview (First 3 rows)</h4>
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-gray-200">
+                <tr className="border-b border-gray-200 dark:border-gray-700">
                   <th className="p-2">Type</th>
                   <th className="p-2">Question</th>
                   <th className="p-2">Marks</th>
@@ -294,7 +294,7 @@ const BulkUploadForm = ({ onSuccess }) => {
               </thead>
               <tbody>
                 {previewData.map((row, i) => (
-                  <tr key={i} className="border-b border-gray-100 last:border-0">
+                  <tr key={i} className="border-b border-gray-100 dark:border-gray-700 last:border-0">
                     <td className="p-2 break-words max-w-xs">{row.type}</td>
                     <td className="p-2 truncate max-w-sm">{row.questionText}</td>
                     <td className="p-2">{row.marks}</td>

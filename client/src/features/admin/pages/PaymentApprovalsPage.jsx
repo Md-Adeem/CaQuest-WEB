@@ -25,10 +25,10 @@ const PaymentApprovalsPage = () => {
       <AdminSidebar />
       <div className="flex-1 p-4 md:p-8 w-full max-w-[100vw] overflow-x-hidden">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             Payment Approvals
           </h1>
-          <p className="text-gray-500 mt-1">
+          <p className="text-gray-500 dark:text-gray-400 mt-1">
             Review and manage student payment submissions
           </p>
         </div>
@@ -42,7 +42,7 @@ const PaymentApprovalsPage = () => {
               className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
                 status === tab.id
                   ? 'bg-primary-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200'
               }`}
             >
               {tab.label}

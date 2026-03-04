@@ -30,22 +30,22 @@ const PaymentApprovalCard = ({ payment, onApprove, onReject }) => {
                 </span>
               </div>
               <div>
-                <p className="font-semibold text-gray-900">
+                <p className="font-semibold text-gray-900 dark:text-white">
                   {payment.user?.name}
                 </p>
-                <p className="text-xs text-gray-500">{payment.user?.email}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{payment.user?.email}</p>
               </div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
               <div>
-                <p className="text-xs text-gray-500">Plan</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Plan</p>
                 <p className="text-sm font-medium">
                   {payment.subscriptionPlan?.name}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-gray-500">Level</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Level</p>
                 <div className="flex items-center gap-1">
                   <span>{level?.icon}</span>
                   <span className="text-sm font-medium capitalize">
@@ -54,13 +54,13 @@ const PaymentApprovalCard = ({ payment, onApprove, onReject }) => {
                 </div>
               </div>
               <div>
-                <p className="text-xs text-gray-500">Amount</p>
-                <p className="text-sm font-bold text-gray-900">
+                <p className="text-xs text-gray-500 dark:text-gray-400">Amount</p>
+                <p className="text-sm font-bold text-gray-900 dark:text-white">
                   {formatCurrency(payment.amount)}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-gray-500">Method</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Method</p>
                 <p className="text-sm font-medium">
                   {method?.icon} {method?.name}
                 </p>
@@ -69,14 +69,14 @@ const PaymentApprovalCard = ({ payment, onApprove, onReject }) => {
 
             <div className="flex items-center gap-4 mt-3">
               <div>
-                <p className="text-xs text-gray-500">Transaction ID</p>
-                <p className="text-sm font-mono text-gray-700">
+                <p className="text-xs text-gray-500 dark:text-gray-400">Transaction ID</p>
+                <p className="text-sm font-mono text-gray-700 dark:text-gray-200">
                   {payment.transactionId}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-gray-500">Submitted</p>
-                <p className="text-sm text-gray-700">
+                <p className="text-xs text-gray-500 dark:text-gray-400">Submitted</p>
+                <p className="text-sm text-gray-700 dark:text-gray-200">
                   {formatDateTime(payment.createdAt)}
                 </p>
               </div>
@@ -135,7 +135,7 @@ const PaymentApprovalCard = ({ payment, onApprove, onReject }) => {
         size="sm"
       >
         <div className="space-y-4">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
             Please provide a reason for rejecting this payment.
           </p>
           <textarea

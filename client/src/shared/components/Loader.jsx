@@ -12,7 +12,7 @@ const Loader = ({ size = 'md', text }) => {
       <div
         className={`${sizeClasses[size]} border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin`}
       ></div>
-      {text && <p className="mt-3 text-sm text-gray-500">{text}</p>}
+      {text && <p className="mt-3 text-sm text-gray-500 dark:text-gray-400">{text}</p>}
     </div>
   );
 };

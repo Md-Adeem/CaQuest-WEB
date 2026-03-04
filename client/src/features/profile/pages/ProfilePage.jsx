@@ -66,7 +66,7 @@ const ProfilePage = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">My Profile</h1>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">My Profile</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Profile Card */}
@@ -77,8 +77,8 @@ const ProfilePage = () => {
                 {user?.name?.charAt(0)?.toUpperCase()}
               </span>
             </div>
-            <h2 className="text-xl font-bold text-gray-900">{user?.name}</h2>
-            <p className="text-sm text-gray-500">{user?.email}</p>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">{user?.name}</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{user?.email}</p>
             <div className="mt-4">
               <Badge variant={user?.role === 'admin' ? 'danger' : 'primary'}>
                 {user?.role?.toUpperCase()}
@@ -86,8 +86,8 @@ const ProfilePage = () => {
             </div>
 
             {/* Active Subscriptions */}
-            <div className="mt-6 pt-6 border-t border-gray-100 text-left">
-              <h3 className="text-sm font-semibold text-gray-900 mb-3">
+            <div className="mt-6 pt-6 border-t border-gray-100 dark:border-gray-700 text-left">
+              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
                 Active Subscriptions
               </h3>
               {user?.activeSubscriptions?.length > 0 ? (
@@ -108,7 +108,7 @@ const ProfilePage = () => {
                             {days}d left
                           </Badge>
                         </div>
-                        <p className="text-xs text-gray-500 mt-1">
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                           Expires: {formatDate(sub.expiresAt)}
                         </p>
                       </div>
@@ -116,7 +116,7 @@ const ProfilePage = () => {
                   })}
                 </div>
               ) : (
-                <p className="text-sm text-gray-500">No active subscriptions</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">No active subscriptions</p>
               )}
             </div>
           </div>
@@ -131,7 +131,7 @@ const ProfilePage = () => {
               className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                 activeTab === 'profile'
                   ? 'bg-primary-600 text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200'
               }`}
             >
               Edit Profile
@@ -141,7 +141,7 @@ const ProfilePage = () => {
               className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                 activeTab === 'password'
                   ? 'bg-primary-600 text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200'
               }`}
             >
               Change Password
@@ -151,7 +151,7 @@ const ProfilePage = () => {
               className={`px-4 py-2 rounded-lg text-sm flex gap-2 items-center font-semibold transition-all ${
                 activeTab === 'payments'
                   ? 'bg-primary-600 text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200'
               }`}
             >
               <HiCreditCard className="w-4 h-4" />
@@ -161,12 +161,12 @@ const ProfilePage = () => {
 
           {activeTab === 'profile' ? (
             <div className="card">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
                 Edit Profile Information
               </h2>
               <form onSubmit={handleProfileUpdate} className="space-y-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                     Full Name
                   </label>
                   <div className="relative">
@@ -183,7 +183,7 @@ const ProfilePage = () => {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                     Email (cannot change)
                   </label>
                   <div className="relative">
@@ -191,13 +191,13 @@ const ProfilePage = () => {
                     <input
                       type="email"
                       value={user?.email}
-                      className="input-field pl-10 bg-gray-50 cursor-not-allowed"
+                      className="input-field pl-10 bg-gray-50 dark:bg-gray-900 cursor-not-allowed"
                       disabled
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                     Phone Number
                   </label>
                   <div className="relative">
@@ -225,12 +225,12 @@ const ProfilePage = () => {
             </div>
           ) : activeTab === 'password' ? (
             <div className="card">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
                 Change Password
               </h2>
               <form onSubmit={handlePasswordChange} className="space-y-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                     Current Password
                   </label>
                   <div className="relative">
@@ -247,7 +247,7 @@ const ProfilePage = () => {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                     New Password
                   </label>
                   <div className="relative">
@@ -265,7 +265,7 @@ const ProfilePage = () => {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                     Confirm New Password
                   </label>
                   <div className="relative">

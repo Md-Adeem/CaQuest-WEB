@@ -103,7 +103,7 @@ const EditQuestionModal = ({ isOpen, onClose, questionToEdit, onSuccess }) => {
 
         {/* Paper Type */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
             Paper Type *
           </label>
           <select
@@ -122,8 +122,8 @@ const EditQuestionModal = ({ isOpen, onClose, questionToEdit, onSuccess }) => {
         </div>
 
         {/* Question Text */}
-        <div data-color-mode="light">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
             Question Text *
           </label>
           <MDEditor
@@ -141,7 +141,7 @@ const EditQuestionModal = ({ isOpen, onClose, questionToEdit, onSuccess }) => {
         {/* Options - Only for MCQ */}
         {questionType === "MCQ" && (
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
               Options *
             </label>
             <div className="space-y-3">
@@ -151,7 +151,7 @@ const EditQuestionModal = ({ isOpen, onClose, questionToEdit, onSuccess }) => {
                     className={`flex items-center justify-center w-10 h-10 rounded-lg text-sm font-bold cursor-pointer transition-all ${
                       question.correctAnswer === index
                         ? "bg-green-500 text-white"
-                        : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                        : "bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200"
                     }`}
                   >
                     <input
@@ -180,8 +180,8 @@ const EditQuestionModal = ({ isOpen, onClose, questionToEdit, onSuccess }) => {
 
         {/* Model Answer - Only for SUBJECTIVE */}
         {questionType === "SUBJECTIVE" && (
-          <div data-color-mode="light">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
               Model Answer *
             </label>
             <MDEditor
@@ -198,8 +198,8 @@ const EditQuestionModal = ({ isOpen, onClose, questionToEdit, onSuccess }) => {
         )}
 
         {/* Explanation */}
-        <div data-color-mode="light">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
             Explanation (Optional)
           </label>
           <MDEditor
@@ -215,7 +215,7 @@ const EditQuestionModal = ({ isOpen, onClose, questionToEdit, onSuccess }) => {
         </div>
 
         {/* Submit */}
-        <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
+        <div className="flex justify-end gap-3 pt-4 border-t border-gray-100 dark:border-gray-700">
           <button
             type="button"
             onClick={onClose}

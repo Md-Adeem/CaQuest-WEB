@@ -22,28 +22,28 @@ const HomePage = () => {
       title: "Chapter-wise Questions",
       description:
         "Structured question banks organized by chapter for systematic preparation",
-      color: "bg-blue-100 text-blue-600",
+      color: "bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400",
     },
     {
       icon: <HiAcademicCap className="w-8 h-8" />,
       title: "All CA Levels",
       description:
         "Complete coverage for Foundation, Intermediate, and Final levels",
-      color: "bg-purple-100 text-purple-600",
+      color: "bg-purple-100 text-purple-600 dark:bg-purple-900/40 dark:text-purple-400",
     },
     {
       icon: <HiLightningBolt className="w-8 h-8" />,
       title: "Instant Feedback",
       description:
         "Get immediate answers with detailed explanations for every question",
-      color: "bg-amber-100 text-amber-600",
+      color: "bg-amber-100 text-amber-600 dark:bg-amber-900/40 dark:text-amber-400",
     },
     {
       icon: <HiShieldCheck className="w-8 h-8" />,
       title: "Expert Curated",
       description:
         "Questions crafted by experienced CA professionals and educators",
-      color: "bg-green-100 text-green-600",
+      color: "bg-green-100 text-green-600 dark:bg-green-900/40 dark:text-green-400",
     },
   ];
 
@@ -143,7 +143,7 @@ const HomePage = () => {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,...')] opacity-10"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
+            <div className="inline-flex items-center gap-2 bg-white dark:bg-gray-800/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
               <HiStar className="w-4 h-4 text-yellow-400" />
               <span className="text-sm font-medium">
                 Trusted by 2000+ CA Students
@@ -164,7 +164,7 @@ const HomePage = () => {
               {user ? (
                 <Link
                   to="/dashboard"
-                  className="bg-white text-primary-700 hover:bg-gray-100 font-bold py-4 px-8 rounded-xl transition-all shadow-lg hover:shadow-xl text-lg flex items-center justify-center gap-2"
+                  className="bg-white dark:bg-gray-800 text-primary-700 hover:bg-gray-100 dark:bg-gray-800 font-bold py-4 px-8 rounded-xl transition-all shadow-lg hover:shadow-xl text-lg flex items-center justify-center gap-2"
                 >
                   Go to Dashboard
                   <HiArrowRight className="w-5 h-5" />
@@ -173,14 +173,14 @@ const HomePage = () => {
                 <>
                   <Link
                     to="/register"
-                    className="bg-white text-primary-700 hover:bg-gray-100 font-bold py-4 px-8 rounded-xl transition-all shadow-lg hover:shadow-xl text-lg flex items-center justify-center gap-2"
+                    className="bg-white dark:bg-gray-800 text-primary-700 hover:bg-gray-100 dark:bg-gray-800 font-bold py-4 px-8 rounded-xl transition-all shadow-lg hover:shadow-xl text-lg flex items-center justify-center gap-2"
                   >
                     Start Free Trial
                     <HiArrowRight className="w-5 h-5" />
                   </Link>
                   <Link
                     to="/subscriptions"
-                    className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-bold py-4 px-8 rounded-xl transition-all border border-white/20 text-lg"
+                    className="bg-white dark:bg-gray-800/10 backdrop-blur-sm hover:bg-white dark:bg-gray-800/20 text-white font-bold py-4 px-8 rounded-xl transition-all border border-white/20 text-lg"
                   >
                     View Pricing
                   </Link>
@@ -199,14 +199,14 @@ const HomePage = () => {
           >
             <path
               d="M0 50L48 45.7C96 41.3 192 32.7 288 30.2C384 27.7 480 31.3 576 38.3C672 45.3 768 55.7 864 57.5C960 59.3 1056 52.7 1152 48.8C1248 45 1344 44 1392 43.5L1440 43V100H1392C1344 100 1248 100 1152 100C1056 100 960 100 864 100C768 100 672 100 576 100C480 100 384 100 288 100C192 100 96 100 48 100H0V50Z"
-              fill="#F9FAFB"
+              className="fill-gray-50 dark:fill-gray-900 transition-colors duration-300"
             />
           </svg>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
@@ -214,7 +214,7 @@ const HomePage = () => {
                 <p className="text-3xl md:text-4xl font-extrabold text-primary-600">
                   {stat.value}
                 </p>
-                <p className="text-gray-500 mt-1 font-medium">{stat.label}</p>
+                <p className="text-gray-500 dark:text-gray-400 mt-1 font-medium">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -225,10 +225,10 @@ const HomePage = () => {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
               Everything You Need to Succeed
             </h2>
-            <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
               Our platform is designed to give you the best preparation
               experience with features that matter
             </p>
@@ -244,10 +244,10 @@ const HomePage = () => {
                 >
                   {feature.icon}
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
                   {feature.title}
                 </h3>
-                <p className="text-gray-500 text-sm">{feature.description}</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -255,13 +255,13 @@ const HomePage = () => {
       </section>
 
       {/* Levels Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
               All CA Levels Covered
             </h2>
-            <p className="text-lg text-gray-500">
+            <p className="text-lg text-gray-500 dark:text-gray-400">
               Comprehensive question banks for every stage of your CA journey
             </p>
           </div>
@@ -279,7 +279,7 @@ const HomePage = () => {
                   <p className="text-sm opacity-80 mt-1">{level.description}</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
                     {level.papers} Papers
                   </span>
                   <Link
@@ -300,10 +300,10 @@ const HomePage = () => {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
               How It Works
             </h2>
-            <p className="text-lg text-gray-500">
+            <p className="text-lg text-gray-500 dark:text-gray-400">
               Get started in 3 simple steps
             </p>
           </div>
@@ -334,10 +334,10 @@ const HomePage = () => {
                 <div className="text-xs font-bold text-primary-600 mb-2">
                   STEP {item.step}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                   {item.title}
                 </h3>
-                <p className="text-gray-500">{item.description}</p>
+                <p className="text-gray-500 dark:text-gray-400">{item.description}</p>
               </div>
             ))}
           </div>
@@ -345,24 +345,24 @@ const HomePage = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
               What Students Say
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((t, index) => (
-              <div key={index} className="card">
+              <div key={index} className="card bg-white dark:bg-gray-800 border-gray-100 dark:border-gray-700">
                 <div className="flex gap-1 mb-3">
                   {Array.from({ length: t.rating }).map((_, i) => (
                     <HiStar key={i} className="w-5 h-5 text-yellow-400" />
                   ))}
                 </div>
-                <p className="text-gray-600 mb-4 italic">"{t.text}"</p>
+                <p className="text-gray-600 dark:text-gray-300 mb-4 italic">"{t.text}"</p>
                 <div>
-                  <p className="font-bold text-gray-900">{t.name}</p>
+                  <p className="font-bold text-gray-900 dark:text-white">{t.name}</p>
                   <p className="text-sm text-primary-600">{t.level}</p>
                 </div>
               </div>
@@ -382,7 +382,7 @@ const HomePage = () => {
           </p>
           <Link
             to={user ? "/dashboard" : "/register"}
-            className="bg-white text-primary-700 hover:bg-gray-100 font-bold py-4 px-10 rounded-xl transition-all shadow-lg hover:shadow-xl text-lg inline-flex items-center gap-2"
+            className="bg-white dark:bg-gray-800 text-primary-700 hover:bg-gray-100 dark:bg-gray-800 font-bold py-4 px-10 rounded-xl transition-all shadow-lg hover:shadow-xl text-lg inline-flex items-center gap-2"
           >
             {user ? "Go to Dashboard" : "Get Started for Free"}
             <HiArrowRight className="w-5 h-5" />

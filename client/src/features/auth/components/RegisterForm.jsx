@@ -150,7 +150,7 @@ const RegisterForm = ({ onSubmit, loading }) => {
       )}
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
           Full Name
         </label>
         <div className="relative">
@@ -174,7 +174,7 @@ const RegisterForm = ({ onSubmit, loading }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
           Email Address
         </label>
         <div className="relative">
@@ -198,7 +198,7 @@ const RegisterForm = ({ onSubmit, loading }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
           Phone Number
         </label>
         <div className="relative">
@@ -221,7 +221,7 @@ const RegisterForm = ({ onSubmit, loading }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
           Password
         </label>
         <div className="relative">
@@ -245,7 +245,7 @@ const RegisterForm = ({ onSubmit, loading }) => {
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-gray-300"
           >
             {showPassword ? (
               <HiEyeOff className="w-5 h-5" />
@@ -257,7 +257,7 @@ const RegisterForm = ({ onSubmit, loading }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
           Confirm Password
         </label>
         <div className="relative">
@@ -296,7 +296,7 @@ const RegisterForm = ({ onSubmit, loading }) => {
         )}
       </button>
 
-      <p className="text-center text-sm text-gray-600">
+      <p className="text-center text-sm text-gray-600 dark:text-gray-300">
         Already have an account?{" "}
         <Link
           to="/login"

@@ -64,7 +64,7 @@ const BulkUploadForm = ({ onSuccess }) => {
   };
 
   const handleDownloadTemplate = () => {
-    const templateCSV = "questionText,type,option1,option2,option3,option4,correctAnswer,explanation,difficulty,marks\nWhat is a journal?,SUBJECTIVE,,,,,,Detailed explanation,medium,5\nAssets equal Liabilities plus?,MCQ,Equity,Revenue,Expenses,Income,0,Accounting equation principle,easy,1";
+    const templateCSV = "questionText,type,option1,option2,option3,option4,correctAnswer,modelAnswer,explanation\nWhat is a journal?,SUBJECTIVE,,,,,,A journal is a detailed account that records all the financial transactions.,These are additional notes for the subjective answer.\nAssets equal Liabilities plus?,MCQ,Equity,Revenue,Expenses,Income,A,,Accounting equation principle allows you to equate resources.";
     
     const blob = new Blob([templateCSV], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement("a");
@@ -124,7 +124,7 @@ const BulkUploadForm = ({ onSuccess }) => {
               type: type,
               options: type === 'MCQ' ? options : undefined,
               correctAnswer: type === 'MCQ' ? correctAnswer : undefined,
-              modelAnswer: type === 'SUBJECTIVE' ? String(row.correctAnswer || 'Provided model answer').trim() : undefined,
+              modelAnswer: type === 'SUBJECTIVE' ? String(row.modelAnswer || row.correctAnswer || 'Provided model answer').trim() : undefined,
               explanation: String(row.explanation || '').trim(),
               // Use the UI dropdown for Paper Type so it correctly applies to MongoDB Enum
               paperType: selectedPaperType

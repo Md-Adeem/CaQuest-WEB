@@ -98,6 +98,7 @@ app.use('/api/chapters', require('./routes/chapterRoutes'));
 app.use('/api/questions', require('./routes/questionRoutes'));
 app.use('/api/subscriptions', require('./routes/subscriptionRoutes'));
 app.use('/api/payments', require('./routes/paymentRoutes'));
+app.use('/api/ai', require('./routes/aiRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/progress', require('./routes/progressRoutes'));
 app.use('/api/search', require('./routes/searchRoutes'));

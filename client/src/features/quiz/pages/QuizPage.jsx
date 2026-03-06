@@ -9,7 +9,9 @@ import {
   HiArrowRight,
   HiArrowLeft,
   HiFlag,
+  HiSparkles,
 } from "react-icons/hi";
+import AiTutorModal from "../../ai/components/AiTutorModal";
 
 const QuizPage = () => {
   const { chapterId } = useParams();
@@ -21,6 +23,10 @@ const QuizPage = () => {
   const [answers, setAnswers] = useState({});
   const [timeLeft, setTimeLeft] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  // AI Modal States
+  const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+  const [currentAiContext, setCurrentAiContext] = useState(null);
 
   // Quiz settings
   const [settings, setSettings] = useState({
@@ -463,10 +469,35 @@ const QuizPage = () => {
                     <p className="text-xs text-blue-600 dark:text-blue-400">{q.explanation}</p>
                   </div>
                 )}
+                
+                <div className="mt-3 flex justify-end">
+                  <button
+                    onClick={() => {
+                      setCurrentAiContext({
+                        questionText: q.questionText,
+                        type: q.type,
+                        options: q.options,
+                        correctAnswerText: q.options && q.correctAnswer != null ? q.options[q.correctAnswer] : null,
+                        explanation: q.explanation
+                      });
+                      setIsAiModalOpen(true);
+                    }}
+                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 text-white text-xs font-semibold rounded-lg shadow-sm hover:shadow transition-all"
+                  >
+                    <HiSparkles className="text-yellow-300 w-3.5 h-3.5" />
+                    Ask AI Tutor
+                  </button>
+                </div>
               </div>
             );
           })}
         </div>
+
+        <AiTutorModal 
+          isOpen={isAiModalOpen} 
+          onClose={() => setIsAiModalOpen(false)} 
+          questionContext={currentAiContext}
+        />
       </div>
     );
   }

@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Badge from "../../../shared/components/Badge";
-import { HiBookmark } from "react-icons/hi";
+import { HiBookmark, HiSparkles } from "react-icons/hi";
 import progressService from "../../progress/services/progressService";
 import toast from "react-hot-toast";
 import MDEditor from '@uiw/react-md-editor';
 import rehypeSanitize from "rehype-sanitize";
+import AiTutorModal from "../../ai/components/AiTutorModal";
 
 const QuestionCard = ({ question, index }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [bookmarkLoading, setBookmarkLoading] = useState(false);
+  const [isAiModalOpen, setIsAiModalOpen] = useState(false);
 
   // Check if question is bookmarked
   useEffect(() => {
@@ -169,17 +171,35 @@ const QuestionCard = ({ question, index }) => {
             </button>
 
             {showAnswer && (
-              <div className="p-4 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-xl">
+              <div className="p-4 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-xl relative">
+                <button
+                  onClick={() => setIsAiModalOpen(true)}
+                  className="absolute top-4 right-4 inline-flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 text-white text-xs font-semibold rounded-lg shadow-sm hover:shadow transition-all"
+                >
+                  <HiSparkles className="text-yellow-300 w-3.5 h-3.5" />
+                  Ask AI Tutor
+                </button>
                 <p className="text-sm font-semibold text-blue-700 dark:text-blue-300 mb-1">
                   Answer:
                 </p>
-                <div className="text-sm text-blue-600 dark:text-blue-400">
+                <div className="text-sm text-blue-600 dark:text-blue-400 mt-3 pr-24">
                   {renderMarkdown(question.modelAnswer)}
                 </div>
               </div>
             )}
           </div>
         )}
+
+        <AiTutorModal 
+          isOpen={isAiModalOpen} 
+          onClose={() => setIsAiModalOpen(false)} 
+          questionContext={{
+            questionText: question.questionText,
+            type: question.type,
+            correctAnswerText: question.modelAnswer,
+            explanation: question.explanation
+          }}
+        />
       </div>
     );
   }
@@ -304,11 +324,31 @@ const QuestionCard = ({ question, index }) => {
 
       {/* Explanation */}
       {showAnswer && question.explanation && (
-        <div className="mt-5 p-4 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-xl">
+        <div className="mt-5 p-4 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-xl relative">
+          <button
+            onClick={() => setIsAiModalOpen(true)}
+            className="absolute top-4 right-4 inline-flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 text-white text-xs font-semibold rounded-lg shadow-sm hover:shadow transition-all"
+          >
+            <HiSparkles className="text-yellow-300 w-3.5 h-3.5" />
+            Ask AI Tutor
+          </button>
           <p className="text-sm font-semibold text-blue-700 dark:text-blue-300 mb-1">
             Explanation:
           </p>
-          <div className="text-sm text-blue-600 dark:text-blue-400">{renderMarkdown(question.explanation)}</div>
+          <div className="text-sm text-blue-600 dark:text-blue-400 mt-3 pr-24">{renderMarkdown(question.explanation)}</div>
+        </div>
+      )}
+
+      {/* Fallback AI Button if no explanation exists but they answered */}
+      {showAnswer && !question.explanation && (
+        <div className="mt-4 flex justify-end">
+          <button
+            onClick={() => setIsAiModalOpen(true)}
+            className="inline-flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 text-white text-xs font-semibold rounded-lg shadow-sm hover:shadow transition-all"
+          >
+            <HiSparkles className="text-yellow-300 w-3.5 h-3.5" />
+            Ask AI Tutor why
+          </button>
         </div>
       )}
 
@@ -324,6 +364,18 @@ const QuestionCard = ({ question, index }) => {
           Try Again
         </button>
       )}
+
+      <AiTutorModal 
+        isOpen={isAiModalOpen} 
+        onClose={() => setIsAiModalOpen(false)} 
+        questionContext={{ // Injecting full context to Gemini
+          questionText: question.questionText,
+          type: question.type,
+          options: question.options,
+          correctAnswerText: question.options && question.correctAnswer != null ? question.options[question.correctAnswer] : null,
+          explanation: question.explanation
+        }}
+      />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { useAuth } from "./features/auth/hooks/useAuth";
 import Navbar from "./shared/components/Navbar";
 import Footer from "./shared/components/Footer";
 import Loader from "./shared/components/Loader";
+import ContentProtection from "./shared/components/ContentProtection";
 
 // Auth
 import LoginPage from "./features/auth/pages/LoginPage";
@@ -80,6 +81,7 @@ const App = () => {
   const { user } = useAuth();
 
   return (
+    <ContentProtection>
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-1">
@@ -247,6 +249,7 @@ const App = () => {
       <StudentChatWidget />
       <Footer />
     </div>
+    </ContentProtection>
   );
 };
 

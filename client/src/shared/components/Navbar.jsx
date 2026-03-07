@@ -21,7 +21,7 @@ import {
 import { getInitials } from "../utils/helpers";
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
   const { isDarkMode, toggleDarkMode } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
@@ -44,7 +44,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
-            <img src="/logo.png" alt="CaQuest" className="h-16 w-auto object-contain" />
+            <img src="/logo.png" alt="CaQuest" className="h-12 w-auto object-contain scale-150 origin-left ml-4" />
           </Link>
 
           {/* Search Bar (Desktop) */}
@@ -56,7 +56,12 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1 lg:space-x-2 xl:space-x-4">
-            {user ? (
+            {loading ? (
+              <div className="flex items-center gap-3 animate-pulse opacity-60">
+                <div className="h-9 w-20 bg-gray-200 dark:bg-gray-800 rounded-lg"></div>
+                <div className="h-9 w-24 bg-gray-200 dark:bg-gray-800 rounded-lg"></div>
+              </div>
+            ) : user ? (
               <>
                 {!isAdminPage && (
                   <>
@@ -235,24 +240,12 @@ const Navbar = () => {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-100 dark:border-gray-800 animate-slide-up">
-            {!user && (
-              <div className="flex justify-between items-center px-4 mb-4">
-                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Toggle Theme</span>
-                <button
-                  onClick={toggleDarkMode}
-                  className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-800 bg-gray-50 dark:bg-gray-800 transition-colors"
-                >
-                  {isDarkMode ? <HiSun className="w-5 h-5" /> : <HiMoon className="w-5 h-5" />}
-                </button>
+            {loading ? (
+              <div className="px-4 py-2 animate-pulse space-y-4 opacity-60">
+                 <div className="h-10 bg-gray-200 dark:bg-gray-800 rounded-lg w-full"></div>
+                 <div className="h-10 bg-gray-200 dark:bg-gray-800 rounded-lg w-full"></div>
               </div>
-            )}
-            {user && (
-              <div className="mb-3">
-                <SearchBar />
-              </div>
-            )}
-
-            {user ? (
+            ) : user ? (
               <div className="space-y-1">
                 <div className="flex justify-between items-center px-3 mb-2">
                   <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Theme</span>
@@ -263,6 +256,11 @@ const Navbar = () => {
                     {isDarkMode ? <HiSun className="w-5 h-5" /> : <HiMoon className="w-5 h-5" />}
                   </button>
                 </div>
+                {!isAdminPage && (
+                  <div className="px-4 mb-3">
+                    <SearchBar />
+                  </div>
+                )}
                 <div className="px-3 py-3 flex items-center space-x-3 bg-gray-50 dark:bg-gray-800 rounded-lg mb-3">
                   <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
                     <span className="text-sm font-bold text-primary-700">
@@ -270,34 +268,38 @@ const Navbar = () => {
                     </span>
                   </div>
                   <div>
-                    <p className="text-sm font-semibold">{user.name}</p>
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white">{user.name}</p>
                     <p className="text-xs text-gray-500 dark:text-gray-400">{user.email}</p>
                   </div>
                 </div>
-                <MobileLink
-                  to="/dashboard"
-                  icon={HiHome}
-                  label="Dashboard"
-                  onClick={() => setIsMenuOpen(false)}
-                />
-                <MobileLink
-                  to="/progress"
-                  icon={HiChartBar}
-                  label="Progress"
-                  onClick={() => setIsMenuOpen(false)}
-                />
-                <MobileLink
-                  to="/bookmarks"
-                  icon={HiBookmark}
-                  label="Bookmarks"
-                  onClick={() => setIsMenuOpen(false)}
-                />
-                <MobileLink
-                  to="/leaderboard"
-                  icon={HiStar}
-                  label="Leaderboard"
-                  onClick={() => setIsMenuOpen(false)}
-                />
+                {!isAdminPage && (
+                  <>
+                    <MobileLink
+                      to="/dashboard"
+                      icon={HiHome}
+                      label="Dashboard"
+                      onClick={() => setIsMenuOpen(false)}
+                    />
+                    <MobileLink
+                      to="/progress"
+                      icon={HiChartBar}
+                      label="Progress"
+                      onClick={() => setIsMenuOpen(false)}
+                    />
+                    <MobileLink
+                      to="/bookmarks"
+                      icon={HiBookmark}
+                      label="Bookmarks"
+                      onClick={() => setIsMenuOpen(false)}
+                    />
+                    <MobileLink
+                      to="/leaderboard"
+                      icon={HiStar}
+                      label="Leaderboard"
+                      onClick={() => setIsMenuOpen(false)}
+                    />
+                  </>
+                )}
                 <MobileLink
                   to="/profile"
                   icon={HiUser}
@@ -320,31 +322,40 @@ const Navbar = () => {
                 )}
                 <button
                   onClick={handleLogout}
-                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-red-50 text-red-600 text-sm"
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-red-50 text-red-600 dark:hover:bg-red-900/20 dark:text-red-400 text-sm mt-2 border-t border-gray-100 dark:border-gray-800"
                 >
                   <HiLogout className="w-5 h-5" />
                   Sign Out
                 </button>
               </div>
             ) : (
-              <div className="space-y-2">
+              <div className="space-y-3 px-2">
+                <div className="flex justify-between items-center px-2 mb-4">
+                  <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Toggle Theme</span>
+                  <button
+                    onClick={toggleDarkMode}
+                    className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-800 bg-gray-50 dark:bg-gray-800 transition-colors"
+                  >
+                    {isDarkMode ? <HiSun className="w-5 h-5" /> : <HiMoon className="w-5 h-5" />}
+                  </button>
+                </div>
                 <Link
                   to="/subscriptions"
-                  className="block px-3 py-2 rounded-lg hover:bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-200 text-sm"
+                  className="block px-3 py-2 rounded-lg text-gray-700 dark:text-gray-200 hover:text-primary-600 hover:bg-gray-50 dark:hover:bg-gray-900 text-sm font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Pricing
                 </Link>
                 <Link
                   to="/login"
-                  className="block px-3 py-2 rounded-lg hover:bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-200 text-sm"
+                  className="block px-3 py-2 rounded-lg text-gray-700 dark:text-gray-200 hover:text-primary-600 hover:bg-gray-50 dark:hover:bg-gray-900 text-sm font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/register"
-                  className="block px-3 py-2 btn-primary text-center text-sm"
+                  className="block mx-3 py-2 btn-primary text-center text-sm"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Get Started

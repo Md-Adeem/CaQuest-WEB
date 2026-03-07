@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-6 bg-white dark:bg-gray-800 p-3 rounded-xl inline-block shadow-sm">
-              <img src="/logo.png" alt="CaQuest" className="h-20 w-auto object-contain" />
+              <img src="/logo.png" alt="CaQuest" className="h-32 w-auto object-contain" />
             </div>
             <p className="text-sm leading-relaxed max-w-md">
               Your comprehensive platform for CA exam preparation. Practice

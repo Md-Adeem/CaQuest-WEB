@@ -1,4 +1,6 @@
 const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -103,6 +105,7 @@ app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/progress', require('./routes/progressRoutes'));
 app.use('/api/search', require('./routes/searchRoutes'));
 app.use('/api/contact', require('./routes/contactRoutes'));
+app.use('/api/chat', require('./routes/chatRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -122,9 +125,34 @@ app.get('/', (req, res) => {
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+
+// Create HTTP server & attach Socket.io
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (process.env.NODE_ENV !== 'production' && (origin.includes('localhost') || origin.includes('127.0.0.1'))) {
+        return callback(null, true);
+      }
+      if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.vercel.app')) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+  },
+});
+
+// Initialize real-time socket handlers
+const initializeSocket = require('./socket');
+initializeSocket(io);
+
+server.listen(PORT, () => {
   console.log(`\n🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
-  console.log(`📡 API: http://localhost:${PORT}/api/health\n`);
+  console.log(`📡 API: http://localhost:${PORT}/api/health`);
+  console.log(`💬 Socket.io: Ready for real-time chat\n`);
 });
 
 if (process.env.NODE_ENV === 'production') {

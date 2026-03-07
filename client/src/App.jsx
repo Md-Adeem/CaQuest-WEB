@@ -56,6 +56,11 @@ const PlanManagementPage = lazy(() =>
 const StudentManagementPage = lazy(() =>
   import("./features/admin/pages/StudentManagementPage")
 );
+const AdminChatDashboard = lazy(() =>
+  import("./features/chat/pages/AdminChatDashboard")
+);
+
+import StudentChatWidget from "./features/chat/components/StudentChatWidget";
 
 import NotFoundPage from "./shared/components/NotFoundPage";
 
@@ -223,12 +228,23 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/admin/chat"
+            element={
+              <ProtectedRoute adminOnly>
+                <LazyRoute>
+                  <AdminChatDashboard />
+                </LazyRoute>
+              </ProtectedRoute>
+            }
+          />
 
           {/* ========= FALLBACK ========= */}
           {/* <Route path="*" element={<Navigate to="/" />} /> */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
+      <StudentChatWidget />
       <Footer />
     </div>
   );

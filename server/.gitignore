@@ -3,3 +3,4 @@ node_modules
 
 seedData.js
 updatePopularity.js
+cleanup-users.js

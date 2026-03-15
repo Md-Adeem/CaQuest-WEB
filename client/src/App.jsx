@@ -60,6 +60,9 @@ const StudentManagementPage = lazy(() =>
 const AdminChatDashboard = lazy(() =>
   import("./features/chat/pages/AdminChatDashboard")
 );
+const AdminAuditLogsPage = lazy(() =>
+  import("./features/admin/pages/AdminAuditLogsPage")
+);
 
 import StudentChatWidget from "./features/chat/components/StudentChatWidget";
 
@@ -236,6 +239,16 @@ const App = () => {
               <ProtectedRoute adminOnly>
                 <LazyRoute>
                   <AdminChatDashboard />
+                </LazyRoute>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/audit-logs"
+            element={
+              <ProtectedRoute adminOnly>
+                <LazyRoute>
+                  <AdminAuditLogsPage />
                 </LazyRoute>
               </ProtectedRoute>
             }

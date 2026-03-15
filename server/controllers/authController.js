@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const AuditLog = require("../models/AuditLog");
 const generateToken = require("../utils/generateToken");
 const { validationResult } = require("express-validator");
 const { sendEmail, emailTemplates } = require("../utils/email");
@@ -48,6 +49,19 @@ const register = async (req, res, next) => {
       }
     });
 
+    // Create Audit Log
+    try {
+      await AuditLog.create({
+        user: user._id,
+        action: 'register',
+        ipAddress: req.ip || req.connection.remoteAddress,
+        userAgent: req.headers['user-agent'],
+        status: 'success'
+      });
+    } catch (logError) {
+      console.error("Failed to map audit log for registration:", logError.message);
+    }
+
     res.status(201).json({
       success: true,
       data: {
@@ -93,6 +107,19 @@ const login = async (req, res, next) => {
         success: false,
         message: "Account has been deactivated. Contact admin.",
       });
+    }
+
+    // Create Audit Log
+    try {
+      await AuditLog.create({
+        user: user._id,
+        action: 'login',
+        ipAddress: req.ip || req.connection.remoteAddress,
+        userAgent: req.headers['user-agent'],
+        status: 'success'
+      });
+    } catch (logError) {
+      console.error("Failed to map audit log for login:", logError.message);
     }
 
     res.json({

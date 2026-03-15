@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   HiChartBar, HiCreditCard, HiQuestionMarkCircle,
-  HiArrowLeft, HiBookOpen, HiCog, HiUsers, HiChat
+  HiArrowLeft, HiBookOpen, HiCog, HiUsers, HiChat, HiClipboardList
 } from 'react-icons/hi';
 import api from '../../../shared/utils/api';
 import socketService from '../../chat/services/socketService';
@@ -60,6 +60,7 @@ const AdminSidebar = () => {
     { path: '/admin/questions', icon: HiQuestionMarkCircle, label: 'Questions' },
     { path: '/admin/plans', icon: HiCog, label: 'Plans' },
     { path: '/admin/chat', icon: HiChat, label: 'Support Chat', badge: unreadChats },
+    { path: '/admin/audit-logs', icon: HiClipboardList, label: 'Audit Logs' },
   ];
 
   return (

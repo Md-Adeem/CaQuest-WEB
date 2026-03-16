@@ -58,8 +58,13 @@ const QuizPage = () => {
       setLoading(true);
       const params = {
         chapter: chapterId,
-        limit: settings.numberOfQuestions,
       };
+      
+      // Only append limit if it's a specific number
+      if (settings.numberOfQuestions !== "All") {
+        params.limit = settings.numberOfQuestions;
+      }
+      
       if (settings.difficulty) params.difficulty = settings.difficulty;
 
       const response = await api.get("/questions", { params });
@@ -139,7 +144,7 @@ const QuizPage = () => {
                 Number of Questions
               </label>
               <div className="flex flex-wrap gap-2 md:gap-3">
-                {[5, 10, 15, 20, 30].map((num) => (
+                {[5, 10, 15, 20, 30, "All"].map((num) => (
                   <button
                     key={num}
                     onClick={() =>

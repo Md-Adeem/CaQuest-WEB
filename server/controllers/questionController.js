@@ -45,20 +45,22 @@ const getQuestions = async (req, res, next) => {
       filter.paperType = paperType;
     }
 
-    const skip = (page - 1) * limit;
+    let questionsQuery = Question.find(filter).sort({ createdAt: -1 });
+    
+    // Apply pagination only if limit is not 'all'
+    if (limit !== 'all') {
+      const skip = (page - 1) * parseInt(limit);
+      questionsQuery = questionsQuery.skip(skip).limit(parseInt(limit));
+    }
 
-    const questions = await Question.find(filter)
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(parseInt(limit));
-
+    const questions = await questionsQuery;
     const total = await Question.countDocuments(filter);
 
     res.json({
       success: true,
       count: questions.length,
       total,
-      totalPages: Math.ceil(total / limit),
+      totalPages: limit === 'all' ? 1 : Math.ceil(total / parseInt(limit)),
       currentPage: parseInt(page),
       data: questions,
     });

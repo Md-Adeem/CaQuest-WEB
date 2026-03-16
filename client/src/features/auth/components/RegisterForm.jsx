@@ -41,6 +41,8 @@ const RegisterForm = ({ onSubmit, loading }) => {
           newErrors.email = "Email is required";
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
           newErrors.email = "Please enter a valid email address";
+        } else if (!value.toLowerCase().endsWith('@gmail.com') && !value.toLowerCase().endsWith('@caquest.com')) {
+          newErrors.email = "Only @gmail.com addresses are allowed";
         } else {
           delete newErrors.email;
         }

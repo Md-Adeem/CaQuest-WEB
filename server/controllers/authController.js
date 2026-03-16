@@ -19,6 +19,14 @@ const register = async (req, res, next) => {
 
     const { name, email, password, phone } = req.body;
 
+    const lowercasedEmail = email.toLowerCase();
+    if (!lowercasedEmail.endsWith('@gmail.com') && !lowercasedEmail.endsWith('@caquest.com')) {
+      return res.status(400).json({
+        success: false,
+        message: "Registration is restricted to @gmail.com addresses only.",
+      });
+    }
+
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({
@@ -92,6 +100,14 @@ const login = async (req, res, next) => {
     }
 
     const { email, password } = req.body;
+
+    const lowercasedEmail = email.toLowerCase();
+    if (!lowercasedEmail.endsWith('@gmail.com') && !lowercasedEmail.endsWith('@caquest.com')) {
+      return res.status(401).json({
+        success: false,
+        message: "Login is restricted to @gmail.com addresses only. Old accounts must re-register.",
+      });
+    }
 
     const user = await User.findOne({ email }).select("+password");
 

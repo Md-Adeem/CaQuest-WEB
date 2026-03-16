@@ -6,7 +6,7 @@ import { LEVELS } from '../../../shared/utils/constants';
 import SEO from '../../../shared/components/SEO';
 
 const SubscriptionPage = () => {
-  const [selectedLevel, setSelectedLevel] = useState(null);
+  const [selectedLevel, setSelectedLevel] = useState("foundation");
   const { plans, loading } = useSubscription(selectedLevel);
 
   const pricingSchema = {

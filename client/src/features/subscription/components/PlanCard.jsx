@@ -37,18 +37,18 @@ const PlanCard = ({ plan }) => {
 
       <div className="text-center">
         <div
-          className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 ${levelInfo?.bgColor} ${levelInfo?.textColor}`}
+          className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 ${levelInfo?.bgColor} dark:bg-gray-700/80 ${levelInfo?.textColor} dark:text-blue-200`}
         >
           <span>{levelInfo?.icon}</span>
           <span>{levelInfo?.name}</span>
         </div>
 
         <h3 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">{plan.name}</h3>
-        <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-6">{plan.durationLabel}</p>
+        <p className="text-sm font-medium text-gray-500 dark:text-gray-300 mb-6">{plan.durationLabel}</p>
 
         <div className="mb-8 flex flex-col items-center justify-center min-h-[80px]">
           {plan.originalPrice && plan.originalPrice > plan.price && (
-            <span className="text-sm font-semibold text-gray-400 line-through mb-1">
+            <span className="text-sm font-semibold text-gray-400 dark:text-gray-500 line-through mb-1">
               {formatCurrency(plan.originalPrice)}
             </span>
           )}

@@ -143,13 +143,13 @@ const HomePage = () => {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,...')] opacity-10"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 bg-white dark:bg-gray-800/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
+            <div className="inline-flex items-center gap-2 bg-white/10 dark:bg-gray-800/20 backdrop-blur-md rounded-full px-4 py-2 mb-6 border border-white/20">
               <HiStar className="w-4 h-4 text-yellow-400" />
-              <span className="text-sm font-medium">
+              <span className="text-sm font-medium text-white">
                 Trusted by 2000+ CA Students
               </span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+            <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight text-white">
               Ace Your CA Exams with
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500">
                 Confidence
@@ -164,7 +164,7 @@ const HomePage = () => {
               {user ? (
                 <Link
                   to="/dashboard"
-                  className="bg-white dark:bg-gray-800 text-primary-700 hover:bg-gray-100 dark:bg-gray-800 font-bold py-4 px-8 rounded-xl transition-all shadow-lg hover:shadow-xl text-lg flex items-center justify-center gap-2"
+                  className="bg-white text-primary-700 hover:bg-gray-100 font-bold py-4 px-8 rounded-xl transition-all shadow-lg hover:shadow-xl text-lg flex items-center justify-center gap-2"
                 >
                   Go to Dashboard
                   <HiArrowRight className="w-5 h-5" />
@@ -173,14 +173,14 @@ const HomePage = () => {
                 <>
                   <Link
                     to="/register"
-                    className="bg-white dark:bg-gray-800 text-primary-700 hover:bg-gray-100 dark:bg-gray-800 font-bold py-4 px-8 rounded-xl transition-all shadow-lg hover:shadow-xl text-lg flex items-center justify-center gap-2"
+                    className="bg-white text-primary-700 hover:bg-gray-100 font-bold py-4 px-8 rounded-xl transition-all shadow-lg hover:shadow-xl text-lg flex items-center justify-center gap-2"
                   >
                     Start Free Trial
                     <HiArrowRight className="w-5 h-5" />
                   </Link>
                   <Link
                     to="/subscriptions"
-                    className="bg-white dark:bg-gray-800/10 backdrop-blur-sm hover:bg-white dark:bg-gray-800/20 text-white font-bold py-4 px-8 rounded-xl transition-all border border-white/20 text-lg"
+                    className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-bold py-4 px-8 rounded-xl transition-all border border-white/20 text-lg"
                   >
                     View Pricing
                   </Link>

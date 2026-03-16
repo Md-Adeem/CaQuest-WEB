@@ -136,8 +136,8 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
           <label
             className={`flex items-center gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all ${
               formData.paymentMethod === "upi"
-                ? "border-primary-500 bg-primary-50"
-                : "border-gray-200 dark:border-gray-700 hover:border-gray-300"
+                ? "border-primary-500 bg-primary-50 dark:bg-primary-900/30"
+                : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
             }`}
             onClick={handleUPIPayment}
           >
@@ -151,7 +151,7 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
             />
             <span className="text-xl">📱</span>
             <span className="text-sm font-medium text-gray-700 dark:text-gray-200">UPI</span>
-            <span className="ml-auto text-xs text-primary-600 font-medium">
+            <span className="ml-auto text-xs text-primary-600 dark:text-primary-400 font-medium">
               Click to Pay / View QR
             </span>
           </label>
@@ -171,7 +171,7 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
         </div>
 
         {/* Coming Soon Banner for other methods */}
-        <div className="bg-gradient-to-r from-gray-100 to-gray-200 border border-gray-300 rounded-xl p-4">
+        <div className="bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl p-4">
           <div className="flex items-center gap-3">
             <div className="flex-1">
               <h4 className="font-medium text-gray-800 dark:text-gray-100 mb-1">
@@ -181,7 +181,7 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
                 Bank Transfer • Credit/Debit Cards • Digital Wallets
               </p>
             </div>
-            <div className="px-3 py-1 bg-gray-300 text-gray-700 dark:text-gray-200 text-xs font-medium rounded-full">
+            <div className="px-3 py-1 bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-xs font-medium rounded-full">
               Coming Soon
             </div>
           </div>
@@ -189,11 +189,11 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
       </div>
 
       {/* Payment Instructions */}
-      <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-        <h4 className="text-sm font-semibold text-blue-700 mb-2">
+      <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 rounded-xl p-4">
+        <h4 className="text-sm font-semibold text-blue-700 dark:text-blue-400 mb-2">
           Payment Instructions
         </h4>
-        <ol className="text-sm text-blue-600 space-y-1 list-decimal list-inside">
+        <ol className="text-sm text-blue-600 dark:text-blue-300 space-y-1 list-decimal list-inside">
           <li>Click on the UPI payment option above to open your UPI app</li>
           <li>
             Complete the payment to our UPI ID: <strong>{UPI_CONFIG.id}</strong>
@@ -202,16 +202,16 @@ const PaymentForm = ({ plan, onSubmit, loading }) => {
           <li>Upload a screenshot of the payment (optional)</li>
           <li>Admin will verify and approve your payment within 24 hours</li>
         </ol>
-        <div className="mt-3 pt-3 border-t border-blue-200">
-          <p className="text-xs text-blue-700 font-medium mb-1">
+        <div className="mt-3 pt-3 border-t border-blue-200 dark:border-blue-800/50">
+          <p className="text-xs text-blue-700 dark:text-blue-400 font-medium mb-1">
             Valid Transaction ID Examples:
           </p>
-          <div className="text-xs text-blue-600 grid grid-cols-1 md:grid-cols-3 gap-2">
-            <span className="bg-blue-100 px-2 py-1 rounded">TXN1234567890</span>
-            <span className="bg-blue-100 px-2 py-1 rounded">
+          <div className="text-xs text-blue-600 dark:text-blue-300 grid grid-cols-1 md:grid-cols-3 gap-2">
+            <span className="bg-blue-100 dark:bg-blue-900/40 px-2 py-1 rounded">TXN1234567890</span>
+            <span className="bg-blue-100 dark:bg-blue-900/40 px-2 py-1 rounded">
               UPI123456789012
             </span>
-            <span className="bg-blue-100 px-2 py-1 rounded">SB1234567890</span>
+            <span className="bg-blue-100 dark:bg-blue-900/40 px-2 py-1 rounded">SB1234567890</span>
           </div>
         </div>
       </div>

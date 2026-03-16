@@ -98,10 +98,10 @@ const ProfilePage = () => {
                     return (
                       <div
                         key={i}
-                        className={`p-3 rounded-lg ${level?.bgColor} ${level?.borderColor} border`}
+                        className={`p-3 rounded-lg ${level?.bgColor} dark:bg-gray-700/50 ${level?.borderColor} dark:border-gray-600 border`}
                       >
                         <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium">
+                          <span className="text-sm font-medium text-gray-900 dark:text-white">
                             {level?.icon} {level?.name}
                           </span>
                           <Badge variant={days > 7 ? 'success' : 'warning'} size="sm">

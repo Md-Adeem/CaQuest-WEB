@@ -17,6 +17,7 @@ const PlanManagementPage = () => {
 
   const [form, setForm] = useState({
     name: '',
+    tag: '',
     level: 'foundation',
     price: '',
     originalPrice: '',
@@ -46,6 +47,7 @@ const PlanManagementPage = () => {
   const openCreate = () => {
     setForm({
       name: '',
+      tag: '',
       level: 'foundation',
       price: '',
       originalPrice: '',
@@ -61,6 +63,7 @@ const PlanManagementPage = () => {
   const openEdit = (plan) => {
     setForm({
       name: plan.name,
+      tag: plan.tag || '',
       level: plan.level,
       price: plan.price,
       originalPrice: plan.originalPrice || '',
@@ -169,9 +172,16 @@ const PlanManagementPage = () => {
                         )}
                         <div className="flex items-start justify-between mb-3">
                           <div>
-                            <h3 className="font-bold text-gray-900 dark:text-white">
-                              {plan.name}
-                            </h3>
+                            <div className="flex items-center gap-2 mb-1">
+                              <h3 className="font-bold text-gray-900 dark:text-white">
+                                {plan.name}
+                              </h3>
+                              {plan.tag && (
+                                <span className="bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-400 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                  {plan.tag}
+                                </span>
+                              )}
+                            </div>
                             <p className="text-sm text-gray-500 dark:text-gray-400">
                               {plan.durationLabel} ({plan.duration} days)
                             </p>
@@ -240,6 +250,20 @@ const PlanManagementPage = () => {
                   className="input-field"
                   placeholder="e.g., Foundation Quarterly"
                   required
+                />
+              </div>
+
+              <div className="col-span-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
+                  Promotional Tag (Optional)
+                </label>
+                <input
+                  type="text"
+                  value={form.tag}
+                  onChange={(e) => setForm({ ...form, tag: e.target.value })}
+                  className="input-field"
+                  placeholder="e.g., Eid Offer, 50% Off, Limited Time"
+                  maxLength={20}
                 />
               </div>
 

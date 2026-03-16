@@ -7,6 +7,11 @@ const subscriptionSchema = new mongoose.Schema(
       required: [true, 'Plan name is required'],
       trim: true,
     },
+    tag: {
+      type: String,
+      trim: true,
+      maxlength: 20, // e.g. "Eid Offer", "Limited Time"
+    },
     level: {
       type: String,
       required: [true, 'Level is required'],

@@ -83,7 +83,7 @@ const QuestionCard = ({ question, index }) => {
 
   if (question.type === "SUBJECTIVE") {
     return (
-      <div className="card animate-fade-in">
+      <div id={question._id} className="card animate-fade-in scroll-mt-24 transition-all duration-1000">
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
@@ -250,7 +250,7 @@ const QuestionCard = ({ question, index }) => {
   };
 
   return (
-    <div className="card animate-fade-in">
+    <div id={question._id} className="card animate-fade-in scroll-mt-24 transition-all duration-1000">
       {/* Question Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">

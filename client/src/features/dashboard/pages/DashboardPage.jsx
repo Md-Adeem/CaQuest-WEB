@@ -5,6 +5,7 @@ import progressService from '../../progress/services/progressService';
 import LevelSelector from '../components/LevelSelector';
 import DashboardStats from '../components/DashboardStats';
 import SubscriptionStatus from '../components/SubscriptionStatus';
+import DailyMotivator from '../components/DailyMotivator';
 import toast from 'react-hot-toast';
 
 const DashboardPage = () => {
@@ -63,6 +64,11 @@ const DashboardPage = () => {
         <DashboardStats user={user} stats={stats} />
       </div>
 
+      {/* Quick Actions & Motivation */}
+      <div className="mb-8 h-48">
+        <DailyMotivator />
+      </div>
+
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Level Selector - Takes 2 columns */}
@@ -74,7 +80,7 @@ const DashboardPage = () => {
         </div>
 
         {/* Subscription Status - Takes 1 column */}
-        <div className="lg:col-span-1">
+        <div className="lg:col-span-1 space-y-8">
           <SubscriptionStatus subscriptions={user?.activeSubscriptions} />
         </div>
       </div>

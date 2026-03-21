@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LEVELS } from '../../../shared/utils/constants';
 import { formatCurrency } from '../../../shared/utils/helpers';
@@ -7,6 +7,33 @@ import { HiCheck, HiStar } from 'react-icons/hi';
 const PlanCard = ({ plan }) => {
   const navigate = useNavigate();
   const levelInfo = LEVELS[plan.level];
+  const [timeLeft, setTimeLeft] = useState('');
+
+  useEffect(() => {
+    if (!plan.tag) return;
+
+    const updateTimer = () => {
+      const now = new Date();
+      const endOfDay = new Date(now);
+      endOfDay.setHours(23, 59, 59, 999);
+      
+      const diff = endOfDay - now;
+      if (diff <= 0) {
+        setTimeLeft('00:00:00');
+        return;
+      }
+      
+      const h = Math.floor(diff / (1000 * 60 * 60)).toString().padStart(2, '0');
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+      const s = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+      
+      setTimeLeft(`${h}:${m}:${s}`);
+    };
+
+    updateTimer();
+    const timerId = setInterval(updateTimer, 1000);
+    return () => clearInterval(timerId);
+  }, [plan.tag]);
 
   return (
     <div
@@ -19,8 +46,13 @@ const PlanCard = ({ plan }) => {
       {/* Promotional Tag Floating Badge */}
       {plan.tag && (
         <div className="absolute -top-4 -right-3 z-20 transform rotate-3 hover:rotate-6 transition-transform hover:scale-110">
-          <span className="inline-flex items-center gap-1 bg-gradient-to-br from-orange-400 to-red-500 text-white text-xs font-extrabold px-4 py-1.5 rounded-2xl shadow-xl shadow-red-500/30 border border-white/20 uppercase tracking-[0.15em]">
+          <span className="inline-flex items-center gap-1.5 bg-gradient-to-br from-orange-400 to-red-500 text-white text-xs font-extrabold px-4 py-1.5 rounded-2xl shadow-xl shadow-red-500/30 border border-white/20 uppercase tracking-[0.15em]">
             ✨ {plan.tag}
+            {timeLeft && (
+              <span className="bg-red-900/40 px-1.5 py-0.5 rounded text-[10px] tracking-widest font-mono ml-1">
+                {timeLeft}
+              </span>
+            )}
           </span>
         </div>
       )}

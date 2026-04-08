@@ -87,7 +87,7 @@ const App = () => {
     <ContentProtection>
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="flex-1">
+      <main className="flex-1 pt-16 md:pt-[72px]">
         <Routes>
           {/* ========= PUBLIC ========= */}
           <Route path="/" element={<HomePage />} />

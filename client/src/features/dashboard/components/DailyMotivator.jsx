@@ -34,20 +34,29 @@ const DailyMotivator = () => {
   }, []);
 
   return (
-    <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-2xl p-6 border border-yellow-100 dark:border-yellow-800/50 shadow-sm relative overflow-hidden h-full">
-      <div className="absolute -right-4 -top-4 opacity-10 transform rotate-12 pointer-events-none">
-        <HiLightningBolt className="w-32 h-32 text-yellow-500" />
+    <div className="group relative rounded-3xl p-8 shadow-2xl shadow-pink-500/10 overflow-hidden h-full flex flex-col justify-center transition-all duration-300 hover:shadow-orange-500/20">
+      {/* Animated Gradient Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-400 via-rose-500 to-fuchsia-600 dark:from-orange-600 dark:via-rose-700 dark:to-purple-800"></div>
+      
+      {/* Dark overlay for contrast & subtle noise */}
+      <div className="absolute inset-0 bg-black/10 dark:bg-black/30 backdrop-blur-[2px]"></div>
+      
+      {/* Decorative Icon abstract */}
+      <div className="absolute -right-8 -top-8 mix-blend-overlay opacity-40 transform -rotate-12 group-hover:rotate-12 group-hover:scale-110 transition-all duration-700 pointer-events-none">
+        <HiLightningBolt className="w-56 h-56 text-white" />
       </div>
       
       <div className="relative z-10 flex flex-col justify-center h-full">
-        <div className="flex items-center gap-2 mb-3">
-          <HiLightningBolt className="w-5 h-5 text-yellow-500" />
-          <h3 className="text-sm font-bold text-yellow-800 dark:text-yellow-400 uppercase tracking-wider">
-            Quote of the Day
+        <div className="flex items-center gap-3 mb-4">
+          <div className="p-1.5 bg-white/20 backdrop-blur-md rounded-lg shadow-sm border border-white/20">
+            <HiLightningBolt className="w-5 h-5 text-yellow-300" />
+          </div>
+          <h3 className="text-xs font-extrabold text-white/90 uppercase tracking-[0.2em] drop-shadow-md">
+            Daily Motivation
           </h3>
         </div>
         
-        <p className="text-lg font-medium text-gray-800 dark:text-gray-200 italic leading-relaxed">
+        <p className="text-xl md:text-2xl font-serif font-medium text-white leading-relaxed drop-shadow-lg max-w-3xl">
           "{todaysQuote}"
         </p>
       </div>

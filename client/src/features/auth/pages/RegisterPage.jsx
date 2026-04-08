@@ -17,64 +17,72 @@ const RegisterPage = () => {
       toast.success("Account created successfully!");
       navigate("/dashboard");
     } catch (error) {
-      toast.error(
-        error.response?.data?.message ||
-          "Registration failed. Please try again."
-      );
+      toast.error(error.response?.data?.message || "Registration failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
+  const highlights = [
+    { value: "5K+", label: "Questions" },
+    { value: "2K+", label: "Students" },
+    { value: "3", label: "CA Levels" },
+    { value: "95%", label: "Pass Rate" },
+  ];
+
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex">
-      {/* Left Panel - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800 items-center justify-center p-12">
-        <div className="max-w-md text-white">
-          <div className="flex items-center space-x-3 mb-8">
-            <div className="w-12 h-12 bg-white dark:bg-gray-800/20 rounded-xl flex items-center justify-center">
-              <HiAcademicCap className="w-8 h-8" />
+    <div className="min-h-screen -mt-16 md:-mt-[72px] flex">
+      {/* Left Panel */}
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 items-center justify-center p-12">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.03)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+        <div className="absolute top-[-100px] right-[-80px] w-[400px] h-[400px] bg-purple-500/20 rounded-full blur-[120px] pointer-events-none animate-pulse"></div>
+        <div className="absolute bottom-[-80px] left-[-60px] w-[350px] h-[350px] bg-cyan-500/15 rounded-full blur-[100px] pointer-events-none animate-pulse" style={{animationDelay:'1s'}}></div>
+        <div className="absolute top-1/2 left-1/3 w-[200px] h-[200px] bg-fuchsia-500/10 rounded-full blur-[80px] pointer-events-none"></div>
+
+        <div className="max-w-md text-white relative z-10">
+          <div className="flex items-center gap-3 mb-10">
+            <div className="w-14 h-14 bg-white/[0.08] backdrop-blur-xl rounded-2xl flex items-center justify-center border border-white/[0.1] shadow-2xl">
+              <HiAcademicCap className="w-8 h-8 text-cyan-400" />
             </div>
-            <span className="text-3xl font-bold">CaQuest</span>
+            <span className="text-3xl font-extrabold tracking-tight">CaQuest</span>
           </div>
-          <h1 className="text-4xl font-bold mb-4">
-            Start Your CA Journey Today
+          <h1 className="text-4xl font-extrabold mb-5 leading-tight tracking-tight">
+            Start Your CA
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-cyan-300 to-emerald-400 mt-1">Journey Today</span>
           </h1>
-          <p className="text-lg text-purple-100 mb-8">
-            Join thousands of CA aspirants who trust our platform for their exam
-            preparation. Comprehensive, structured, and effective.
+          <p className="text-lg text-slate-300/90 mb-10 leading-relaxed font-medium">
+            Join thousands of CA aspirants who trust CaQuest for their exam preparation.
           </p>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-white dark:bg-gray-800/10 rounded-xl p-4 text-center">
-              <div className="text-3xl font-bold">5K+</div>
-              <div className="text-sm text-purple-200">Questions</div>
-            </div>
-            <div className="bg-white dark:bg-gray-800/10 rounded-xl p-4 text-center">
-              <div className="text-3xl font-bold">2K+</div>
-              <div className="text-sm text-purple-200">Students</div>
-            </div>
-            <div className="bg-white dark:bg-gray-800/10 rounded-xl p-4 text-center">
-              <div className="text-3xl font-bold">3</div>
-              <div className="text-sm text-purple-200">CA Levels</div>
-            </div>
-            <div className="bg-white dark:bg-gray-800/10 rounded-xl p-4 text-center">
-              <div className="text-3xl font-bold">95%</div>
-              <div className="text-sm text-purple-200">Pass Rate</div>
-            </div>
+            {highlights.map((h, i) => (
+              <div key={i} className="group relative">
+                <div className="absolute -inset-[1px] bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"></div>
+                <div className="relative bg-white/[0.06] backdrop-blur-xl rounded-2xl p-5 text-center border border-white/[0.08] hover:bg-white/[0.12] transition-colors shadow-sm">
+                  <div className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-cyan-300">{h.value}</div>
+                  <div className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mt-1">{h.label}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Right Panel - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
-        <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Create Account</h2>
-            <p className="text-gray-500 dark:text-gray-400 mt-2">
-              Get started with your CA preparation
-            </p>
+      {/* Right Panel */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-gray-50 dark:bg-gray-900 relative overflow-hidden">
+        <div className="absolute bottom-[-60px] left-[-40px] w-[250px] h-[250px] bg-purple-500/5 dark:bg-purple-500/10 rounded-full blur-[80px] pointer-events-none"></div>
+        <div className="w-full max-w-md relative z-10">
+          <div className="group relative">
+            <div className="absolute -inset-[1px] bg-gradient-to-r from-purple-500 to-cyan-500 rounded-3xl opacity-20 blur-sm"></div>
+            <div className="relative bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700/60 rounded-3xl p-8 shadow-xl">
+              <div className="text-center mb-8">
+                <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">Create Account</h2>
+                <p className="text-gray-500 dark:text-gray-400 mt-2 font-medium">
+                  Get started with your CA preparation
+                </p>
+              </div>
+              <RegisterForm onSubmit={handleRegister} loading={loading} />
+            </div>
           </div>
-          <RegisterForm onSubmit={handleRegister} loading={loading} />
         </div>
       </div>
     </div>

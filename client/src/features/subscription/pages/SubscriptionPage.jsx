@@ -31,40 +31,40 @@ const SubscriptionPage = () => {
         keywords="CaQuest pricing, CA mock tests cost, CA subscription plans, ICAI exam prep pricing"
         schema={pricingSchema}
       />
-      {/* Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          Simple, Transparent Pricing
+      {/* Premium Header */}
+      <div className="relative text-center mb-14">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-xl h-48 bg-indigo-500/10 blur-[80px] pointer-events-none rounded-full"></div>
+        <h1 className="relative z-10 text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-indigo-800 dark:from-indigo-300 dark:to-cyan-200 tracking-tight leading-tight mb-4">
+          Premium Access Passes
         </h1>
-        <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
-          Choose the plan that fits your preparation needs. Get unlimited access
-          to chapter-wise questions with detailed explanations.
+        <p className="relative z-10 text-lg sm:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
+          Elevate your preparation. Commit to a specialized pass to unlock infinite mock tests, topic analyses, and elite problem sets.
         </p>
       </div>
 
-      {/* Level Filter */}
-      <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-10">
+      {/* Level Filter - Frosted Glass */}
+      <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-12 p-2 bg-slate-100/60 dark:bg-slate-800/60 backdrop-blur-md rounded-2xl border border-slate-200/60 dark:border-slate-700/60 w-fit mx-auto shadow-sm relative z-10">
         <button
           onClick={() => setSelectedLevel(null)}
-          className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${
+          className={`px-6 py-2.5 rounded-xl text-[13px] font-black tracking-widest transition-all duration-300 uppercase ${
             !selectedLevel
-              ? 'bg-primary-600 text-white shadow-md'
-              : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200'
+              ? 'bg-gradient-to-r from-indigo-600 to-cyan-500 text-white shadow-lg shadow-indigo-500/30'
+              : 'bg-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-700/50'
           }`}
         >
-          All Levels
+          All Passes
         </button>
         {Object.values(LEVELS).map((level) => (
           <button
             key={level.id}
             onClick={() => setSelectedLevel(level.id)}
-            className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${
+            className={`px-6 py-2.5 rounded-xl text-[13px] font-black flex items-center gap-2 tracking-widest transition-all duration-300 uppercase ${
               selectedLevel === level.id
-                ? 'bg-primary-600 text-white shadow-md'
-                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200'
+                ? 'bg-gradient-to-r from-indigo-600 to-cyan-500 text-white shadow-lg shadow-indigo-500/30'
+                : 'bg-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-700/50'
             }`}
           >
-            {level.icon} {level.name}
+            <span>{level.icon}</span> {level.name}
           </button>
         ))}
       </div>

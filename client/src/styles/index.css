@@ -153,3 +153,85 @@
 .animate-fade-in {
   animation: fadeIn 0.3s ease-out;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   SCROLL-TRIGGERED MICRO-ANIMATIONS
+   Elements start hidden; `.is-visible` triggers the animation.
+   ═══════════════════════════════════════════════════════════ */
+
+/* --- Keyframes --- */
+@keyframes anim-fade-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes anim-fade-down {
+  from { opacity: 0; transform: translateY(-30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes anim-fade-left {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes anim-fade-right {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes anim-scale-in {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes anim-blur-in {
+  from { opacity: 0; filter: blur(12px); transform: translateY(20px); }
+  to   { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+@keyframes anim-zoom-rotate {
+  from { opacity: 0; transform: scale(0.8) rotate(-3deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* --- Base state: invisible until observed --- */
+.animate-on-scroll {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* --- When visible, play the chosen animation --- */
+.animate-on-scroll.is-visible.fade-up {
+  animation: anim-fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animate-on-scroll.is-visible.fade-down {
+  animation: anim-fade-down 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animate-on-scroll.is-visible.fade-left {
+  animation: anim-fade-left 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animate-on-scroll.is-visible.fade-right {
+  animation: anim-fade-right 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animate-on-scroll.is-visible.scale-in {
+  animation: anim-scale-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animate-on-scroll.is-visible.blur-in {
+  animation: anim-blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animate-on-scroll.is-visible.zoom-rotate {
+  animation: anim-zoom-rotate 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* --- Stagger delays (use alongside animation class) --- */
+.delay-1 { animation-delay: 0.1s !important; }
+.delay-2 { animation-delay: 0.2s !important; }
+.delay-3 { animation-delay: 0.3s !important; }
+.delay-4 { animation-delay: 0.4s !important; }
+.delay-5 { animation-delay: 0.5s !important; }
+.delay-6 { animation-delay: 0.6s !important; }
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-on-scroll {
+    opacity: 1 !important;
+    animation: none !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}

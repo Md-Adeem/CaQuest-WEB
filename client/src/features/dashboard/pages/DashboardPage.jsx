@@ -49,14 +49,20 @@ const DashboardPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Welcome Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-          Welcome back, {user?.name?.split(' ')[0]}! 👋
-        </h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-1">
-          Here's your study dashboard. Keep up the great work!
-        </p>
+      {/* Premium Welcome Header */}
+      <div className="mb-10 relative overflow-hidden rounded-3xl p-8 lg:p-10 bg-gradient-to-br from-indigo-50 via-white to-cyan-50 dark:from-[#0b0f19] dark:via-[#111827] dark:to-[#0f172a] border border-white/60 dark:border-white/5 shadow-xl shadow-indigo-500/10 dark:shadow-cyan-900/20">
+        {/* Abstract Blob Decorations */}
+        <div className="absolute w-72 h-72 -top-24 -right-12 bg-gradient-to-br from-cyan-400/30 to-indigo-400/10 dark:from-cyan-600/20 dark:to-indigo-500/10 rounded-full blur-3xl mix-blend-multiply dark:mix-blend-lighten pointer-events-none"></div>
+        <div className="absolute w-96 h-96 -bottom-32 -left-20 bg-gradient-to-tr from-indigo-300/30 to-fuchsia-300/10 dark:from-indigo-800/20 dark:to-fuchsia-900/10 rounded-full blur-3xl mix-blend-multiply dark:mix-blend-lighten pointer-events-none"></div>
+        
+        <div className="relative z-10">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-700 to-cyan-600 dark:from-indigo-300 dark:to-cyan-200 tracking-tight mb-3">
+            Welcome back, {user?.name?.split(' ')[0]}!
+          </h1>
+          <p className="text-lg text-indigo-900/70 dark:text-slate-400 font-medium max-w-2xl">
+            Your personalized command center. Let's conquer your next CA milestone.
+          </p>
+        </div>
       </div>
 
       {/* Stats */}

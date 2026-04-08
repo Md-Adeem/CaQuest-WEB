@@ -129,19 +129,26 @@ const QuizPage = () => {
   if (stage === "setup") {
     return (
       <div className="max-w-2xl mx-auto px-4 py-12">
-        <div className="card">
-          <div className="text-center mb-8">
-            <div className="text-5xl mb-4">📝</div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Quiz Mode</h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-2">
-              Test yourself with a timed quiz
+        <div className="relative overflow-hidden bg-white/70 dark:bg-gray-800/70 backdrop-blur-lg border border-gray-200 dark:border-gray-700/60 rounded-3xl p-8 sm:p-10 shadow-2xl shadow-indigo-500/10">
+          <div className="absolute -top-12 -right-12 w-48 h-48 bg-indigo-500/10 blur-3xl rounded-full pointer-events-none"></div>
+          <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-cyan-500/10 blur-3xl rounded-full pointer-events-none"></div>
+
+          <div className="text-center relative z-10 mb-10">
+            <div className="w-20 h-20 bg-gradient-to-br from-indigo-50 to-cyan-50 dark:from-indigo-900/30 dark:to-cyan-900/30 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm border border-indigo-100 dark:border-indigo-800/50">
+              <span className="text-4xl drop-shadow-sm">📝</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-500 dark:from-indigo-400 dark:to-cyan-300 tracking-tight">
+              Test Preparation
+            </h1>
+            <p className="text-sm sm:text-base font-medium text-gray-500 dark:text-gray-400 mt-2">
+              Optimize your practice session parameters
             </p>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-8 relative z-10">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                Number of Questions
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3 ml-1 uppercase tracking-wider">
+                Question Volume
               </label>
               <div className="flex flex-wrap gap-2 md:gap-3">
                 {[5, 10, 15, 20, 30, "All"].map((num) => (
@@ -150,21 +157,21 @@ const QuizPage = () => {
                     onClick={() =>
                       setSettings({ ...settings, numberOfQuestions: num })
                     }
-                    className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                    className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${
                       settings.numberOfQuestions === num
-                        ? "bg-primary-600 text-white"
-                        : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200"
+                        ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/30 -translate-y-0.5"
+                        : "bg-gray-100/80 dark:bg-gray-900/50 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white border border-transparent dark:border-gray-700/50"
                     }`}
                   >
-                    {num}
+                    {num} Qs
                   </button>
                 ))}
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                Time per Question (seconds)
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3 ml-1 uppercase tracking-wider">
+                Exam Speed (Timer)
               </label>
               <div className="flex flex-wrap gap-2 md:gap-3">
                 {[30, 45, 60, 90, 120].map((time) => (
@@ -173,10 +180,10 @@ const QuizPage = () => {
                     onClick={() =>
                       setSettings({ ...settings, timePerQuestion: time })
                     }
-                    className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                    className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${
                       settings.timePerQuestion === time
-                        ? "bg-primary-600 text-white"
-                        : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200"
+                        ? "bg-cyan-600 text-white shadow-lg shadow-cyan-500/30 -translate-y-0.5"
+                        : "bg-gray-100/80 dark:bg-gray-900/50 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white border border-transparent dark:border-gray-700/50"
                     }`}
                   >
                     {time}s
@@ -185,24 +192,29 @@ const QuizPage = () => {
               </div>
             </div>
 
-            <div className="bg-blue-50 dark:bg-blue-900/30 rounded-xl p-4 text-sm text-blue-700 dark:text-blue-300">
-              <p>
-                <strong>Total Time:</strong>{" "}
-                {formatTime(
-                  settings.timePerQuestion * settings.numberOfQuestions
-                )}
-              </p>
-              <p>
-                <strong>Questions:</strong> {settings.numberOfQuestions}
-              </p>
+            <div className="bg-indigo-50/50 dark:bg-indigo-900/20 rounded-2xl p-5 border border-indigo-100 dark:border-indigo-800/30 flex justify-between items-center">
+              <div>
+                 <p className="text-xs font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-widest mb-1">Total Time</p>
+                 <p className="text-2xl font-black text-indigo-700 dark:text-indigo-300">
+                    {formatTime(
+                        settings.timePerQuestion * settings.numberOfQuestions
+                    )}
+                 </p>
+              </div>
+              <div className="text-right">
+                 <p className="text-xs font-bold text-cyan-500 dark:text-cyan-400 uppercase tracking-widest mb-1">Questions</p>
+                 <p className="text-2xl font-black text-cyan-700 dark:text-cyan-300">
+                    {settings.numberOfQuestions}
+                 </p>
+              </div>
             </div>
 
             <button
               onClick={startQuiz}
               disabled={loading}
-              className="btn-primary w-full py-4 text-lg"
+              className="flex justify-center items-center gap-2 w-full py-4 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white text-lg font-black tracking-wide rounded-xl shadow-[0_0_20px_rgba(99,102,241,0.4)] hover:shadow-[0_0_30px_rgba(99,102,241,0.6)] hover:-translate-y-0.5 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              {loading ? "Loading..." : "Start Quiz 🚀"}
+              {loading ? "Generating..." : "Commence Quiz"}
             </button>
           </div>
         </div>
@@ -215,16 +227,21 @@ const QuizPage = () => {
     const currentQuestion = questions[currentIndex];
 
     return (
-      <div className="max-w-3xl mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-bold text-gray-500 dark:text-gray-400">
-              Question {currentIndex + 1} / {questions.length}
-            </span>
-            <div className="w-48 h-2 bg-gray-200 rounded-full overflow-hidden">
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* Premium Progress & Timer Header */}
+        <div className="flex flex-col sm:flex-row items-center justify-between mb-8 gap-6 bg-white/70 dark:bg-gray-800/70 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-gray-200 dark:border-gray-700/60 shadow-lg shadow-indigo-500/5">
+          <div className="flex-1 w-full sm:w-auto">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">
+                Question {currentIndex + 1} of {questions.length}
+              </span>
+              <span className="text-xs font-bold text-gray-500 dark:text-gray-400">
+                {Math.round(((currentIndex) / questions.length) * 100)}%
+              </span>
+            </div>
+            <div className="w-full h-3 bg-gray-100 dark:bg-gray-900 rounded-full overflow-hidden shadow-inner flex border border-gray-200 dark:border-gray-800">
               <div
-                className="h-full bg-primary-600 rounded-full transition-all duration-300"
+                className="h-full bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(99,102,241,0.5)]"
                 style={{
                   width: `${((currentIndex + 1) / questions.length) * 100}%`,
                 }}
@@ -232,20 +249,21 @@ const QuizPage = () => {
             </div>
           </div>
           <div
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-mono font-bold ${
+            className={`flex items-center gap-3 px-5 py-2.5 rounded-xl font-mono text-xl font-black shadow-inner shrink-0 ${
               timeLeft < 60
-                ? "bg-red-100 text-red-700"
-                : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200"
+                ? "bg-rose-50 border border-rose-200 text-rose-600 dark:bg-rose-900/30 dark:border-rose-800/50 dark:text-rose-400 animate-pulse"
+                : "bg-gray-50 border border-gray-200 dark:bg-gray-900/50 dark:border-gray-700/50 text-gray-700 dark:text-gray-300"
             }`}
           >
-            <HiClock className="w-5 h-5" />
+            <HiClock className={`w-6 h-6 ${timeLeft < 60 ? 'animate-bounce' : ''}`} />
             {formatTime(timeLeft)}
           </div>
         </div>
 
-        {/* Question */}
-        <div className="card mb-6">
-          <p className="text-lg font-medium text-gray-900 dark:text-white mb-6">
+        {/* Question Container */}
+        <div className="relative overflow-hidden bg-white dark:bg-gray-800 rounded-3xl p-6 sm:p-8 mb-8 border border-gray-200 dark:border-gray-700 shadow-xl">
+          <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-indigo-500 to-cyan-500"></div>
+          <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-8 leading-relaxed pl-2">
             {currentQuestion.questionText}
           </p>
 

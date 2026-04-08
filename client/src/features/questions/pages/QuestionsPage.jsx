@@ -48,89 +48,102 @@ const QuestionsPage = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Breadcrumb */}
-      <button
-        onClick={() => window.history.back()}
-        className="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 mb-6"
-      >
-        <HiArrowLeft className="w-4 h-4" />
-        Back to Chapters
-      </button>
+      {/* Premium Hero Header Group */}
+      <div className="mb-8">
+        {/* Breadcrumb & Header Box */}
+        <div className="relative overflow-hidden rounded-3xl p-8 bg-gradient-to-br from-slate-900 via-slate-800 to-[#0b0f19] border border-slate-700/60 shadow-2xl shadow-indigo-900/20 mb-6">
+          <div className="absolute w-72 h-72 -top-20 -right-12 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+          
+          <div className="relative z-10">
+            <button
+              onClick={() => window.history.back()}
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-white mb-6 uppercase tracking-widest transition-colors bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg border border-white/5"
+            >
+              <HiArrowLeft className="w-4 h-4" />
+              Return to Chapters
+            </button>
 
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-            {accessInfo?.chapterName || "Practice Questions"}
-          </h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">
-            Test your knowledge with these chapter-wise questions
-          </p>
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+              <div>
+                <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight mb-2">
+                  {accessInfo?.chapterName || "Practice Questions"}
+                </h1>
+                <p className="text-sm font-medium text-slate-400 max-w-2xl leading-relaxed">
+                  Test your mastery. Work through these structured chapter-wise challenges.
+                </p>
+              </div>
+
+              {/* QUIZ BUTTON */}
+              {accessInfo?.subjectType === "MCQ" && (
+                <Link 
+                  to={`/quiz/${chapterId}`} 
+                  className="inline-flex shrink-0 items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-500 to-cyan-500 hover:from-indigo-400 hover:to-cyan-400 text-white text-sm font-bold rounded-xl shadow-[0_0_20px_rgba(99,102,241,0.3)] hover:shadow-[0_0_25px_rgba(99,102,241,0.5)] hover:-translate-y-0.5 transition-all w-full sm:w-auto"
+                >
+                  Start Native Quiz
+                </Link>
+              )}
+            </div>
+          </div>
         </div>
 
-        {/* QUIZ BUTTON */}
-        {accessInfo?.subjectType === "MCQ" && (
-          <Link to={`/quiz/${chapterId}`} className="btn-primary">
-            Start Quiz
-          </Link>
-        )}
-      </div>
-
-      {/* Paper Type Filter */}
-      <div className="flex flex-wrap items-center gap-2 mb-6 p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-200 mr-2">
-          Filter by:
-        </span>
-        <button
-          onClick={() => handlePaperTypeChange("")}
-          className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
-            !paperType
-              ? "bg-primary-600 text-white"
-              : "bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
-          }`}
-        >
-          All
-        </button>
-        <button
-          onClick={() => handlePaperTypeChange("RTP")}
-          className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
-            paperType === "RTP"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
-          }`}
-        >
-          RTP
-        </button>
-        <button
-          onClick={() => handlePaperTypeChange("MTP")}
-          className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
-            paperType === "MTP"
-              ? "bg-green-600 text-white"
-              : "bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
-          }`}
-        >
-          MTP
-        </button>
-        <button
-          onClick={() => handlePaperTypeChange("PYQS")}
-          className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
-            paperType === "PYQS"
-              ? "bg-purple-600 text-white"
-              : "bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
-          }`}
-        >
-          PYQS
-        </button>
-        <button
-          onClick={() => handlePaperTypeChange("Practice")}
-          className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
-            paperType === "Practice"
-              ? "bg-orange-600 text-white"
-              : "bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
-          }`}
-        >
-          Practice
-        </button>
+        {/* Paper Type Filter - Glassmorphic Pill Bar */}
+        <div className="flex flex-wrap items-center gap-3 p-2 bg-white/60 dark:bg-gray-800/60 backdrop-blur-md rounded-2xl border border-gray-200 dark:border-gray-700/60 shadow-sm">
+          <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest px-3">
+            Filter:
+          </span>
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => handlePaperTypeChange("")}
+              className={`px-4 py-1.5 rounded-xl text-sm font-bold transition-all duration-300 ${
+                !paperType
+                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-500/30"
+                  : "bg-transparent text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+              }`}
+            >
+              ALL
+            </button>
+            <button
+              onClick={() => handlePaperTypeChange("RTP")}
+              className={`px-4 py-1.5 rounded-xl text-sm font-bold transition-all duration-300 ${
+                paperType === "RTP"
+                  ? "bg-blue-500 text-white shadow-md shadow-blue-500/30"
+                  : "bg-transparent text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+              }`}
+            >
+              RTP
+            </button>
+            <button
+              onClick={() => handlePaperTypeChange("MTP")}
+              className={`px-4 py-1.5 rounded-xl text-sm font-bold transition-all duration-300 ${
+                paperType === "MTP"
+                  ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/30"
+                  : "bg-transparent text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+              }`}
+            >
+              MTP
+            </button>
+            <button
+              onClick={() => handlePaperTypeChange("PYQS")}
+              className={`px-4 py-1.5 rounded-xl text-sm font-bold transition-all duration-300 ${
+                paperType === "PYQS"
+                  ? "bg-purple-500 text-white shadow-md shadow-purple-500/30"
+                  : "bg-transparent text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+              }`}
+            >
+              PYQS
+            </button>
+            <button
+              onClick={() => handlePaperTypeChange("Practice")}
+              className={`px-4 py-1.5 rounded-xl text-sm font-bold transition-all duration-300 ${
+                paperType === "Practice"
+                  ? "bg-amber-500 text-white shadow-md shadow-amber-500/30"
+                  : "bg-transparent text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+              }`}
+            >
+              PRACTICE
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Questions */}

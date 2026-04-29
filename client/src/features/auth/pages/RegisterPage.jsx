@@ -4,9 +4,10 @@ import { useAuth } from "../hooks/useAuth";
 import RegisterForm from "../components/RegisterForm";
 import { HiAcademicCap } from "react-icons/hi";
 import toast from "react-hot-toast";
+import { GoogleLogin } from '@react-oauth/google';
 
 const RegisterPage = () => {
-  const { register } = useAuth();
+  const { register, googleLogin } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -18,6 +19,19 @@ const RegisterPage = () => {
       navigate("/dashboard");
     } catch (error) {
       toast.error(error.response?.data?.message || "Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      setLoading(true);
+      const user = await googleLogin(credentialResponse.credential);
+      toast.success(`Welcome back, ${user.name}!`);
+      navigate("/dashboard");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Google registration failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -80,6 +94,30 @@ const RegisterPage = () => {
                   Get started with your CA preparation
                 </p>
               </div>
+
+              <div className="flex justify-center mb-6">
+                <GoogleLogin
+                  onSuccess={handleGoogleSuccess}
+                  onError={() => {
+                    toast.error('Google login Failed');
+                  }}
+                  theme="outline"
+                  size="large"
+                  shape="pill"
+                  width="100%"
+                  text="signup_with"
+                />
+              </div>
+
+              <div className="relative mb-6">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-200 dark:border-gray-700"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white dark:bg-gray-800 text-gray-500">Or sign up with email</span>
+                </div>
+              </div>
+
               <RegisterForm onSubmit={handleRegister} loading={loading} />
             </div>
           </div>

@@ -10,38 +10,42 @@ import ErrorBoundary from './shared/components/ErrorBoundary';
 import ScrollToTop from './shared/components/ScrollToTop';
 import './styles/index.css';
 
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ErrorBoundary>
-      <HelmetProvider>
-        <BrowserRouter>
-          <ScrollToTop />
-          <AuthProvider>
-            <ThemeProvider>
-              <App />
-              <Toaster
-                position="top-right"
-                toastOptions={{
-                  duration: 3000,
-                  style: {
-                    background: '#363636',
-                    color: '#fff',
-                    borderRadius: '10px',
-                    fontSize: '14px',
-                  },
-                  success: {
-                    iconTheme: { primary: '#22c55e', secondary: '#fff' },
-                  },
-                  error: {
-                    duration: 4000,
-                    iconTheme: { primary: '#ef4444', secondary: '#fff' },
-                  },
-                }}
-              />
-            </ThemeProvider>
-          </AuthProvider>
-        </BrowserRouter>
-      </HelmetProvider>
-    </ErrorBoundary>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || ""}>
+      <ErrorBoundary>
+        <HelmetProvider>
+          <BrowserRouter>
+            <ScrollToTop />
+            <AuthProvider>
+              <ThemeProvider>
+                <App />
+                <Toaster
+                  position="top-right"
+                  toastOptions={{
+                    duration: 3000,
+                    style: {
+                      background: '#363636',
+                      color: '#fff',
+                      borderRadius: '10px',
+                      fontSize: '14px',
+                    },
+                    success: {
+                      iconTheme: { primary: '#22c55e', secondary: '#fff' },
+                    },
+                    error: {
+                      duration: 4000,
+                      iconTheme: { primary: '#ef4444', secondary: '#fff' },
+                    },
+                  }}
+                />
+              </ThemeProvider>
+            </AuthProvider>
+          </BrowserRouter>
+        </HelmetProvider>
+      </ErrorBoundary>
+    </GoogleOAuthProvider>
   </React.StrictMode>
 );

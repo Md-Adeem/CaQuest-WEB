@@ -4,9 +4,10 @@ import { useAuth } from "../hooks/useAuth";
 import LoginForm from "../components/LoginForm";
 import { HiAcademicCap, HiCheckCircle } from "react-icons/hi";
 import toast from "react-hot-toast";
+import { GoogleLogin } from '@react-oauth/google';
 
 const LoginPage = () => {
-  const { login } = useAuth();
+  const { login, googleLogin } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(false);
@@ -20,6 +21,19 @@ const LoginPage = () => {
       navigate(user.role === "admin" ? "/admin" : from, { replace: true });
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      setLoading(true);
+      const user = await googleLogin(credentialResponse.credential);
+      toast.success(`Welcome back, ${user.name}!`);
+      navigate(user.role === "admin" ? "/admin" : from, { replace: true });
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Google login failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -75,6 +89,30 @@ const LoginPage = () => {
                   Sign in to continue your preparation
                 </p>
               </div>
+
+              <div className="flex justify-center mb-6">
+                <GoogleLogin
+                  onSuccess={handleGoogleSuccess}
+                  onError={() => {
+                    toast.error('Google login Failed');
+                  }}
+                  useOneTap
+                  theme="outline"
+                  size="large"
+                  shape="pill"
+                  width="100%"
+                />
+              </div>
+              
+              <div className="relative mb-6">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-200 dark:border-gray-700"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white dark:bg-gray-800 text-gray-500">Or continue with email</span>
+                </div>
+              </div>
+
               <LoginForm onSubmit={handleLogin} loading={loading} />
             </div>
           </div>

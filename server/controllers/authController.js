@@ -3,6 +3,9 @@ const AuditLog = require("../models/AuditLog");
 const generateToken = require("../utils/generateToken");
 const { validationResult } = require("express-validator");
 const { sendEmail, emailTemplates } = require("../utils/email");
+const { OAuth2Client } = require("google-auth-library");
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // @desc    Register new user
 // @route   POST /api/auth/register
@@ -152,6 +155,106 @@ const login = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+  }
+};
+
+// @desc    Google login / registration
+// @route   POST /api/auth/google
+// @access  Public
+const googleAuth = async (req, res, next) => {
+  try {
+    const { credential } = req.body;
+    
+    if (!credential) {
+      return res.status(400).json({ success: false, message: "Google token missing" });
+    }
+
+    const ticket = await googleClient.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+
+    if (!payload.email || !payload.email_verified) {
+      return res.status(400).json({ success: false, message: "Unverified Google account" });
+    }
+
+    const email = payload.email.toLowerCase();
+    
+    if (!email.endsWith('@gmail.com') && !email.endsWith('@caquest.com')) {
+      return res.status(401).json({
+        success: false,
+        message: "Login is restricted to @gmail.com addresses only.",
+      });
+    }
+
+    let user = await User.findOne({ email });
+
+    if (user) {
+      // Existing user: Link google if they don't have it
+      if (user.provider === 'local' || !user.provider) {
+        user.provider = 'google';
+        user.googleId = payload.sub;
+        user.avatar = payload.picture;
+        await user.save();
+      }
+    } else {
+      user = await User.create({
+        name: payload.name,
+        email,
+        password: Math.random().toString(36).slice(-10) + payload.sub,
+        provider: 'google',
+        googleId: payload.sub,
+        avatar: payload.picture,
+      });
+
+      setImmediate(async () => {
+        try {
+          const welcomeEmail = emailTemplates.welcome(user.name);
+          await sendEmail({
+            to: user.email,
+            subject: welcomeEmail.subject,
+            html: welcomeEmail.html,
+          });
+        } catch (emailError) {}
+      });
+    }
+
+    if (!user.isActive) {
+      return res.status(403).json({
+        success: false,
+        message: "Account has been deactivated. Contact admin.",
+      });
+    }
+
+    try {
+      await AuditLog.create({
+        user: user._id,
+        action: 'login',
+        ipAddress: req.ip || req.connection.remoteAddress,
+        userAgent: req.headers['user-agent'],
+        status: 'success'
+      });
+    } catch (logError) {}
+
+    res.json({
+      success: true,
+      data: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        selectedLevel: user.selectedLevel,
+        activeSubscriptions: user.activeSubscriptions,
+        avatar: user.avatar,
+        token: generateToken(user._id),
+      },
+    });
+
+  } catch (error) {
+    console.error("Google auth error:", error);
+    res.status(401).json({ success: false, message: "Google authentication failed" });
   }
 };
 
@@ -358,6 +461,7 @@ const getLeaderboard = async (req, res, next) => {
 module.exports = {
   register,
   login,
+  googleAuth,
   getMe,
   selectLevel,
   updateProfile,

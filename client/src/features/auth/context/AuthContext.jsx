@@ -51,6 +51,17 @@ export const AuthProvider = ({ children }) => {
     return userData;
   }, []);
 
+  const googleLogin = useCallback(async (credential) => {
+    const response = await api.post('/auth/google', { credential });
+    const userData = response.data.data;
+
+    localStorage.setItem('token', userData.token);
+    localStorage.setItem('user', JSON.stringify(userData));
+    setUser(userData);
+
+    return userData;
+  }, []);
+
   const register = useCallback(async (formData) => {
     const response = await api.post('/auth/register', formData);
     const userData = response.data.data;
@@ -86,6 +97,7 @@ export const AuthProvider = ({ children }) => {
     user,
     loading,
     login,
+    googleLogin,
     register,
     logout,
     updateUser,

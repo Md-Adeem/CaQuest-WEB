@@ -100,7 +100,6 @@ const LoginPage = () => {
                   theme="outline"
                   size="large"
                   shape="pill"
-                  width="100%"
                 />
               </div>
               

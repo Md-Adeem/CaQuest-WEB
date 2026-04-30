@@ -104,7 +104,6 @@ const RegisterPage = () => {
                   theme="outline"
                   size="large"
                   shape="pill"
-                  width="100%"
                   text="signup_with"
                 />
               </div>

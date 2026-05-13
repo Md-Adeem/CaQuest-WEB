@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 
 const userSchema = new mongoose.Schema(
   {
@@ -67,6 +68,8 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
     
     // Gamification properties
     currentStreak: {
@@ -107,6 +110,19 @@ userSchema.methods.hasActiveSubscription = function (level) {
     (s) => s.level === level && new Date(s.expiresAt) > new Date()
   );
   return !!sub;
+};
+
+// Generate and hash password reset token
+userSchema.methods.getResetPasswordToken = function () {
+  // Generate a random token
+  const resetToken = crypto.randomBytes(32).toString('hex');
+
+  // Hash it and store on the user document
+  this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+  this.resetPasswordExpires = Date.now() + 30 * 60 * 1000; // 30 minutes
+
+  // Return the UN-hashed token (this is what goes in the email link)
+  return resetToken;
 };
 
 module.exports = mongoose.model('User', userSchema);

@@ -3,6 +3,7 @@ const AuditLog = require("../models/AuditLog");
 const generateToken = require("../utils/generateToken");
 const { validationResult } = require("express-validator");
 const { sendEmail, emailTemplates } = require("../utils/email");
+const crypto = require("crypto");
 const { OAuth2Client } = require("google-auth-library");
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -457,11 +458,130 @@ const getLeaderboard = async (req, res, next) => {
     next(error);
   }
 };
+// @desc    Forgot password - send reset email
+// @route   POST /api/auth/forgot-password
+// @access  Public
+const forgotPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ success: false, message: "Please provide your email" });
+    }
+
+    const user = await User.findOne({ email: email.toLowerCase() });
+
+    if (!user) {
+      // Don't reveal whether a user exists
+      return res.status(200).json({
+        success: true,
+        message: "If an account with that email exists, a reset link has been sent.",
+      });
+    }
+
+    // Google-only users shouldn't reset passwords
+    if (user.provider === 'google' && !user.password) {
+      return res.status(400).json({
+        success: false,
+        message: "This account uses Google Sign-In. Please login with Google.",
+      });
+    }
+
+    // Generate reset token
+    const resetToken = user.getResetPasswordToken();
+    await user.save({ validateBeforeSave: false });
+
+    // Build reset URL pointing to frontend
+    const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+    const resetUrl = `${clientUrl}/reset-password/${resetToken}`;
+
+    // Send email
+    const emailData = emailTemplates.passwordReset(user.name, resetUrl);
+    const emailResult = await sendEmail({ to: user.email, ...emailData });
+
+    if (!emailResult) {
+      // Email failed to send, clean up the token
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpires = undefined;
+      await user.save({ validateBeforeSave: false });
+
+      return res.status(500).json({
+        success: false,
+        message: "Email could not be sent. Please try again later.",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "If an account with that email exists, a reset link has been sent.",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Reset password using token
+// @route   PUT /api/auth/reset-password/:token
+// @access  Public
+const resetPassword = async (req, res, next) => {
+  try {
+    const { password } = req.body;
+    const { token } = req.params;
+
+    if (!password || password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters.",
+      });
+    }
+
+    // Hash the token from the URL and find the matching user
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+    const user = await User.findOne({
+      resetPasswordToken: hashedToken,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid or expired reset token. Please request a new one.",
+      });
+    }
+
+    // Set new password (the pre-save hook will hash it)
+    user.password = password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    // Log the action
+    try {
+      await AuditLog.create({
+        user: user._id,
+        action: 'password_reset',
+        ipAddress: req.ip || req.connection.remoteAddress,
+        userAgent: req.headers['user-agent'],
+        status: 'success',
+      });
+    } catch (logError) {}
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset successful. You can now login with your new password.",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   register,
   login,
   googleAuth,
+  forgotPassword,
+  resetPassword,
   getMe,
   selectLevel,
   updateProfile,

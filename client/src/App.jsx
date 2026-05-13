@@ -11,6 +11,8 @@ import ContentProtection from "./shared/components/ContentProtection";
 // Auth
 import LoginPage from "./features/auth/pages/LoginPage";
 import RegisterPage from "./features/auth/pages/RegisterPage";
+import ForgotPasswordPage from "./features/auth/pages/ForgotPasswordPage";
+import ResetPasswordPage from "./features/auth/pages/ResetPasswordPage";
 import ProtectedRoute from "./features/auth/components/ProtectedRoute";
 
 import HomePage from "./features/home/pages/HomePage";
@@ -104,6 +106,14 @@ const App = () => {
           <Route
             path="/register"
             element={!user ? <RegisterPage /> : <Navigate to="/dashboard" />}
+          />
+          <Route
+            path="/forgot-password"
+            element={!user ? <ForgotPasswordPage /> : <Navigate to="/dashboard" />}
+          />
+          <Route
+            path="/reset-password/:token"
+            element={!user ? <ResetPasswordPage /> : <Navigate to="/dashboard" />}
           />
           <Route path="/subscriptions" element={<SubscriptionPage />} />
 

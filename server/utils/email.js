@@ -311,6 +311,42 @@ const emailTemplates = {
       </tr>
     `),
   }),
+
+  passwordReset: (userName, resetUrl) => ({
+    subject: "Reset Your Password 🔐",
+    html: baseTemplate(`
+      <tr>
+        <td style="background: linear-gradient(135deg, #6366f1, #4f46e5); padding: 40px 30px; border-radius: 16px 16px 0 0; text-align: center;">
+          <h1 style="color: white; margin: 0; font-size: 28px;">Password Reset Request</h1>
+        </td>
+      </tr>
+      <tr>
+        <td style="background: white; padding: 40px 30px; border-radius: 0 0 16px 16px;">
+          <h2 style="color: #1f2937; margin: 0 0 15px;">Hi ${userName},</h2>
+          <p style="color: #6b7280; line-height: 1.6; margin: 0 0 20px;">
+            We received a request to reset your password. Click the button below to create a new password.
+            This link will expire in <strong>30 minutes</strong>.
+          </p>
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="${resetUrl}"
+               style="display: inline-block; background: #6366f1; color: white; padding: 14px 32px;
+                      border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 16px;">
+              Reset My Password
+            </a>
+          </div>
+          <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin: 20px 0;">
+            <p style="color: #6b7280; margin: 0; font-size: 13px; line-height: 1.5;">
+              If you didn't request this, you can safely ignore this email. Your password will remain unchanged.
+            </p>
+          </div>
+          <p style="color: #9ca3af; font-size: 12px; margin: 20px 0 0; word-break: break-all;">
+            If the button doesn't work, copy and paste this link into your browser:<br/>
+            <a href="${resetUrl}" style="color: #6366f1;">${resetUrl}</a>
+          </p>
+        </td>
+      </tr>
+    `),
+  }),
 };
 
 const sendEmail = async ({ to, subject, html }) => {

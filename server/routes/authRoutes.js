@@ -4,6 +4,8 @@ const {
   register,
   login,
   googleAuth,
+  forgotPassword,
+  resetPassword,
   getMe,
   selectLevel,
   updateProfile,
@@ -21,6 +23,8 @@ router.get('/leaderboard', getLeaderboard);
 router.post('/login', authLimiter, loginValidation, login);
 router.post('/register', authLimiter, registerValidation, register);
 router.post('/google', authLimiter, googleAuth);
+router.post('/forgot-password', authLimiter, forgotPassword);
+router.put('/reset-password/:token', resetPassword);
 router.get('/me', protect, getMe);
 router.put('/select-level', protect, selectLevel);
 router.put('/profile', protect, updateProfile);

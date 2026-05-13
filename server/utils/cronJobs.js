@@ -67,6 +67,36 @@ const setupCronJobs = () => {
     }
   });
 
+  // Run daily at 10:00 AM - Check low streaks for subscribed users
+  cron.schedule('0 10 * * *', async () => {
+    console.log('🕐 Running low streak check...');
+
+    try {
+      const now = new Date();
+      // Find students whose streak is less than 4 and who have an active unexpired subscription
+      const users = await User.find({
+        role: 'student',
+        currentStreak: { $lt: 4 },
+        activeSubscriptions: { 
+          $elemMatch: { expiresAt: { $gt: now } } 
+        }
+      });
+
+      let notificationCount = 0;
+
+      for (const user of users) {
+        // Send the low streak reminder email
+        const emailData = emailTemplates.lowStreakReminder(user.name, user.currentStreak || 0);
+        await sendEmail({ to: user.email, ...emailData });
+        notificationCount++;
+      }
+
+      console.log(`✅ Sent ${notificationCount} low streak reminders`);
+    } catch (error) {
+      console.error('❌ Cron job low streak error:', error);
+    }
+  });
+
   console.log('⏰ Cron jobs scheduled');
 };
 

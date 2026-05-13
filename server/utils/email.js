@@ -276,6 +276,41 @@ const emailTemplates = {
       </tr>
     `),
   }),
+
+  lowStreakReminder: (userName, currentStreak) => ({
+    subject: "Don't break your momentum! Let's study today 📚",
+    html: baseTemplate(`
+      <tr>
+        <td style="background: linear-gradient(135deg, #ec4899, #be185d); padding: 40px 30px; border-radius: 16px 16px 0 0; text-align: center;">
+          <h1 style="color: white; margin: 0; font-size: 28px;">Keep the Momentum Going!</h1>
+        </td>
+      </tr>
+      <tr>
+        <td style="background: white; padding: 40px 30px; border-radius: 0 0 16px 16px;">
+          <h2 style="color: #1f2937; margin: 0 0 15px;">Hi ${userName},</h2>
+          <p style="color: #6b7280; line-height: 1.6; margin: 0 0 20px;">
+            We noticed your current study streak is at <strong>${currentStreak} ${currentStreak === 1 ? 'day' : 'days'}</strong>. 
+            Consistency is key to clearing your CA exams! 
+          </p>
+          <div style="background: #fdf2f8; border: 1px solid #fbcfe8; border-radius: 12px; padding: 20px; margin: 20px 0; text-align: center;">
+            <p style="color: #be185d; margin: 0; font-size: 16px; font-weight: bold;">
+              Goal: Reach a 4-day streak! 🔥
+            </p>
+            <p style="color: #db2777; margin: 10px 0 0; font-size: 14px;">
+              Log in today and complete a quick practice session to keep your streak alive.
+            </p>
+          </div>
+          <div style="text-align: center; margin-top: 30px;">
+            <a href="${process.env.CLIENT_URL}/dashboard"
+               style="display: inline-block; background: #ec4899; color: white; padding: 14px 32px;
+                      border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 16px;">
+              Practice Now
+            </a>
+          </div>
+        </td>
+      </tr>
+    `),
+  }),
 };
 
 const sendEmail = async ({ to, subject, html }) => {
